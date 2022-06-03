@@ -21,6 +21,8 @@ from ansible.plugins import loader as Loader
 from ansible.plugins.action import ActionBase
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
+
+# pylint: disable=import-error
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )
