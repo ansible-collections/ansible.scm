@@ -16,6 +16,8 @@ ignorePaths:
   - \.*
   # This file
   - cspell.config.yaml
+  # Generated rst files in the docs directory
+  - docs/*.rst
   # The mypy configuration file
   - mypy.ini
   # The shared file for tool configuration
