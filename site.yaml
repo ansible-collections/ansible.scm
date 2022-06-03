@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Retrieve a repository from a distant location and make it available locally
+      ansible.scm.retrieve:
+        origin:
+          url: git@github.com:cidrblock/scm_testing.git
+        upstream:
+          url: git@github.com:ansible-network/scm_testing.git
+      register: repository
+
+    - name: Add to the repository
+      ansible.builtin.copy:
+        content: "{{ repository | to_nice_yaml }}"
+        dest: "{{ repository['path'] }}/details.yaml"
