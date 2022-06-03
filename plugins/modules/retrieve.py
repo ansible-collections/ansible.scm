@@ -27,22 +27,25 @@ options:
       url:
         description:
           - The URL for the origin repository
+        type: str
   upstream:
     description:
       - Details about the upstream
     default: {}
     type: dict
     suboptions:
+      branch:
+        description:
+          - The branch to use for the upstream
+        default: main
+        type: str
       url:
         description:
           - The URL for the upstream repository
           - If provided, the local copy of the repository will be updated, rebased from the upstream
           - The update will happen after the branch is created
           - Conflicts will cause the task to fail and the local copy will be removed
-      branch:
-        description:
-          - The branch to use for the upstream
-        default: main
+        type: str
   branch:
     description:
       - Details about the new branch that will be created
