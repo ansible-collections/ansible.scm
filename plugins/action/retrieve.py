@@ -7,6 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
+import shutil
 import tempfile
 
 from dataclasses import asdict, dataclass, field
@@ -28,7 +29,7 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 )
 
 from ..modules.retrieve import DOCUMENTATION
-from ..plugin_utils.command_runner import Command, CommandRunner
+from ..plugin_utils.command import Command
 
 
 # pylint: disable=invalid-name
@@ -84,6 +85,11 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
             task=task,
         )
 
+        self._base_command: str
+        self._branches: List[str]
+        self._branch_name: str
+        self._parent_directory: str
+        self._repo_path: str
         self._supports_async = True
         self._result: Result = Result()
 
@@ -109,11 +115,142 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         self._result.output.append(
             {
                 "command": command.command,
-                "stdout_lines": command.stdout.splitlines(),
-                "stderr_lines": command.stderr.splitlines(),
+                "stdout_lines": command.stdout_lines,
+                "stderr_lines": command.stderr_lines,
                 "return_code": command.return_code,
             },
         )
+
+    @property
+    def _branch_exists(self) -> bool:
+        """Return True if the branch exists.
+
+        :returns: True if the branch exists
+        """
+        return self._branch_name in self._branches
+
+    def _clone(self) -> None:
+        """Clone the repository.
+
+        Additionally set the base command to the repository path.
+        """
+        base = self._base_command
+        origin = self._task.args["origin"]["url"]
+        command = Command(
+            command=f"{base} clone --depth=1 --progress --no-single-branch {origin}",
+            fail_msg=f"Failed to clone repository: {origin}",
+        )
+        self._run_command(command=command)
+
+        if self._result.failed:
+            return
+
+        repo_name = command.stderr.splitlines()[0].split("'")[1]
+        self._result.name = repo_name
+        self._repo_path = str(Path(self._parent_directory) / repo_name)
+        self._result.path = self._repo_path
+        self._base_command = f"git -C {self._repo_path}"
+        return
+
+    def _get_branches(self) -> None:
+        """Get the branches."""
+        base = self._base_command
+        origin = self._task.args["origin"]["url"]
+        command = Command(
+            command=f"{base} branch -a",
+            fail_msg=f"Failed to list branches: {origin}",
+        )
+        self._run_command(command=command)
+
+        if self._result.failed:
+            return
+
+        self._branches = []
+        for line in command.stdout_lines:
+            if line.startswith("*"):
+                self._branches.append(line.split()[1])
+            else:
+                self._branches.append(line.split("/")[-1])
+        self._result.branches = self._branches
+
+        branch_name = self._task.args["branch"]["name"]
+        timestamp = (
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            .astimezone()
+            .isoformat()
+            .replace(":", "")
+        )
+
+        self._branch_name = branch_name.format(
+            play_name=self._task.play,
+            timestamp=timestamp,
+        )
+        self._result.branch_name = branch_name
+        return
+
+    def _detect_duplicate_branch(self) -> None:
+        """Detect duplicate branch."""
+        duplicate_detection = self._task.args["branch"]["duplicate_detection"]
+        if duplicate_detection and self._branch_exists:
+            self._result.failed = True
+            self._result.msg = f"Branch '{self._branch_name}' already exists"
+
+    def _switch_checkout(self) -> None:
+        """Switch to or checkout the branch."""
+        base = self._base_command
+        branch = self._branch_name
+        fail_msg = f"Failed to change branches to: {branch}"
+        if self._branch_exists:
+            command = Command(
+                command=f"{base} switch {branch}",
+                fail_msg=fail_msg,
+            )
+        else:
+            command = Command(
+                command=f"{base} checkout -t -b {branch}",
+                fail_msg=fail_msg,
+            )
+        self._run_command(command=command)
+
+    def _add_upstream_remote(self) -> None:
+        """Add the upstream remote."""
+        if not self._task.args["upstream"].get("url"):
+            return
+
+        base = self._base_command
+        upstream = self._task.args["upstream"]["url"]
+        command = Command(
+            command=f"{base} remote add upstream {upstream}",
+            fail_msg=f"Failed to add upstream: {upstream}",
+        )
+        self._run_command(command=command)
+        return
+
+    def _pull_upstream(self) -> None:
+        """Pull from upstream."""
+        if not self._task.args["upstream"].get("url"):
+            return
+
+        base = self._base_command
+        branch = self._task.args["upstream"]["branch"]
+        command = Command(
+            command=f"{base} pull upstream {branch} --rebase",
+            fail_msg=f"Failed to pull upstream branch: {branch}",
+        )
+        self._run_command(command=command)
+        return
+
+    def _run_command(self, command: Command) -> None:
+        """Run a command and append the command result to the results.
+
+        :param command: The command to run
+        """
+        command.run()
+        self._append_result(command)
+
+        if command.return_code != 0:
+            self._result.failed = True
+            self._result.msg = command.fail_msg
 
     def run(
         self,
@@ -126,118 +263,32 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         :param task_vars: The task variables
         :returns: The result
         """
-        # pylint: disable=too-many-branches
-        # pylint: disable=too-many-locals
-        # pylint: disable=too-many-return-statements
-        # pylint: disable=too-many-statements
         self._task.diff = False
         super().run(task_vars=task_vars)
+
         self._check_argspec()
         if self._result.failed:
             return asdict(self._result)
 
-        command_runner = CommandRunner()
-        # pylint: disable=consider-using-with
-        parent_directory = self._task.args["parent_directory"].format(
-            temporary_directory=tempfile.TemporaryDirectory().name,
+        self._parent_directory = self._task.args["parent_directory"].format(
+            temporary_directory=tempfile.mkdtemp(),
         )
-        # pylint: enable=consider-using-with
+        self._base_command = f"git -C {self._parent_directory}"
 
-        Path(parent_directory).mkdir(parents=True, exist_ok=True)
-
-        base_command = f"git -C {parent_directory}"
-        command = (
-            f"{base_command} clone --depth=1 --progress --no-single-branch"
-            f" {self._task.args['origin']['url']}"
-        )
-        commands = [Command(identity="clone", command=command)]
-        command_runner.run_multi_thread(commands)
-        self._append_result(commands[0])
-
-        if commands[0].return_code != 0:
-            self._result.failed = True
-            self._result.msg = f"Failed to clone repository: {self._task.args['origin']['url']}"
-            return asdict(self._result)
-
-        repo_name = commands[0].stderr.splitlines()[0].split("'")[1]
-        self._result.name = repo_name
-        repo_path = Path(parent_directory) / repo_name
-        self._result.path = str(repo_path)
-
-        base_command = f"git -C {repo_path}"
-        command = f"{base_command} branch -a"
-        commands = [Command(identity="branch list", command=command)]
-        command_runner.run_multi_thread(commands)
-        self._append_result(commands[0])
-
-        if commands[0].return_code != 0 or commands[0].stdout is None:
-            self._result.failed = True
-            self._result.msg = f"Failed to list branches: {self._task.args['origin']['url']}"
-            return asdict(self._result)
-
-        branches = []
-        for line in commands[0].stdout.splitlines():
-            if line.startswith("*"):
-                branches.append(line.split()[1])
-            else:
-                branches.append(line.split("/")[-1])
-        self._result.branches = branches
-
-        branch_name = self._task.args["branch"]["name"]
-        timestamp = (
-            datetime.datetime.now(tz=datetime.timezone.utc)
-            .astimezone()
-            .isoformat()
-            .replace(":", "")
+        steps = (
+            self._clone,
+            self._get_branches,
+            self._detect_duplicate_branch,
+            self._switch_checkout,
+            self._add_upstream_remote,
+            self._pull_upstream,
         )
 
-        branch_name = branch_name.format(
-            play_name=self._task.play,
-            timestamp=timestamp,
-        )
-        self._result.branch_name = branch_name
-
-        duplicate_detection = self._task.args["branch"]["duplicate_detection"]
-        branch_exists = branch_name in branches
-        if duplicate_detection and branch_exists:
-            self._result.failed = True
-            self._result.msg = f"Branch '{branch_name}' already exists"
-            return asdict(self._result)
-
-        if branch_exists:
-            command = f"{base_command} switch {branch_name}"
-        else:
-            command = f"{base_command} checkout -t -b {branch_name}"
-        commands = [Command(identity="branch", command=command)]
-        command_runner.run_multi_thread(commands)
-        self._append_result(commands[0])
-
-        if commands[0].return_code != 0:
-            self._result.failed = True
-            self._result.msg = f"Failed to change branches to: {branch_name}"
-            return asdict(self._result)
-
-        if self._task.args["upstream"].get("url"):
-            command = f"{base_command} remote add upstream {self._task.args['upstream']['url']}"
-            commands = [Command(identity="remote add upstream", command=command)]
-            command_runner.run_multi_thread(commands)
-            self._append_result(commands[0])
-
-            if commands[0].return_code != 0:
-                self._result.failed = True
-                self._result.msg = f"Failed to add upstream: {self._task.args['upstream']['url']}"
+        for step in steps:
+            step()
+            if self._result.failed:
+                shutil.rmtree(self._parent_directory)
                 return asdict(self._result)
 
-            command = (
-                f"{base_command} pull upstream {self._task.args['upstream']['branch']} --rebase"
-            )
-            commands = [Command(identity="pull upstream", command=command)]
-            command_runner.run_multi_thread(commands)
-            self._append_result(commands[0])
-
-            if commands[0].return_code != 0:
-                self._result.failed = True
-                self._result.msg = f"Failed to pull upstream: {self._task.args['upstream']['url']}"
-                return asdict(self._result)
-
+        self._result.msg = f"Successfully retrieved repository: {self._task.args['origin']['url']}"
         return asdict(self._result)
