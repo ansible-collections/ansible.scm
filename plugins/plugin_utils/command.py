@@ -40,10 +40,7 @@ class Command:
         return self.stdout.splitlines()
 
     def run(self) -> None:
-        """Run the command.
-
-        :returns: None
-        """
+        """Run the command."""
         try:
             proc_out = subprocess.run(
                 self.command,
