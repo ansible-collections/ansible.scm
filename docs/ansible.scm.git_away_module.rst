@@ -1,8 +1,8 @@
-.. _scm.ansible.git_away_module:
+.. _ansible.scm.git_away_module:
 
 
 ********************
-scm.ansible.git_away
+ansible.scm.git_away
 ********************
 
 **Publish changes from a repository available on the execution node to a distant location**
@@ -115,6 +115,57 @@ Parameters
                         <div>Remove the local copy of the repository if the push is successful</div>
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>user</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                    </div>
+                </td>
+                <td>
+                        <b>Default:</b><br/><div style="color: blue">{}</div>
+                </td>
+                <td>
+                        <div>Details for the user to be used for the commit</div>
+                </td>
+            </tr>
+                                <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>email</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <b>Default:</b><br/><div style="color: blue">"ansible@localhost"</div>
+                </td>
+                <td>
+                        <div>The email of the user</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                        <b>Default:</b><br/><div style="color: blue">"ansible"</div>
+                </td>
+                <td>
+                        <div>The name of the user</div>
+                </td>
+            </tr>
+
     </table>
     <br/>
 

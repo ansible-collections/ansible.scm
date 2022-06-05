@@ -43,6 +43,22 @@ options:
     description:
       - Remove the local copy of the repository if the push is successful
     default: true
+  user:
+    description:
+      - Details for the user to be used for the commit
+    default: {}
+    type: dict
+    suboptions:
+      name:
+        description: The name of the user
+        default: 'ansible'
+        type: str
+      email:
+        description: The email of the user
+        default: 'ansible@localhost'
+        type: str
+
+
 
 notes:
 - This plugin always runs on the execution node

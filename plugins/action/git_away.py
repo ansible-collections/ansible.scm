@@ -110,6 +110,24 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
             },
         )
 
+    def _configure_git_user_name(self) -> None:
+        """Configure the git user name."""
+        base = self._base_command
+        command = Command(
+            command=f"{base} config user.name '{self._task.args['user']['name']}'",
+            fail_msg="Failed to configure git user name",
+        )
+        self._run_command(command=command)
+
+    def _configure_git_user_email(self) -> None:
+        """Configure the git user email."""
+        base = self._base_command
+        command = Command(
+            command=f"{base} config user.email '{self._task.args['user']['email']}'",
+            fail_msg="Failed to configure git user email",
+        )
+        self._run_command(command=command)
+
     def _add(self) -> None:
         """Add files for the pending commit."""
         base = self._base_command
@@ -185,6 +203,8 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         self._base_command = f"git -C {self._path_to_repo}"
 
         steps = (
+            self._configure_git_user_name,
+            self._configure_git_user_email,
             self._add,
             self._commit,
             self._push,
@@ -194,7 +214,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         for step in steps:
             step()
             if self._result.failed:
-                shutil.rmtree(self._parent_directory)
                 return asdict(self._result)
 
         self._result.msg = f"Successfully published local changes from: {self._path_to_repo}"
