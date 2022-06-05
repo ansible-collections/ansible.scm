@@ -112,7 +112,7 @@ Parameters
                         <b>Default:</b><br/><div style="color: blue">"yes"</div>
                 </td>
                 <td>
-                        <div>Remove the local copy of the repository if the push is sucessful</div>
+                        <div>Remove the local copy of the repository if the push is successful</div>
                 </td>
             </tr>
     </table>
