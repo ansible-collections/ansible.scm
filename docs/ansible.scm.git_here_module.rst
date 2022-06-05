@@ -1,8 +1,8 @@
-.. _scm.ansible.git_here_module:
+.. _ansible.scm.git_here_module:
 
 
 ********************
-scm.ansible.git_here
+ansible.scm.git_here
 ********************
 
 **Retrieve a repository from a distant location and make it available on the execution node**

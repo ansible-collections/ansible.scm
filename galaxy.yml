@@ -4,8 +4,8 @@ authors:
 dependencies:
   "ansible.utils": "*"
 license_file: LICENSE
-name: ansible
-namespace: scm
+name: scm
+namespace: ansible
 description: A collection of scm utilities
 readme: README.md
 repository: https://github.com/ansible-collections/ansible.scm
