@@ -106,7 +106,7 @@ options:
     required: true
   remove:
     description:
-      - Remove the local copy of the repository if the push is sucessful
+      - Remove the local copy of the repository if the push is successful
     default: true
 
 notes:
