@@ -1,0 +1,10 @@
+{
+  "docs": "https://docs.ansible.com/ansible-core/2.13/dev_guide/testing/sanity/validate-modules.html",
+  "results": [
+    {
+      "message": "The test `ansible-test sanity --test validate-modules` [[explain](https://docs.ansible.com/ansible-core/2.13/dev_guide/testing/sanity/validate-modules.html)] failed with 1 error:",
+      "output": "plugins/modules/git_here.py:0:0: ansible-module-not-initialized: Execution of the module did not result in initialization of AnsibleModule"
+    }
+  ],
+  "verified": false
+}
