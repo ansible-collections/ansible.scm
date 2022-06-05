@@ -5,7 +5,7 @@
 scm.ansible.git_here
 ********************
 
-**Retrieve a repository from a distant location and make it available locally**
+**Retrieve a repository from a distant location and make it available on the execution node**
 
 
 Version added: 1.0.0
@@ -17,7 +17,7 @@ Version added: 1.0.0
 
 Synopsis
 --------
-- Retrieve a repository from a distant location and make available locally
+- Retrieve a repository from a distant location and make it available on the execution node
 
 
 
@@ -196,6 +196,14 @@ Parameters
     </table>
     <br/>
 
+
+Notes
+-----
+
+.. note::
+   - This plugin always runs on the execution node
+   - This plugin will not run on a managed node
+   - To persist changes to the remote repository, use the git_away plugin
 
 
 
