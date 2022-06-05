@@ -212,7 +212,83 @@ Examples
 
 .. code-block:: yaml
 
-    # TO-DO: Enter examples here
+    - hosts: localhost
+      gather_facts: true
+      tasks:
+        - name: Retrieve a repository from a distant location and make it available locally
+          ansible.scm.git_here:
+            origin:
+              url: git@github.com:cidrblock/scm_testing.git
+            upstream:
+              url: git@github.com:ansible-network/scm_testing.git
+          register: repository
+
+    # TASK [Retrieve a repository from a distant location and make it available locally] ***********************************
+    # changed: [localhost] => {
+    #     "branch_name": "ansible-localhost-2022-06-05T075705.453080-0700",
+    #     "branches": [
+    #         "main",
+    #     ],
+    #     "changed": true,
+    #     "msg": "Successfully retrieved repository: git@github.com:cidrblock/scm_testing.git",
+    #     "name": "scm_testing",
+    #     "output": [
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo clone --depth=1 --progress --no-single-branch git@github.com:cidrblock/scm_testing.git",
+    #             "return_code": 0,
+    #             "stderr_lines": [
+    #                 "Cloning into 'scm_testing'...",
+    #                 "remote: Counting objects: 100% (15/15), done.        ",
+    #                 "remote: Compressing objects: 100% (13/13), done.        ",
+    #                 "Receiving objects: 100% (15/15), 15.69 KiB | 15.69 MiB/s, done.",
+    #                 "Resolving deltas: 100% (8/8), done."
+    #             ],
+    #             "stdout_lines": []
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing branch -a",
+    #             "return_code": 0,
+    #             "stderr_lines": [],
+    #             "stdout_lines": [
+    #                 "* main",
+    #                 "  remotes/origin/HEAD -> origin/main",
+    #                 "  remotes/origin/main"
+    #             ]
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing checkout -t -b ansible-localhost-2022-06-05T075705.453080-0700",
+    #             "return_code": 0,
+    #             "stderr_lines": [
+    #                 "Switched to a new branch 'ansible-localhost-2022-06-05T075705.453080-0700'"
+    #             ],
+    #             "stdout_lines": [
+    #                 "branch 'ansible-localhost-2022-06-05T075705.453080-0700' set up to track 'main'."
+    #             ]
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing remote add upstream git@github.com:ansible-network/scm_testing.git",
+    #             "return_code": 0,
+    #             "stderr_lines": [],
+    #             "stdout_lines": []
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing pull upstream main --rebase",
+    #             "return_code": 0,
+    #             "stderr_lines": [
+    #                 "From github.com:ansible-network/scm_testing",
+    #                 " * branch            main       -> FETCH_HEAD",
+    #                 " * [new branch]      main       -> upstream/main"
+    #             ],
+    #             "stdout_lines": [
+    #                 "Updating 17212e0..6abefd2",
+    #                 "Fast-forward",
+    #                 " README.md | 4 ++++",
+    #                 " 1 file changed, 4 insertions(+)"
+    #             ]
+    #         }
+    #     ],
+    #     "path": "/tmp/tmpvtm6_ejo/scm_testing"
+    # }
 
 
 

@@ -59,6 +59,11 @@ per-file-ignores =
   # S101: Allow the use of assert within the tests directory, since tests require it.
   tests/**.py: S101
 
+  # E501: Allow long lines in examples, since they are often used for documentation.
+  plugins/modules/git_here.py: E501
+  plugins/modules/git_away.py: E501
+
+
   # The following were present during the initial implementation.
   # They are expected to be fixed and unignored over time.
 
