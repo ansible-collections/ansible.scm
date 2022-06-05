@@ -1,3 +1,6 @@
+# sanity artifacts
+tests/output/
+
 # adjacent collection directory
 collections/
 

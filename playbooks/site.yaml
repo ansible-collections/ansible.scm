@@ -13,3 +13,7 @@
       ansible.builtin.copy:
         content: "{{ repository | to_nice_yaml }}"
         dest: "{{ repository['path'] }}/details.yaml"
+
+    - name: Publish the changes
+      ansible.scm.git_away:
+        path: "{{ repository['path'] }}"
