@@ -173,7 +173,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
                 self._branches.append(line.split("/")[-1])
         self._result.branches = self._branches
 
-        branch_name = self._task.args["branch"]["name"]
         timestamp = (
             datetime.datetime.now(tz=datetime.timezone.utc)
             .astimezone()
@@ -181,11 +180,12 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
             .replace(":", "")
         )
 
+        branch_name = self._task.args["branch"]["name"]
         self._branch_name = branch_name.format(
             play_name=self._task.play,
             timestamp=timestamp,
         )
-        self._result.branch_name = branch_name
+        self._result.branch_name = self._branch_name
         return
 
     def _detect_duplicate_branch(self) -> None:
