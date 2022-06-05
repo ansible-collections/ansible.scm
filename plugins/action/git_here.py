@@ -2,7 +2,7 @@
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""The retrieve action plugin."""
+"""The git_here action plugin."""
 
 from __future__ import absolute_import, division, print_function
 
@@ -28,7 +28,7 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
     AnsibleArgSpecValidator,
 )
 
-from ..modules.retrieve import DOCUMENTATION
+from ..modules.git_here import DOCUMENTATION
 from ..plugin_utils.command import Command
 
 
