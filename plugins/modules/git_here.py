@@ -3,7 +3,7 @@
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""The retrieve module stub."""
+"""The git_here module stub."""
 from __future__ import absolute_import, division, print_function
 
 
@@ -12,7 +12,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 DOCUMENTATION = """
-module: retrieve
+module: git_here
 short_description: Retrieve a repository from a distant location and make it available locally
 version_added: "1.0.0"
 description:

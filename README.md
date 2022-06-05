@@ -24,7 +24,7 @@ Some modules and plugins require external libraries. Please check the requiremen
 ### Modules
 Name | Description
 --- | ---
-[scm.ansible.retrieve](https://github.com/ansible-collections/ansible.scm/blob/main/docs/scm.ansible.retrieve_module.rst)|Retrieve a repository from a distant location and make it available locally
+[scm.ansible.git_here](https://github.com/ansible-collections/ansible.scm/blob/main/docs/scm.ansible.git_here_module.rst)|Retrieve a repository from a distant location and make it available locally
 
 <!--end collection content-->
 

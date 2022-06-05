@@ -1,8 +1,8 @@
-.. _scm.ansible.retrieve_module:
+.. _scm.ansible.git_here_module:
 
 
 ********************
-scm.ansible.retrieve
+scm.ansible.git_here
 ********************
 
 **Retrieve a repository from a distant location and make it available locally**
