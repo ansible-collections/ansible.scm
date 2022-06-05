@@ -135,7 +135,62 @@ Examples
 
 .. code-block:: yaml
 
-    # TO-DO: Enter examples here
+    - hosts: localhost
+      gather_facts: true
+      tasks:
+        - name: Retrieve a repository from a distant location and make it available locally
+          ansible.scm.git_here:
+            origin:
+              url: git@github.com:cidrblock/scm_testing.git
+            upstream:
+              url: git@github.com:ansible-network/scm_testing.git
+          register: repository
+
+        - name: Add to the repository
+          ansible.builtin.copy:
+            content: "{{ repository | to_nice_yaml }}"
+            dest: "{{ repository['path'] }}/details.yaml"
+
+        - name: Publish the changes
+          ansible.scm.git_away:
+            path: "{{ repository['path'] }}"
+
+    # TASK [Publish the changes] ***************************************************************************************************
+    # changed: [localhost] => {
+    #     "changed": true,
+    #     "msg": "Successfully published local changes from: /tmp/tmpvtm6_ejo/scm_testing",
+    #     "output": [
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing add --all",
+    #             "return_code": 0,
+    #             "stderr_lines": [],
+    #             "stdout_lines": []
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing commit --allow-empty -m 'Updates made by ansible with play: localhost'",
+    #             "return_code": 0,
+    #             "stderr_lines": [],
+    #             "stdout_lines": [
+    #                 "[ansible-localhost-2022-06-05T075705.453080-0700 604eef6] Updates made by ansible with play: localhost",
+    #                 " 1 file changed, 109 insertions(+)",
+    #                 " create mode 100644 details.yaml"
+    #             ]
+    #         },
+    #         {
+    #             "command": "git -C /tmp/tmpvtm6_ejo/scm_testing push origin",
+    #             "return_code": 0,
+    #             "stderr_lines": [
+    #                 "remote: ",
+    #                 "remote: Create a pull request for 'ansible-localhost-2022-06-05T075705.453080-0700' on GitHub by visiting:        ",
+    #                 "remote:      https://github.com/cidrblock/scm_testing/pull/new/ansible-localhost-2022-06-05T075705.453080-0700        ",
+    #                 "remote: ",
+    #                 "To github.com:cidrblock/scm_testing.git",
+    #                 " * [new branch]      ansible-localhost-2022-06-05T075705.453080-0700 -> ansible-localhost-2022-06-05T075705.453080-0700"
+    #             ],
+    #             "stdout_lines": []
+    #         }
+    #     ]
+    # }
 
 
 
