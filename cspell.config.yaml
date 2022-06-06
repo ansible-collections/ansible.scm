@@ -26,6 +26,8 @@ ignorePaths:
   - requirements.txt
   # test-requirements.txt
   - test-requirements.txt
+  # the bindep file
+  - bindep.txt
 
 languageSettings:
   - languageId: python

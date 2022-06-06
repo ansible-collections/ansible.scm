@@ -15,9 +15,13 @@ jobs = 0
 no-docstring-rgx = "__.*__"
 
 [tool.pylint.messages_control]
+# missing module docstring will be picked up by pydocstyle
+# could not do infile b/c older version of pylint didn't have it
+# and ansible-test sanity uses older version in earlier ansible
 disable = [
   "duplicate-code",
   "fixme",
+  "missing-module-docstring",
   "too-few-public-methods",
   "unsubscriptable-object",
 ]
