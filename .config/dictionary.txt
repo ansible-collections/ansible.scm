@@ -3,6 +3,7 @@ astimezone
 cidrblock
 dataclass
 isoformat
+notesdir
 returncode
 suboptions
 tmpvtm
