@@ -19,7 +19,7 @@ repos:
           - --py36-plus
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks.git
-    rev: v1.1.13
+    rev: v1.2.0
     hooks:
       - id: remove-tabs
 
@@ -60,7 +60,7 @@ repos:
       - id: black
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v5.9.1
+    rev: v6.0.0
     hooks:
       - id: cspell
         name: Spell check with cspell
@@ -77,7 +77,7 @@ repos:
           - flake8-docstrings # uses pydocstyle
 
   - repo: https://github.com/pycqa/pylint.git
-    rev: v2.13.8
+    rev: v2.14.0
     hooks:
       - id: pylint
         args:
@@ -88,7 +88,7 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
-    rev: v0.950
+    rev: v0.960
     hooks:
       - id: mypy
         additional_dependencies:
