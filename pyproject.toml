@@ -15,11 +15,13 @@ jobs = 0
 no-docstring-rgx = "__.*__"
 
 [tool.pylint.messages_control]
-# bad option value disable for missing module docstring in older version of pylint, sanity
+# missing module docstring will be picked up by pydocstyle
+# could not do infile b/c older version of pylint didn't have it
+# and ansible-test sanity uses older version in earlier ansible
 disable = [
-  "bad-option-value",
   "duplicate-code",
   "fixme",
+  "missing-module-docstring",
   "too-few-public-methods",
   "unsubscriptable-object",
 ]

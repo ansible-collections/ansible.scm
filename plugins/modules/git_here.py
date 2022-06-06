@@ -4,8 +4,6 @@
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-# pylint: disable=bad-option-value # old ansible-test sanity won't have missing-module-docstring
-# pylint: disable=missing-module-docstring # ansible-test sanity will treat this as a module
 
 from __future__ import absolute_import, division, print_function
 
