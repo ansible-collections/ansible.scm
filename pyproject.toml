@@ -15,7 +15,9 @@ jobs = 0
 no-docstring-rgx = "__.*__"
 
 [tool.pylint.messages_control]
+# bad option value disable for missing module docstring in older version of pylint, sanity
 disable = [
+  "bad-option-value",
   "duplicate-code",
   "fixme",
   "too-few-public-methods",
