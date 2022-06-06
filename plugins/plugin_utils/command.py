@@ -1,4 +1,12 @@
 """Definitions for the command runner."""
+
+from __future__ import absolute_import, division, print_function
+
+
+# pylint: disable=invalid-name
+__metaclass__ = type
+# pylint: enable=invalid-name
+
 import subprocess
 
 from dataclasses import dataclass, field
