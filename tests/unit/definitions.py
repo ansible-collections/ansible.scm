@@ -13,5 +13,6 @@ from ansible.template import Templar
 
 
 ActionModuleInit = Dict[
-    str, Union[Connection, PlayContext, DataLoader, Task, types.ModuleType, Templar]
+    str,
+    Union[Connection, PlayContext, DataLoader, Task, types.ModuleType, Templar],
 ]

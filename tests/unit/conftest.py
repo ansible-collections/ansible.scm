@@ -14,12 +14,15 @@ from ansible.plugins import loader as Loader
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
 
-from .defintions import ActionModuleInit
+from .definitions import ActionModuleInit
 
 
 @pytest.fixture
 def action_init() -> ActionModuleInit:
-    """Provide a fixture for action intialization."""
+    """Provide a fixture for action initialization.
+
+    :returns: A dictionary of action initialization arguments.
+    """
     play_context = PlayContext()
     loader = DataLoader()
 

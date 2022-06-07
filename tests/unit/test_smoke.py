@@ -14,17 +14,23 @@ from ansible.template import Templar
 
 from ...plugins.action.git_away import ActionModule as GitAwayActionModule
 from ...plugins.action.git_here import ActionModule as GitHereActionModule
-from .defintions import ActionModuleInit
+from .definitions import ActionModuleInit
 
 
 @pytest.mark.parametrize(
-    "module", (GitHereActionModule, GitAwayActionModule), ids=("git_here", "git_away")
+    "module",
+    (GitHereActionModule, GitAwayActionModule),
+    ids=("git_here", "git_away"),
 )
 def test_fail_argspec(
-    action_init: ActionModuleInit, module: Union[GitAwayActionModule, GitHereActionModule]
+    action_init: ActionModuleInit,
+    module: Union[GitAwayActionModule, GitHereActionModule],
 ) -> None:
-    """Test an argspec failure."""
+    """Test an argspec failure.
 
+    :param action_init: A fixture for action initialization.
+    :param module: The module to test.
+    """
     play_context = PlayContext()
     loader = DataLoader()
 
