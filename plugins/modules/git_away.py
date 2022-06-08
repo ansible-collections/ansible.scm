@@ -37,6 +37,11 @@ options:
     default: ['--all']
     elements: str
     type: list
+  open_browser:
+    description:
+      - Open the default browser to the pull-request page
+    default: false
+    type: bool
   path:
     description:
       - The path to the repository
