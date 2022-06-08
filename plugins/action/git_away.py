@@ -7,6 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 import shutil
+import webbrowser
 
 from dataclasses import asdict, dataclass
 from typing import Dict, List, Optional, Union
@@ -42,6 +43,7 @@ class Result(ResultBase):
 
     user_name: str = ""
     user_email: str = ""
+    pr_url: str = ""
 
 
 class ActionModule(GitBase):
@@ -165,6 +167,12 @@ class ActionModule(GitBase):
             fail_msg="Failed to perform the push",
         )
         self._run_command(command=command)
+        try:
+            self._result.pr_url = next(
+                line for line in command.stderr.split("remote:") if "https" in line
+            ).strip()
+        except StopIteration:
+            pass
 
     def _remove_repo(self) -> None:
         """Remove the temporary directory."""
@@ -211,6 +219,9 @@ class ActionModule(GitBase):
             step()
             if self._result.failed:
                 return asdict(self._result)
+
+        if self._result.pr_url and self._task.args["open_browser"]:
+            webbrowser.open(self._result.pr_url, new=2)
 
         self._result.msg = f"Successfully published local changes from: {self._path_to_repo}"
         return asdict(self._result)
