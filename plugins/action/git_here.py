@@ -19,7 +19,6 @@ from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
 from ansible.playbook.task import Task
 from ansible.plugins import loader as Loader
-from ansible.plugins.action import ActionBase
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
 
@@ -30,6 +29,7 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 
 from ..modules.git_here import DOCUMENTATION
 from ..plugin_utils.command import Command
+from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 
 
 # pylint: disable=invalid-name
@@ -40,21 +40,16 @@ JSONTypes = Union[bool, int, str, Dict, List]
 
 
 @dataclass(frozen=False)
-class Result:
+class Result(ResultBase):
     """Data structure for the task result."""
 
-    # pylint: disable=too-many-instance-attributes
     branch_name: str = ""
     branches: List[str] = field(default_factory=list)
-    changed: bool = True
-    failed: bool = False
     name: str = ""
-    msg: str = ""
     path: str = ""
-    output: List[Dict[str, JSONTypes]] = field(default_factory=list)
 
 
-class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
+class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     # pylint: disable=too-many-arguments
@@ -77,12 +72,14 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         :param templar: The templar
         """
         super().__init__(
-            connection=connection,
-            loader=loader,
-            play_context=play_context,
-            shared_loader_obj=shared_loader_obj,
-            templar=templar,
-            task=task,
+            ActionInit(
+                connection=connection,
+                loader=loader,
+                play_context=play_context,
+                shared_loader_obj=shared_loader_obj,
+                templar=templar,
+                task=task,
+            ),
         )
 
         self._base_command: str
@@ -106,20 +103,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-
-    def _append_result(self, command: Command) -> None:
-        """Append the result of the command to the result.
-
-        :param command: The command to append
-        """
-        self._result.output.append(
-            {
-                "command": command.command,
-                "stdout_lines": command.stdout_lines,
-                "stderr_lines": command.stderr_lines,
-                "return_code": command.return_code,
-            },
-        )
 
     @property
     def _branch_exists(self) -> bool:
@@ -181,6 +164,7 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         )
 
         branch_name = self._task.args["branch"]["name"]
+
         self._branch_name = branch_name.format(
             play_name=self._task.play,
             timestamp=timestamp,
@@ -239,18 +223,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         )
         self._run_command(command=command)
         return
-
-    def _run_command(self, command: Command) -> None:
-        """Run a command and append the command result to the results.
-
-        :param command: The command to run
-        """
-        command.run()
-        self._append_result(command)
-
-        if command.return_code != 0:
-            self._result.failed = True
-            self._result.msg = command.fail_msg
 
     def run(
         self,
