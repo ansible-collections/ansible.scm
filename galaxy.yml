@@ -2,7 +2,7 @@
 authors:
   - Ansible Network Community (ansible-network)
 dependencies:
-  "ansible.utils": "*"
+  "ansible.utils": ">=2.6.1"
 license_file: LICENSE
 name: scm
 namespace: ansible
