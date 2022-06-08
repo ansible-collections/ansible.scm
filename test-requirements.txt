@@ -1,4 +1,3 @@
-ansible-lint
 black
 coverage==4.5.4
 flake8
