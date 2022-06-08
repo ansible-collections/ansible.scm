@@ -81,6 +81,7 @@ class ActionModule(GitBase):
 
         self._base_command: Tuple[str, ...]
         self._path_to_repo: str
+        self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
 
@@ -230,6 +231,8 @@ class ActionModule(GitBase):
         :param task_vars: The task variables
         :returns: The result
         """
+        if isinstance(task_vars, dict):
+            self._play_name = str(task_vars["ansible_play_name"])
         self._task.diff = False
         super().run(task_vars=task_vars)
 
