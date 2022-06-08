@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 
 import shutil
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from typing import Dict, List, Optional, Union
 
 from ansible.errors import AnsibleActionFail
@@ -16,7 +16,6 @@ from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
 from ansible.playbook.task import Task
 from ansible.plugins import loader as Loader
-from ansible.plugins.action import ActionBase
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
 
@@ -27,6 +26,7 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 
 from ..modules.git_away import DOCUMENTATION
 from ..plugin_utils.command import Command
+from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 
 
 # pylint: disable=invalid-name
@@ -37,18 +37,14 @@ JSONTypes = Union[bool, int, str, Dict, List]
 
 
 @dataclass(frozen=False)
-class Result:
+class Result(ResultBase):
     """Data structure for the task result."""
 
-    changed: bool = True
-    failed: bool = False
-    msg: str = ""
-    output: List[Dict[str, JSONTypes]] = field(default_factory=list)
     user_name: str = ""
     user_email: str = ""
 
 
-class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
+class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     # pylint: disable=too-many-arguments
@@ -71,12 +67,14 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         :param templar: The templar
         """
         super().__init__(
-            connection=connection,
-            loader=loader,
-            play_context=play_context,
-            shared_loader_obj=shared_loader_obj,
-            templar=templar,
-            task=task,
+            ActionInit(
+                connection=connection,
+                loader=loader,
+                play_context=play_context,
+                shared_loader_obj=shared_loader_obj,
+                templar=templar,
+                task=task,
+            ),
         )
 
         self._base_command: str
@@ -97,20 +95,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-
-    def _append_result(self, command: Command) -> None:
-        """Append the result of the command to the result.
-
-        :param command: The command to append
-        """
-        self._result.output.append(
-            {
-                "command": command.command,
-                "stdout_lines": command.stdout_lines,
-                "stderr_lines": command.stderr_lines,
-                "return_code": command.return_code,
-            },
-        )
 
     def _configure_git_user_name(self) -> None:
         """Configure the git user name."""
@@ -191,19 +175,6 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         except OSError:
             self._result.failed = True
             self._result.msg = "Failed to remove repository"
-
-    def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
-        """Run a command and append the command result to the results.
-
-        :param command: The command to run
-        :param ignore_errors: Allow for a non 0 return code
-        """
-        command.run()
-        self._append_result(command)
-
-        if command.return_code != 0 and not ignore_errors:
-            self._result.failed = True
-            self._result.msg = command.fail_msg
 
     def run(
         self,
