@@ -44,6 +44,8 @@ class Result:
     failed: bool = False
     msg: str = ""
     output: List[Dict[str, JSONTypes]] = field(default_factory=list)
+    user_name: str = ""
+    user_email: str = ""
 
 
 class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
@@ -114,19 +116,41 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
         """Configure the git user name."""
         base = self._base_command
         command = Command(
-            command=f"{base} config user.name '{self._task.args['user']['name']}'",
+            f"{base} config --get user.name",
+            fail_msg="Failed to get current user name for git.",
+        )
+        self._run_command(command=command, ignore_errors=True)
+        if command.stdout:
+            self._result.user_name = command.stdout
+            return
+
+        name = self._task.args["user"]["name"]
+        command = Command(
+            command=f"{base} config user.name '{name}'",
             fail_msg="Failed to configure git user name",
         )
         self._run_command(command=command)
+        self._result.user_name = name
 
     def _configure_git_user_email(self) -> None:
         """Configure the git user email."""
         base = self._base_command
         command = Command(
-            command=f"{base} config user.email '{self._task.args['user']['email']}'",
+            f"{base} config --get user.email",
+            fail_msg="Failed to get current user email for git.",
+        )
+        self._run_command(command=command, ignore_errors=True)
+        if command.stdout:
+            self._result.user_email = command.stdout
+            return
+
+        email = self._task.args["user"]["email"]
+        command = Command(
+            command=f"{base} config user.email '{email}'",
             fail_msg="Failed to configure git user email",
         )
         self._run_command(command=command)
+        self._result.user_email = email
 
     def _add(self) -> None:
         """Add files for the pending commit."""
@@ -168,15 +192,16 @@ class ActionModule(ActionBase):  # type: ignore[misc] # parent has type Any
             self._result.failed = True
             self._result.msg = "Failed to remove repository"
 
-    def _run_command(self, command: Command) -> None:
+    def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
 
         :param command: The command to run
+        :param ignore_errors: Allow for a non 0 return code
         """
         command.run()
         self._append_result(command)
 
-        if command.return_code != 0:
+        if command.return_code != 0 and not ignore_errors:
             self._result.failed = True
             self._result.msg = command.fail_msg
 
