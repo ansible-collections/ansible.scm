@@ -48,6 +48,7 @@ options:
   user:
     description:
       - Details for the user to be used for the commit
+      - Will only be used if not already configured
     default: {}
     type: dict
     suboptions:

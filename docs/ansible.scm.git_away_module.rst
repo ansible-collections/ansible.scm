@@ -130,6 +130,7 @@ Parameters
                 </td>
                 <td>
                         <div>Details for the user to be used for the commit</div>
+                        <div>Will only be used if not already configured</div>
                 </td>
             </tr>
                                 <tr>
