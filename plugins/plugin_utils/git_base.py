@@ -1,4 +1,11 @@
 """A base class for the git action plugins."""
+from __future__ import absolute_import, division, print_function
+
+
+# pylint: disable=invalid-name
+__metaclass__ = type
+# pylint: enable=invalid-name
+
 from dataclasses import dataclass, field, fields
 from types import ModuleType
 from typing import Dict, List, Union
