@@ -110,6 +110,24 @@ Parameters
                     <td class="elbow-placeholder"></td>
                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>token</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>The token to use to authenticate to the origin repository</div>
+                        <div>If provided, an &#x27;http.extraheader&#x27; will be added to the commands interacting with the origin repository</div>
+                        <div>Will only be used for https based connections</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>url</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">
@@ -171,6 +189,24 @@ Parameters
                 </td>
                 <td>
                         <div>The branch to use for the upstream</div>
+                </td>
+            </tr>
+            <tr>
+                    <td class="elbow-placeholder"></td>
+                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>token</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                        <div>The token to use to authenticate to the upstream repository</div>
+                        <div>If provided, an &#x27;http.extraheader&#x27; will be added to the commands interacting with the upstream repository</div>
+                        <div>Will only be used for https based connections</div>
                 </td>
             </tr>
             <tr>

@@ -6,9 +6,11 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 # pylint: enable=invalid-name
 
+import base64
+
 from dataclasses import dataclass, field, fields
 from types import ModuleType
-from typing import Dict, List, Union
+from typing import Dict, List, Tuple, Union
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
@@ -55,7 +57,7 @@ class ResultBase:
     changed: bool = True
     failed: bool = False
     msg: str = ""
-    output: List[Dict[str, JSONTypes]] = field(default_factory=list)
+    output: List[Dict[str, Union[int, List[str], str]]] = field(default_factory=list)
 
 
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
@@ -69,19 +71,16 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         super().__init__(**action_init.asdict)
         self._result: ResultBase = ResultBase()
 
-    def _append_result(self, command: Command) -> None:
-        """Append the result of the command to the result.
+    @staticmethod
+    def _git_auth_header(token: str) -> Tuple[str, List[str]]:
+        """Create the authorization header.
 
-        :param command: The command to append
+        :param token: The token
+        :return: The base64 encoded token and the authorization header cli parameter
         """
-        self._result.output.append(
-            {
-                "command": command.command,
-                "stdout_lines": command.stdout_lines,
-                "stderr_lines": command.stderr_lines,
-                "return_code": command.return_code,
-            },
-        )
+        token_base64 = base64.b64encode(token.encode("ascii")).decode("utf-8")
+        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token_base64}"]
+        return token_base64, cli_parameters
 
     def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
@@ -95,7 +94,8 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         command.stdout_lines = result["stdout_lines"]
         command.stderr = result["stderr"]
         command.stderr_lines = result["stderr_lines"]
-        self._append_result(command)
+
+        self._result.output.append(command.cleaned)
 
         if command.return_code != 0 and not ignore_errors:
             self._result.failed = True

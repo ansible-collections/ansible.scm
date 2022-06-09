@@ -20,34 +20,6 @@ version_added: "1.0.0"
 description:
     - Retrieve a repository from a distant location and make it available on the execution node
 options:
-  origin:
-    description:
-      - Details about the origin
-    type: dict
-    required: true
-    suboptions:
-      url:
-        description:
-          - The URL for the origin repository
-        type: str
-  upstream:
-    description:
-      - Details about the upstream
-    default: {}
-    type: dict
-    suboptions:
-      branch:
-        description:
-          - The branch to use for the upstream
-        default: main
-        type: str
-      url:
-        description:
-          - The URL for the upstream repository
-          - If provided, the local copy of the repository will be updated, rebased from the upstream
-          - The update will happen after the branch is created
-          - Conflicts will cause the task to fail and the local copy will be removed
-        type: str
   branch:
     description:
       - Details about the new branch that will be created
@@ -69,13 +41,53 @@ options:
         - If set to false and the branch does not exist, the branch will be created
         default: true
         type: bool
+  origin:
+    description:
+      - Details about the origin
+    type: dict
+    required: true
+    suboptions:
+      token:
+        description:
+          - The token to use to authenticate to the origin repository
+          - If provided, an 'http.extraheader' will be added to the commands interacting with the origin repository
+          - Will only be used for https based connections
+        type: str
+      url:
+        description:
+          - The URL for the origin repository
+        type: str
+
   parent_directory:
     description:
       - The local directory where the repository will be placed
       - If the parent directory does not exist, it will be created
     default: '{temporary_directory}'
     type: str
-
+  upstream:
+    description:
+      - Details about the upstream
+    default: {}
+    type: dict
+    suboptions:
+      branch:
+        description:
+          - The branch to use for the upstream
+        default: main
+        type: str
+      token:
+        description:
+          - The token to use to authenticate to the upstream repository
+          - If provided, an 'http.extraheader' will be added to the commands interacting with the upstream repository
+          - Will only be used for https based connections
+        type: str
+      url:
+        description:
+          - The URL for the upstream repository
+          - If provided, the local copy of the repository will be updated, rebased from the upstream
+          - The update will happen after the branch is created
+          - Conflicts will cause the task to fail and the local copy will be removed
+        type: str
 
 notes:
 - This plugin always runs on the execution node

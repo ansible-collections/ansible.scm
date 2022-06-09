@@ -10,7 +10,7 @@ import shutil
 import webbrowser
 
 from dataclasses import asdict, dataclass
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -79,7 +79,7 @@ class ActionModule(GitBase):
             ),
         )
 
-        self._base_command: str
+        self._base_command: Tuple[str, ...]
         self._path_to_repo: str
         self._supports_async = True
         self._result: Result = Result()
@@ -100,9 +100,10 @@ class ActionModule(GitBase):
 
     def _configure_git_user_name(self) -> None:
         """Configure the git user name."""
-        base = self._base_command
+        command_parts = list(self._base_command)
+        command_parts.extend(["config", "--get", "user.name"])
         command = Command(
-            f"{base} config --get user.name",
+            command_parts=command_parts,
             fail_msg="Failed to get current user name for git.",
         )
         self._run_command(command=command, ignore_errors=True)
@@ -111,8 +112,10 @@ class ActionModule(GitBase):
             return
 
         name = self._task.args["user"]["name"]
+        command_parts = list(self._base_command)
+        command_parts.extend(["config", "user.name", name])
         command = Command(
-            command=f"{base} config user.name '{name}'",
+            command_parts=command_parts,
             fail_msg="Failed to configure git user name",
         )
         self._run_command(command=command)
@@ -120,9 +123,10 @@ class ActionModule(GitBase):
 
     def _configure_git_user_email(self) -> None:
         """Configure the git user email."""
-        base = self._base_command
+        command_parts = list(self._base_command)
+        command_parts.extend(["config", "--get", "user.email"])
         command = Command(
-            f"{base} config --get user.email",
+            command_parts=command_parts,
             fail_msg="Failed to get current user email for git.",
         )
         self._run_command(command=command, ignore_errors=True)
@@ -131,8 +135,10 @@ class ActionModule(GitBase):
             return
 
         email = self._task.args["user"]["email"]
+        command_parts = list(self._base_command)
+        command_parts.extend(["config", "user.email", email])
         command = Command(
-            command=f"{base} config user.email '{email}'",
+            command_parts=command_parts,
             fail_msg="Failed to configure git user email",
         )
         self._run_command(command=command)
@@ -140,31 +146,60 @@ class ActionModule(GitBase):
 
     def _add(self) -> None:
         """Add files for the pending commit."""
-        base = self._base_command
+        command_parts = list(self._base_command)
         files = " ".join(self._task.args["include"])
+        command_parts.extend(["add", files])
         command = Command(
-            command=f"{base} add {files}",
+            command_parts=command_parts,
             fail_msg=f"Failed to add the file to the pending commit: {files}",
         )
         self._run_command(command=command)
 
     def _commit(self) -> None:
         """Perform a commit for the pending push."""
-        base = self._base_command
+        command_parts = list(self._base_command)
         message = self._task.args["commit"]["message"].format(play_name=self._task.play)
         message = message.replace("'", '"')
+        command_parts.extend(["commit", "--allow-empty", "-m", message])
         command = Command(
-            command=f"{base} commit --allow-empty -m '{message}'",
+            command_parts=command_parts,
             fail_msg=f"Failed to perform the commit: {message}",
         )
         self._run_command(command=command)
 
     def _push(self) -> None:
         """Push the commit to the origin."""
-        base = self._base_command
+        command_parts = list(self._base_command)
+        command_parts.extend(["remote", "-v"])
         command = Command(
-            command=f"{base} push origin",
+            command_parts=command_parts,
+            fail_msg="Failed to get remote",
+        )
+
+        self._run_command(command=command)
+        try:
+            push_line = next(
+                line for line in command.stdout_lines if "push" in line and "origin" in line
+            )
+        except StopIteration:
+            self._result.failed = True
+            self._result.msg = "Failed to find the origin remote"
+            return
+
+        token = self._task.args.get("token")
+        no_log = {}
+        command_parts = list(self._base_command)
+
+        if token is not None and "https" in push_line:
+            token_base64, command_parameters = self._git_auth_header(token)
+            command_parts.extend(command_parameters)
+            no_log = {token_base64: "<TOKEN>"}
+
+        command_parts.extend(["push", "origin"])
+        command = Command(
+            command_parts=command_parts,
             fail_msg="Failed to perform the push",
+            no_log=no_log,
         )
         self._run_command(command=command)
         try:
@@ -204,7 +239,7 @@ class ActionModule(GitBase):
 
         self._path_to_repo = self._task.args["path"]
 
-        self._base_command = f"git -C {self._path_to_repo}"
+        self._base_command = ("git", "-C", self._path_to_repo)
 
         steps = (
             self._configure_git_user_name,

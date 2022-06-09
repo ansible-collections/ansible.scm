@@ -7,12 +7,11 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
-import shutil
 import tempfile
 
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -82,7 +81,7 @@ class ActionModule(GitBase):
             ),
         )
 
-        self._base_command: str
+        self._base_command: Tuple[str, ...]
         self._branches: List[str]
         self._branch_name: str
         self._parent_directory: str
@@ -117,11 +116,21 @@ class ActionModule(GitBase):
 
         Additionally set the base command to the repository path.
         """
-        base = self._base_command
+        command_parts = list(self._base_command)
+        no_log = {}
         origin = self._task.args["origin"]["url"]
+        token = self._task.args["origin"].get("token")
+        if token is not None and "https" in origin:
+            token_base64, cli_parameters = self._git_auth_header(token=token)
+            command_parts.extend(cli_parameters)
+            no_log = {token_base64: "<TOKEN>"}
+
+        command_parts.extend(["clone", "--depth=1", "--progress", "--no-single-branch", origin])
+
         command = Command(
-            command=f"{base} clone --depth=1 --progress --no-single-branch {origin}",
+            command_parts=command_parts,
             fail_msg=f"Failed to clone repository: {origin}",
+            no_log=no_log,
         )
         self._run_command(command=command)
 
@@ -132,15 +141,16 @@ class ActionModule(GitBase):
         self._result.name = repo_name
         self._repo_path = str(Path(self._parent_directory) / repo_name)
         self._result.path = self._repo_path
-        self._base_command = f"git -C {self._repo_path}"
+        self._base_command = ("git", "-C", self._repo_path)
         return
 
     def _get_branches(self) -> None:
         """Get the branches."""
-        base = self._base_command
+        command_parts = list(self._base_command)
+        command_parts.extend(["branch", "-a"])
         origin = self._task.args["origin"]["url"]
         command = Command(
-            command=f"{base} branch -a",
+            command_parts=command_parts,
             fail_msg=f"Failed to list branches: {origin}",
         )
         self._run_command(command=command)
@@ -181,19 +191,18 @@ class ActionModule(GitBase):
 
     def _switch_checkout(self) -> None:
         """Switch to or checkout the branch."""
-        base = self._base_command
+        command_parts = list(self._base_command)
         branch = self._branch_name
-        fail_msg = f"Failed to change branches to: {branch}"
+
         if self._branch_exists:
-            command = Command(
-                command=f"{base} switch {branch}",
-                fail_msg=fail_msg,
-            )
+            command_parts.extend(["switch", branch])
         else:
-            command = Command(
-                command=f"{base} checkout -t -b {branch}",
-                fail_msg=fail_msg,
-            )
+            command_parts.extend(["checkout", "-t", "-b", branch])
+
+        command = Command(
+            command_parts=command_parts,
+            fail_msg=f"Failed to change branches to: {branch}",
+        )
         self._run_command(command=command)
 
     def _add_upstream_remote(self) -> None:
@@ -201,10 +210,11 @@ class ActionModule(GitBase):
         if not self._task.args["upstream"].get("url"):
             return
 
-        base = self._base_command
+        command_parts = list(self._base_command)
         upstream = self._task.args["upstream"]["url"]
+        command_parts.extend(["remote", "add", "upstream", upstream])
         command = Command(
-            command=f"{base} remote add upstream {upstream}",
+            command_parts=command_parts,
             fail_msg=f"Failed to add upstream: {upstream}",
         )
         self._run_command(command=command)
@@ -215,11 +225,23 @@ class ActionModule(GitBase):
         if not self._task.args["upstream"].get("url"):
             return
 
-        base = self._base_command
+        command_parts = list(self._base_command)
+        no_log = {}
+        upstream = self._task.args["upstream"]["url"]
+        token = self._task.args["upstream"].get("token")
+        if token is not None and "https" in upstream:
+            token_base64, cli_parameters = self._git_auth_header(token=token)
+            command_parts.extend(cli_parameters)
+            no_log = {token_base64: "<TOKEN>"}
+
         branch = self._task.args["upstream"]["branch"]
+
+        command_parts.extend(["pull", "upstream", branch, "--rebase"])
+
         command = Command(
-            command=f"{base} pull upstream {branch} --rebase",
+            command_parts=command_parts,
             fail_msg=f"Failed to pull upstream branch: {branch}",
+            no_log=no_log,
         )
         self._run_command(command=command)
         return
@@ -245,7 +267,7 @@ class ActionModule(GitBase):
         self._parent_directory = self._task.args["parent_directory"].format(
             temporary_directory=tempfile.mkdtemp(),
         )
-        self._base_command = f"git -C {self._parent_directory}"
+        self._base_command = ("git", "-C", self._parent_directory)
 
         steps = (
             self._clone,
@@ -259,7 +281,6 @@ class ActionModule(GitBase):
         for step in steps:
             step()
             if self._result.failed:
-                shutil.rmtree(self._parent_directory)
                 return asdict(self._result)
 
         self._result.msg = f"Successfully retrieved repository: {self._task.args['origin']['url']}"
