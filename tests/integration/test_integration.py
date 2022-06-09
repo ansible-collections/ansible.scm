@@ -59,4 +59,8 @@ def test_integration(localhost_project: AnsibleProject, environment: Dict[str, s
     :param localhost_project: The localhost project.
     :param environment: The environment.
     """
+    import os
+
+    print(os.environ)
+    raise
     run(localhost_project, environment)

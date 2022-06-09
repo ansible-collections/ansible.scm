@@ -16,7 +16,9 @@ jobs:
   changelog:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
   integration:
-    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main      
+    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main  
+    with:
+      pytest_precommand: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
   unit-galaxy:
