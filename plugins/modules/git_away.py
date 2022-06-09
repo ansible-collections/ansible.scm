@@ -50,6 +50,12 @@ options:
     description:
       - Remove the local copy of the repository if the push is successful
     default: true
+  token:
+    description:
+      - The token to use to authenticate to the origin repository
+      - If provided, an 'http.extraheader' will be added to the commands interacting with the origin repository
+      - Will only be used for https based connections
+    type: str
   user:
     description:
       - Details for the user to be used for the commit
