@@ -194,7 +194,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in push_line:
             token_base64, command_parameters = self._git_auth_header(token)
             command_parts.extend(command_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            # no_log = {token_base64: "<TOKEN>"}
 
         command_parts.extend(["push", "origin"])
         command = Command(
