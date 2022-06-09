@@ -5,7 +5,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ github.token }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
   changelog:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
   integration:
-    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
+    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main      
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
   unit-galaxy:
