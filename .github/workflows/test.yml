@@ -4,9 +4,6 @@ concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 on:
   pull_request:
     branches: [main]
@@ -17,8 +14,8 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
   integration:
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main  
-    with:
-      pytest_precommand: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
   unit-galaxy:
