@@ -159,7 +159,7 @@ class ActionModule(GitBase):
     def _commit(self) -> None:
         """Perform a commit for the pending push."""
         command_parts = list(self._base_command)
-        message = self._task.args["commit"]["message"].format(play_name=self._task.play)
+        message = self._task.args["commit"]["message"].format(play_name=self._play_name)
         message = message.replace("'", '"')
         command_parts.extend(["commit", "--allow-empty", "-m", message])
         command = Command(
