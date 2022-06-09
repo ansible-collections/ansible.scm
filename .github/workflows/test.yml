@@ -18,7 +18,7 @@ jobs:
   integration:
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main  
     with:
-      pytest_precommand: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+      pytest_precommand: GITHUB_TOKEN=${{ github.token }}
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
   unit-galaxy:
