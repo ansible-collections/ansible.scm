@@ -96,7 +96,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
             result = subprocess.run(
                 command.command_parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5
             )
-        except subprocess.TimeoutExpired as e:
+        except subprocess.TimeoutExpired:
             self._result.failed = True
             self._result.msg = f"Timeout: '{command.command}'. {command.fail_msg}"
             return
