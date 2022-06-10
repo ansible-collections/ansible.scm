@@ -13,7 +13,7 @@ jobs:
   changelog:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
   integration:
-    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main  
+    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.TEST_TOKEN }}
   sanity:
