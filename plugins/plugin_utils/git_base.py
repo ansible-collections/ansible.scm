@@ -79,9 +79,11 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         :param token: The token
         :return: The base64 encoded token and the authorization header cli parameter
         """
-        token_base64 = base64.b64encode(token.encode("ascii")).decode("utf-8")
-        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token_base64}"]
-        return token_base64, cli_parameters
+        # token_base64 = base64.b64encode(token.encode("ascii")).decode("utf-8")
+        # cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token_base64}"]
+        # return token_base64, cli_parameters
+        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token}"]
+        return token, cli_parameters
 
     def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
