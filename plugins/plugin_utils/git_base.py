@@ -7,6 +7,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 import base64
+import subprocess
 
 from dataclasses import dataclass, field, fields
 from types import ModuleType
@@ -88,12 +89,23 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         :param command: The command to run
         :param ignore_errors: If errors should be ignored
         """
-        result = self._low_level_execute_command(cmd=command.command)
-        command.return_code = result["rc"]
-        command.stdout = result["stdout"]
-        command.stdout_lines = result["stdout_lines"]
-        command.stderr = result["stderr"]
-        command.stderr_lines = result["stderr_lines"]
+        try:
+            result = subprocess.run(
+                command.command_parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5
+            )
+        except subprocess.TimeoutExpired as e:
+            self._result.failed = True
+            self._result.msg = f"Timeout: '{command.command}'. {command.fail_msg}"
+            return
+
+        command.return_code = result.returncode
+        command.stdout = result.stdout.decode("utf-8") or ""
+        command.stdout_lines = command.stdout.splitlines()
+        command.stderr = result.stderr.decode("utf-8") or ""
+        command.stderr_lines = command.stderr.splitlines()
+        import q
+
+        q(command)
 
         self._result.output.append(command.cleaned)
 
