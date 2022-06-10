@@ -76,6 +76,8 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
     def _git_auth_header(token: str) -> Tuple[str, List[str]]:
         """Create the authorization header.
 
+        helpful: https://github.com/actions/checkout/blob/main/src/git-auth-helper.ts#L56
+
         :param token: The token
         :return: The base64 encoded token and the authorization header cli parameter
         """
