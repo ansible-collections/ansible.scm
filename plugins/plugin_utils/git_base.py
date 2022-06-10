@@ -103,9 +103,6 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         command.stdout_lines = command.stdout.splitlines()
         command.stderr = result.stderr.decode("utf-8") or ""
         command.stderr_lines = command.stderr.splitlines()
-        import q
-
-        q(command)
 
         self._result.output.append(command.cleaned)
 
