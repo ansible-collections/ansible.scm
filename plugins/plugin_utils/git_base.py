@@ -94,7 +94,11 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         """
         try:
             result = subprocess.run(
-                command.command_parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5
+                command.command_parts,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=5,
             )
         except subprocess.TimeoutExpired:
             self._result.failed = True
