@@ -9,7 +9,10 @@
     content: "{{ repository | to_nice_yaml }}"
     dest: "{{ repository['path'] }}/details.yaml"
 
+- shell:
+    cmd: env|sort
+
 - name: Publish the changes
   ansible.scm.git_away:
     path: "{{ repository['path'] }}"
-    token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+    token: foo
