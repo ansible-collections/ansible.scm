@@ -104,6 +104,10 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
+        if self._task.args["origin"].get("token") == "":
+            raise AnsibleActionFail("Origin token can not be an empty string")
+        if self._task.args["upstream"].get("token") == "":
+            raise AnsibleActionFail("Upstream token can not be an empty string")
 
     @property
     def _branch_exists(self) -> bool:
@@ -125,7 +129,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in origin:
             token_base64, cli_parameters = self._git_auth_header(token=token)
             command_parts.extend(cli_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            no_log[token_base64] = "<TOKEN>"
 
         command_parts.extend(["clone", "--depth=1", "--progress", "--no-single-branch", origin])
 
@@ -234,7 +238,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in upstream:
             token_base64, cli_parameters = self._git_auth_header(token=token)
             command_parts.extend(cli_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            no_log[token_base64] = "<TOKEN>"
 
         branch = self._task.args["upstream"]["branch"]
 
