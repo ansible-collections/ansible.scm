@@ -2,6 +2,7 @@
   ansible.scm.git_here:
     origin:
       url: https://github.com/ansible-network/ansible.scm.git
+      token: foo
   register: repository
 
 - name: Add to the repository
