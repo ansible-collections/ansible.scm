@@ -15,7 +15,7 @@ jobs:
   integration:
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
-      GH_TOKEN: ${{ secrets.TEST_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
   unit-galaxy:
