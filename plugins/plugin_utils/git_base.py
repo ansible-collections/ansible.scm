@@ -82,7 +82,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         # token_base64 = base64.b64encode(token.encode("ascii")).decode("utf-8")
         # cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token_base64}"]
         # return token_base64, cli_parameters
-        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: Bearer {token}"]
+        cli_parameters = ["-c", f"http.extraheader=authorization: Bearer {token}"]
         return token, cli_parameters
 
     def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
