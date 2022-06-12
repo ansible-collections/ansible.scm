@@ -7,6 +7,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 import base64
+import subprocess
 
 from dataclasses import dataclass, field, fields
 from types import ModuleType
@@ -75,12 +76,15 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
     def _git_auth_header(token: str) -> Tuple[str, List[str]]:
         """Create the authorization header.
 
+        helpful: https://github.com/actions/checkout/blob/main/src/git-auth-helper.ts#L56
+
         :param token: The token
         :return: The base64 encoded token and the authorization header cli parameter
         """
-        token_base64 = base64.b64encode(token.encode("ascii")).decode("utf-8")
-        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {token_base64}"]
-        return token_base64, cli_parameters
+        basic = f"x-access-token:{token}"
+        basic_encoded = base64.b64encode(basic.encode("utf-8")).decode("utf-8")
+        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {basic_encoded}"]
+        return basic_encoded, cli_parameters
 
     def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
@@ -88,12 +92,24 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         :param command: The command to run
         :param ignore_errors: If errors should be ignored
         """
-        result = self._low_level_execute_command(cmd=command.command)
-        command.return_code = result["rc"]
-        command.stdout = result["stdout"]
-        command.stdout_lines = result["stdout_lines"]
-        command.stderr = result["stderr"]
-        command.stderr_lines = result["stderr_lines"]
+        try:
+            result = subprocess.run(
+                command.command_parts,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired:
+            self._result.failed = True
+            self._result.msg = f"Timeout: '{command.command}'. {command.fail_msg}"
+            return
+
+        command.return_code = result.returncode
+        command.stdout = result.stdout.decode("utf-8") or ""
+        command.stdout_lines = command.stdout.splitlines()
+        command.stderr = result.stderr.decode("utf-8") or ""
+        command.stderr_lines = command.stderr.splitlines()
 
         self._result.output.append(command.cleaned)
 

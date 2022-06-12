@@ -1,10 +1,12 @@
 argspec
 astimezone
+cdcp
 cidrblock
 dataclass
+extraheader
 isoformat
 notesdir
 returncode
 suboptions
 tmpvtm
-extraheader
+tracebackhide

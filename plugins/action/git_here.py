@@ -52,6 +52,7 @@ class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         connection: Connection,
@@ -86,6 +87,7 @@ class ActionModule(GitBase):
         self._branch_name: str
         self._parent_directory: str
         self._repo_path: str
+        self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
 
@@ -102,6 +104,10 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
+        if self._task.args["origin"].get("token") == "":
+            raise AnsibleActionFail("Origin token can not be an empty string")
+        if self._task.args["upstream"].get("token") == "":
+            raise AnsibleActionFail("Upstream token can not be an empty string")
 
     @property
     def _branch_exists(self) -> bool:
@@ -123,7 +129,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in origin:
             token_base64, cli_parameters = self._git_auth_header(token=token)
             command_parts.extend(cli_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            no_log[token_base64] = "<TOKEN>"
 
         command_parts.extend(["clone", "--depth=1", "--progress", "--no-single-branch", origin])
 
@@ -176,7 +182,7 @@ class ActionModule(GitBase):
         branch_name = self._task.args["branch"]["name"]
 
         self._branch_name = branch_name.format(
-            play_name=self._task.play,
+            play_name=self._play_name,
             timestamp=timestamp,
         )
         self._result.branch_name = self._branch_name
@@ -232,7 +238,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in upstream:
             token_base64, cli_parameters = self._git_auth_header(token=token)
             command_parts.extend(cli_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            no_log[token_base64] = "<TOKEN>"
 
         branch = self._task.args["upstream"]["branch"]
 
@@ -257,6 +263,8 @@ class ActionModule(GitBase):
         :param task_vars: The task variables
         :returns: The result
         """
+        if isinstance(task_vars, dict):
+            self._play_name = str(task_vars["ansible_play_name"])
         self._task.diff = False
         super().run(task_vars=task_vars)
 

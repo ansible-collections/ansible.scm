@@ -81,6 +81,7 @@ class ActionModule(GitBase):
 
         self._base_command: Tuple[str, ...]
         self._path_to_repo: str
+        self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
 
@@ -97,6 +98,8 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
+        if self._task.args.get("token") == "":
+            raise AnsibleActionFail("Token can not be an empty string")
 
     def _configure_git_user_name(self) -> None:
         """Configure the git user name."""
@@ -158,7 +161,7 @@ class ActionModule(GitBase):
     def _commit(self) -> None:
         """Perform a commit for the pending push."""
         command_parts = list(self._base_command)
-        message = self._task.args["commit"]["message"].format(play_name=self._task.play)
+        message = self._task.args["commit"]["message"].format(play_name=self._play_name)
         message = message.replace("'", '"')
         command_parts.extend(["commit", "--allow-empty", "-m", message])
         command = Command(
@@ -193,7 +196,7 @@ class ActionModule(GitBase):
         if token is not None and "https" in push_line:
             token_base64, command_parameters = self._git_auth_header(token)
             command_parts.extend(command_parameters)
-            no_log = {token_base64: "<TOKEN>"}
+            no_log[token_base64] = "<TOKEN>"
 
         command_parts.extend(["push", "origin"])
         command = Command(
@@ -230,6 +233,8 @@ class ActionModule(GitBase):
         :param task_vars: The task variables
         :returns: The result
         """
+        if isinstance(task_vars, dict):
+            self._play_name = str(task_vars["ansible_play_name"])
         self._task.diff = False
         super().run(task_vars=task_vars)
 
