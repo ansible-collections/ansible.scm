@@ -1,11 +1,5 @@
-- shell:
-    cmd: env|sort
-
 - name: Retrieve a repository from a distant location and make it available locally
   ansible.scm.git_here:
-    branch:
-      name: integration_tests
-      duplicate_detection: false
     origin:
       url: https://github.com/ansible-network/ansible.scm.git
       token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
@@ -15,8 +9,29 @@
   ansible.builtin.copy:
     content: "{{ repository | to_nice_yaml }}"
     dest: "{{ repository['path'] }}/details.yaml"
+    mode: 0664
 
 - name: Publish the changes
   ansible.scm.git_away:
     path: "{{ repository['path'] }}"
+    remove: false
     token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+- name: Remove the created branch # noqa: command-instead-of-module
+  ansible.builtin.command:
+    argv:
+      - git
+      - -C
+      - "{{ repository['path'] }}"
+      - -c
+      - "http.extraheader=AUTHORIZATION: basic {{ auth }}"
+      - push
+      - origin
+      - --delete
+      - "{{ repository['branch_name'] }}"
+  changed_when: deleted['rc'] == 0
+  no_log: true
+  register: deleted
+  vars:
+    auth: "{{ un64|b64encode }}"
+    un64: "x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}"
