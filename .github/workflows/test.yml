@@ -5,22 +5,32 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
+    types: [labeled]
   workflow_dispatch:
 
 jobs:
   changelog:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
+
   integration:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   sanity:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
+
   unit-galaxy:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
+
   unit-source:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
     uses: ansible-network/github_actions/.github/workflows/unit_source.yml@main
     with:
       collection_pre_install: >-
