@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.3.0
     hooks:
       - id: check-merge-conflict
       - id: check-symlinks
@@ -77,7 +77,7 @@ repos:
           - flake8-docstrings # uses pydocstyle
 
   - repo: https://github.com/pycqa/pylint.git
-    rev: v2.14.0
+    rev: v2.14.1
     hooks:
       - id: pylint
         args:
@@ -88,7 +88,7 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
-    rev: v0.960
+    rev: v0.961
     hooks:
       - id: mypy
         additional_dependencies:
