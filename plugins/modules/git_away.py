@@ -50,6 +50,7 @@ options:
     description:
       - Remove the local copy of the repository if the push is successful
     default: true
+    type: bool
   token:
     description:
       - The token to use to authenticate to the origin repository

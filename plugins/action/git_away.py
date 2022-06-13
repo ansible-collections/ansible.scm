@@ -216,6 +216,7 @@ class ActionModule(GitBase):
         """Remove the temporary directory."""
         if not self._task.args["remove"]:
             return
+
         try:
             shutil.rmtree(self._task.args["path"])
         except OSError:
