@@ -28,7 +28,7 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  privileged_ok:
+  privileged_passed:
     if: ${{ always() }}
     needs:
       - integration

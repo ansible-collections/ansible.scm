@@ -1,4 +1,4 @@
-# This is the basic workflow, which does not require secrets of the GITHUB_TOKEN 
+# This is the basic workflow, which does not require secrets of the GITHUB_TOKEN
 name: basic
 
 concurrency:
@@ -26,7 +26,7 @@ jobs:
       collection_pre_install: >-
         git+https://github.com/ansible-collections/ansible.utils.git
 
-  all_green:
+  basic_passed:
     if: ${{ always() }}
     needs:
       - changelog
