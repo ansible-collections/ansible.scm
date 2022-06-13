@@ -1,0 +1,33 @@
+# This workflow is serparate from the main workflow.
+# Integration tests require secrets from the repo
+# and therefor require an approval/label to run
+
+name: Integration
+
+concurrency:
+  group: ${{ github.event.pull_request.head.sha }}
+  cancel-in-progress: true
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [labeled]
+  workflow_dispatch:
+
+jobs:
+  integration:
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
+    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  integration_ok:
+    if: ${{ always() }}
+    needs:
+      - integration
+    runs-on: ubuntu-latest
+    steps:
+      - run: >-
+          python -c "assert set([
+          '${{ needs.integration.result }}',
+          ]) == {'success'}"
