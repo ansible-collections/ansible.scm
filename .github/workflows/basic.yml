@@ -1,4 +1,5 @@
-name: Test collection
+# This is the basic workflow, which does not require secrets of the GITHUB_TOKEN 
+name: Basic
 
 concurrency:
   group: ${{ github.head_ref }}
@@ -12,11 +13,6 @@ on:
 jobs:
   changelog:
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
-
-  integration:
-    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
@@ -34,7 +30,6 @@ jobs:
     if: ${{ always() }}
     needs:
       - changelog
-      - integration
       - sanity
       - unit-galaxy
       - unit-source
@@ -43,7 +38,6 @@ jobs:
       - run: >-
           python -c "assert set([
           '${{ needs.changelog.result }}',
-          '${{ needs.integration.result }}',
           '${{ needs.sanity.result }}',
           '${{ needs.unit-galaxy.result }}',
           '${{ needs.unit-source.result }}'
