@@ -7,64 +7,24 @@ concurrency:
 on:
   pull_request_target:
     branches: [main]
-    types: [labeled]
   workflow_dispatch:
 
 jobs:
-  approval:
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        run: echo "::notice label detected::Approved, safe to test"
-    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
-
   changelog:
-    needs:
-      - approval
     uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
 
   integration:
-    needs:
-      - approval
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sanity:
-    needs:
-      - approval
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
 
   unit-galaxy:
-    needs:
-      - approval
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
 
   unit-source:
-    needs:
-      - approval
-    uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
-
-  integration:
-    needs:
-      - approval
-    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  sanity:
-    needs:
-      - approval
-    uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
-
-  unit-galaxy:
-    needs:
-      - approval
-    uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
-
-  unit-source:
-    needs:
-      - approval
     uses: ansible-network/github_actions/.github/workflows/unit_source.yml@main
     with:
       collection_pre_install: >-
