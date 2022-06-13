@@ -1,5 +1,5 @@
 # This is the basic workflow, which does not require secrets of the GITHUB_TOKEN 
-name: Basic
+name: basic
 
 concurrency:
   group: ${{ github.head_ref }}
