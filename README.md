@@ -5,7 +5,7 @@ This repository contains the `ansible.scm` Ansible Collection.
 <!--start requires_ansible-->
 ## Ansible version compatibility
 
-This collection has been tested against following Ansible versions: **>=2.9.10**.
+This collection has been tested against the following Ansible versions: **>=2.9.10**.
 
 For collections that support Ansible 2.9, please ensure you update your `network_os` to use the
 fully qualified collection name (for example, `cisco.ios.ios`).
@@ -60,4 +60,4 @@ See [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_gui
 
 GNU General Public License v3.0 or later.
 
-See [COPYING](https://www.gnu.org/licenses/gpl-3.0.txt) to see the full text.
+See [COPYING](https://www.gnu.org/licenses/gpl-3.0.txt) to see the full text
