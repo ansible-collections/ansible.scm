@@ -29,17 +29,17 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
   sanity:
     needs:
       - approval
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
-  
+
   unit-galaxy:
     needs:
       - approval
     uses: ansible-network/github_actions/.github/workflows/unit_galaxy.yml@main
-  
+
   unit-source:
     needs:
       - approval
