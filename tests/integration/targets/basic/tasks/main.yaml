@@ -3,9 +3,9 @@
 
 - name: Retrieve a repository from a distant location and make it available locally
   ansible.scm.git_here:
+    branch: integration_tests
+    duplicate_detection: false
     origin:
-      branch: integration_tests
-      duplicate_detection: false
       url: https://github.com/ansible-network/ansible.scm.git
       token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
   register: repository
