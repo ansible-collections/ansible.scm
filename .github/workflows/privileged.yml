@@ -19,22 +19,27 @@ on:
 
 jobs:
   safe-to-test:
-    uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     if: >-
       github.event.label.name == 'safe to test' ||
       github.event.action != 'labeled'
-
+    uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
   integration:
+    if: >-
+      github.event.label.name == 'safe to test' ||
+      github.event.action != 'labeled'
     needs:
       - safe-to-test
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
   privileged_passed:
-    if: ${{ always() }}
+    if: >-
+      github.event.label.name == 'safe to test' ||
+      github.event.action != 'labeled'
     needs:
       - integration
     runs-on: ubuntu-latest
