@@ -18,23 +18,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto-safe-to-test:
-    uses: ansible-network/github_actions/.github/workflows/auto-safe-to-test.yml@main
+  safe-to-test:
+    uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-  approval:
-    needs:
-      - auto-safe-to-test
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        run: echo "::notice label detected::Approved, safe to test"
-    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
-
   integration:
     needs:
-      - approval
+      - safe-to-test
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
