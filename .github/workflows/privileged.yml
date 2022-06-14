@@ -10,10 +10,19 @@ concurrency:
 on:
   pull_request_target:
     branches: [main]
-    types: [labeled]
+    types:
+    - labeled
+    - opened
+    - reopened
+    - synchronize
   workflow_dispatch:
 
 jobs:
+  auto-safe-to-test:
+    uses: ansible-network/github_actions/.github/workflows/auto-safe-to-test.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
   approval:
     runs-on: ubuntu-latest
     steps:
