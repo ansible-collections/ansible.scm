@@ -24,6 +24,8 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
   approval:
+    needs:
+      - auto-safe-to-test
     runs-on: ubuntu-latest
     steps:
       - shell: bash
