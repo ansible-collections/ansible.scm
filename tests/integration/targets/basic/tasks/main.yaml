@@ -35,3 +35,5 @@
   vars:
     auth: "{{ un64|b64encode }}"
     un64: "x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+- fail:
