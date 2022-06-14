@@ -12,6 +12,9 @@ jobs:
   auto-label:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
       - name: Remove the 'safe to test' label
         run: gh pr edit $PR_NUMBER --remove-label "safe to test"
         env:
