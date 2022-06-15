@@ -51,6 +51,11 @@ options:
       - Remove the local copy of the repository if the push is successful
     default: true
     type: bool
+  timeout:
+    description:
+      - The timeout in seconds for each command issued
+    default: 30
+    type: int
   token:
     description:
       - The token to use to authenticate to the origin repository

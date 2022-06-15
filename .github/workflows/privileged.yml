@@ -25,7 +25,7 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
   integration:
     if: >-
       github.event.label.name == 'safe to test' ||
@@ -35,7 +35,7 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
   privileged_passed:
     if: >-
       github.event.label.name == 'safe to test' ||

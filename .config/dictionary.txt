@@ -3,6 +3,7 @@ astimezone
 cdcp
 cidrblock
 dataclass
+etime
 extraheader
 isoformat
 notesdir

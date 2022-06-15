@@ -244,8 +244,8 @@ class ActionModule(GitBase):
             return asdict(self._result)
 
         self._path_to_repo = self._task.args["path"]
-
         self._base_command = ("git", "-C", self._path_to_repo)
+        self._timeout = self._task.args["timeout"]
 
         steps = (
             self._configure_git_user_name,
