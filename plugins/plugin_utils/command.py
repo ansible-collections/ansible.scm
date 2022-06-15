@@ -51,11 +51,11 @@ class Command:
         stdout_lines = self.stdout_lines
         stderr_lines = self.stderr_lines
 
-        # if self.no_log:
-        #     for find, replace in self.no_log.items():
-        #         for data in (command_parts, stdout_lines, stderr_lines):
-        #             for idx, part in enumerate(data):
-        #                 data[idx] = part.replace(find, replace)
+        if self.no_log:
+            for find, replace in self.no_log.items():
+                for data in (command_parts, stdout_lines, stderr_lines):
+                    for idx, part in enumerate(data):
+                        data[idx] = part.replace(find, replace)
 
         return {
             "command": shlex_join(command_parts),
