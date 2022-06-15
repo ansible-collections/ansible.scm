@@ -43,7 +43,7 @@ options:
         type: bool
   host_key_checking:
     description:
-      - Configure strict host key checking for git based repositories
+      - Configure strict host key checking for ssh based connections
       - 'yes will enable strict host key checking (StrictHostKeyChecking=yes)'
       - 'no will disable strict host key checking (StrictHostKeyChecking=no)'
       - system will use the global system setting and not configure the git repository

@@ -107,7 +107,7 @@ Parameters
                         </ul>
                 </td>
                 <td>
-                        <div>Configure strict host key checking for git based repositories</div>
+                        <div>Configure strict host key checking for ssh based connections</div>
                         <div>yes will enable strict host key checking (StrictHostKeyChecking=yes)</div>
                         <div>no will disable strict host key checking (StrictHostKeyChecking=no)</div>
                         <div>system will use the global system setting and not configure the git repository</div>
