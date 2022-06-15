@@ -64,6 +64,11 @@ options:
       - If the parent directory does not exist, it will be created
     default: '{temporary_directory}'
     type: str
+  timeout:
+    description:
+      - The timeout in seconds for each command issued
+    default: 30
+    type: int
   upstream:
     description:
       - Details about the upstream

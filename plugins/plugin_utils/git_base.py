@@ -71,6 +71,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         """
         super().__init__(**action_init.asdict)
         self._result: ResultBase = ResultBase()
+        self._timeout: int
 
     @staticmethod
     def _git_auth_header(token: str) -> Tuple[str, List[str]]:
@@ -98,21 +99,29 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
                 check=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                timeout=5,
+                timeout=self._timeout,
             )
-        except subprocess.TimeoutExpired:
-            self._result.failed = True
-            self._result.msg = f"Timeout: '{command.command}'. {command.fail_msg}"
-            return
+            command.return_code = result.returncode
+            command.stdout = result.stdout.decode("utf-8") or ""
+            command.stderr = result.stderr.decode("utf-8") or ""
 
-        command.return_code = result.returncode
-        command.stdout = result.stdout.decode("utf-8") or ""
+        except subprocess.CalledProcessError as exc:
+            command.return_code = exc.returncode
+            command.stdout = exc.stdout.decode("utf-8") if exc.stdout else ""
+            command.stderr = exc.stderr.decode("utf-8") if exc.stderr else ""
+            if not ignore_errors:
+                self._result.failed = True
+                self._result.msg = command.fail_msg
+
+        except subprocess.TimeoutExpired as exc:
+            command.return_code = 62  # ETIME, Timer expired
+            command.stdout = exc.stdout.decode("utf-8") if exc.stdout else ""
+            command.stderr = exc.stderr.decode("utf-8") if exc.stderr else ""
+            if not ignore_errors:
+                self._result.failed = True
+                self._result.msg = f"Timeout: {command.fail_msg}"
+
         command.stdout_lines = command.stdout.splitlines()
-        command.stderr = result.stderr.decode("utf-8") or ""
         command.stderr_lines = command.stderr.splitlines()
 
         self._result.output.append(command.cleaned)
-
-        if command.return_code != 0 and not ignore_errors:
-            self._result.failed = True
-            self._result.msg = command.fail_msg

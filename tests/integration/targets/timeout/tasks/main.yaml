@@ -1,0 +1,14 @@
+- name: Retrieve a repository from a distant location and make it available locally
+  ansible.scm.git_here:
+    origin:
+      url: https://github.com/ansible-network/ansible.scm.git
+      token: ABCDEF
+    timeout: 5
+  register: repository
+  ignore_errors: true
+
+- name: Confirm the timeout return code and message
+  ansible.builtin.assert:
+    that:
+      - repository["output"][0]["return_code"] == 62
+      - repository["msg"].startswith("Timeout:")

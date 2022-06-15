@@ -276,6 +276,7 @@ class ActionModule(GitBase):
             temporary_directory=tempfile.mkdtemp(),
         )
         self._base_command = ("git", "-C", self._parent_directory)
+        self._timeout = self._task.args["timeout"]
 
         steps = (
             self._clone,
