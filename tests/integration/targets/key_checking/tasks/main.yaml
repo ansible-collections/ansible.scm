@@ -1,0 +1,14 @@
+- name: Confirm host key checking config triggers commands
+  ansible.scm.git_here:
+    origin:
+      url: git@github.com:ansible-network/ansible.scm.git
+    host_key_checking: no
+  register: repository
+
+- name: Confirm the GIT_SSH_COMMAND variable was set
+  ansible.builtin.assert:
+    that:
+      - string in repository["output"][0]["env"]["GIT_SSH_COMMAND"]
+      - string in repository["output"][1]["command"]
+  vars:
+    string: "ssh -o StrictHostKeyChecking=no"

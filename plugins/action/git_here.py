@@ -117,14 +117,52 @@ class ActionModule(GitBase):
         """
         return self._branch_name in self._branches
 
+    def _host_key_checking(self) -> None:
+        """Configure host key checking."""
+        origin = self._task.args["origin"]["url"]
+        upstream = self._task.args["upstream"].get("url") or ""
+        has_ssh_url = origin.startswith("git") or upstream.startswith("git")
+
+        host_key_checking = self._task.args["host_key_checking"]
+        if host_key_checking == "system" or not has_ssh_url:
+            return
+
+        command_parts = list(self._base_command)
+        value = "yes" if host_key_checking else "no"
+        command_parts.extend(
+            [
+                "config",
+                "core.sshCommand",
+                f"ssh -o StrictHostKeyChecking={value}",
+            ],
+        )
+        command = Command(
+            command_parts=command_parts,
+            fail_msg="Failed to configure host key checking",
+        )
+        self._run_command(command=command)
+
     def _clone(self) -> None:
         """Clone the repository.
 
         Additionally set the base command to the repository path.
         """
-        command_parts = list(self._base_command)
-        no_log = {}
         origin = self._task.args["origin"]["url"]
+        upstream = self._task.args["upstream"].get("url") or ""
+
+        # Since the repo isn't cloned yet, set the host key checking value with an variable
+        has_ssh_url = origin.startswith("git") or upstream.startswith("git")
+        host_key_checking = self._task.args["host_key_checking"]
+
+        if host_key_checking != "system" and has_ssh_url:
+            value = "yes" if host_key_checking else "no"
+            env = {"GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={value}"}
+        else:
+            env = None
+
+        command_parts = list(self._base_command)
+
+        no_log = {}
         token = self._task.args["origin"].get("token")
         if token is not None and "https" in origin:
             token_base64, cli_parameters = self._git_auth_header(token=token)
@@ -135,6 +173,7 @@ class ActionModule(GitBase):
 
         command = Command(
             command_parts=command_parts,
+            env=env,
             fail_msg=f"Failed to clone repository: {origin}",
             no_log=no_log,
         )
@@ -280,6 +319,7 @@ class ActionModule(GitBase):
 
         steps = (
             self._clone,
+            self._host_key_checking,
             self._get_branches,
             self._detect_duplicate_branch,
             self._switch_checkout,

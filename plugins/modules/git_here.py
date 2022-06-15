@@ -33,14 +33,26 @@ options:
         type: str
       duplicate_detection:
         description:
-        - Reusing an existing branch can introduce unexpected behavior
-        - If set to true, the task will fail if the remote branch already exists
-        - >-
-          If set to false and the branch exists the task will use and be updated
-          to the existing branch
-        - If set to false and the branch does not exist, the branch will be created
+          - Reusing an existing branch can introduce unexpected behavior
+          - If set to true, the task will fail if the remote branch already exists
+          - >-
+            If set to false and the branch exists the task will use and be updated
+            to the existing branch
+          - If set to false and the branch does not exist, the branch will be created
         default: true
         type: bool
+  host_key_checking:
+    description:
+      - Configure strict host key checking for git based repositories
+      - 'yes will enable strict host key checking (StrictHostKeyChecking=yes)'
+      - 'no will disable strict host key checking (StrictHostKeyChecking=no)'
+      - system will use the global system setting and not configure the git repository
+    choices:
+      - yes
+      - no
+      - system
+    default: system
+    type: str
   origin:
     description:
       - Details about the origin
