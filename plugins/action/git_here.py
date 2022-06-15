@@ -128,12 +128,11 @@ class ActionModule(GitBase):
             return
 
         command_parts = list(self._base_command)
-        value = "yes" if host_key_checking else "no"
         command_parts.extend(
             [
                 "config",
                 "core.sshCommand",
-                f"ssh -o StrictHostKeyChecking={value}",
+                f"ssh -o StrictHostKeyChecking={host_key_checking}",
             ],
         )
         command = Command(
@@ -155,8 +154,7 @@ class ActionModule(GitBase):
         host_key_checking = self._task.args["host_key_checking"]
 
         if host_key_checking != "system" and has_ssh_url:
-            value = "yes" if host_key_checking else "no"
-            env = {"GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={value}"}
+            env = {"GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={host_key_checking}"}
         else:
             env = None
 

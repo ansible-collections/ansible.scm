@@ -48,9 +48,9 @@ options:
       - 'no will disable strict host key checking (StrictHostKeyChecking=no)'
       - system will use the global system setting and not configure the git repository
     choices:
-      - yes
-      - no
-      - system
+      - "yes"
+      - "no"
+      - "system"
     default: system
     type: str
   origin:
