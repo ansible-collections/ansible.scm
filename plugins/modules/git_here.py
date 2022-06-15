@@ -44,13 +44,15 @@ options:
   host_key_checking:
     description:
       - Configure strict host key checking for ssh based connections
-      - 'yes will enable strict host key checking (StrictHostKeyChecking=yes)'
+      - 'accept-new will accept new host keys (StrictHostKeyChecking=accept-new)'
       - 'no will disable strict host key checking (StrictHostKeyChecking=no)'
       - system will use the global system setting and not configure the git repository
+      - 'yes will enable strict host key checking (StrictHostKeyChecking=yes)'
     choices:
-      - "yes"
+      - "accept-new"
       - "no"
       - "system"
+      - "yes"
     default: system
     type: str
   origin:
