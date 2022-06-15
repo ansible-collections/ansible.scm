@@ -58,7 +58,9 @@ class ResultBase:
     changed: bool = True
     failed: bool = False
     msg: str = ""
-    output: List[Dict[str, Union[int, List[str], str]]] = field(default_factory=list)
+    output: List[Dict[str, Union[int, Dict[str, str], List[str], str]]] = field(
+        default_factory=list,
+    )
 
 
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
@@ -96,7 +98,9 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         try:
             result = subprocess.run(
                 command.command_parts,
-                check=False,
+                env=command.env,
+                check=True,
+                # shell=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=self._timeout,

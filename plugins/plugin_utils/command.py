@@ -9,7 +9,7 @@ __metaclass__ = type
 
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from .compatibility import shlex_join
 
@@ -26,6 +26,8 @@ class Command:
 
     command_parts: List[str]
     fail_msg: str
+
+    env: Optional[Dict[str, str]] = None
     no_log: Dict[str, str] = field(default_factory=dict)
     return_code: int = -1
     stdout: str = ""
@@ -42,7 +44,7 @@ class Command:
         return shlex_join(self.command_parts)
 
     @property
-    def cleaned(self) -> Dict[str, Union[int, List[str], str]]:
+    def cleaned(self) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
         """Return the sanitized details of the command for the log.
 
         :return: The sanitized details of the command for the log.
@@ -59,6 +61,7 @@ class Command:
 
         return {
             "command": shlex_join(command_parts),
+            "env": self.env or "",
             "stdout_lines": stdout_lines,
             "stderr_lines": stderr_lines,
             "return_code": self.return_code,
