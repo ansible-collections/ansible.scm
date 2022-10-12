@@ -7,6 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
+import re
 import tempfile
 
 from dataclasses import asdict, dataclass, field
@@ -218,8 +219,17 @@ class ActionModule(GitBase):
 
         branch_name = self._task.args["branch"]["name"]
 
+        # Lower case the play name
+        play_name = self._play_name.lower()
+        # Remove non-word characters
+        play_name = re.sub(r"[^\w\s]", "", self._play_name)
+        # Replace spaces with _
+        play_name = re.sub(r"\s+", "_", play_name)
+        # Limit to 243 chars (255 - 'refs/heads/')
+        play_name = play_name[0:243]
+
         self._branch_name = branch_name.format(
-            play_name=self._play_name,
+            play_name=play_name,
             timestamp=timestamp,
         )
         self._result.branch_name = self._branch_name
