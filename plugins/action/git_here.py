@@ -222,7 +222,7 @@ class ActionModule(GitBase):
         # Lower case the play name
         play_name = self._play_name.lower()
         # Remove non-word characters
-        play_name = re.sub(r"[^\w\s]", "", self._play_name)
+        play_name = re.sub(r"[^\w\s]", "", play_name)
         # Replace spaces with _
         play_name = re.sub(r"\s+", "_", play_name)
         # Limit to 243 chars (255 - 'refs/heads/')
