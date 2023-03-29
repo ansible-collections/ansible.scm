@@ -82,6 +82,7 @@ repos:
       - id: pylint
         args:
           - plugins/
+          - tests/
         additional_dependencies:
           - ansible-core
           - pytest

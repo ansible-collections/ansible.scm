@@ -7,9 +7,6 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 # pylint: enable=invalid-name
 
-import types
-
-from typing import Dict, Union
 
 import pytest
 

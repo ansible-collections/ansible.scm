@@ -21,5 +21,5 @@ from ansible.template import Templar
 
 ActionModuleInit = Dict[
     str,
-    Union[Connection, PlayContext, DataLoader, Task, types.ModuleType, Templar],
+    Union[Connection, PlayContext, DataLoader, Loader, Task, types.ModuleType, Templar],
 ]
