@@ -3,6 +3,11 @@ ancestor:
 releases:
   0.1.0:
     changes:
+      bugfixes:
+        - Fix string replacment (https://github.com/ansible-collections/ansible.scm/pull/70)
+        - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
+        - Fix version name in GHA (https://github.com/ansible-collections/ansible.scm/pull/69)
+        - Fix changelog collection name (https://github.com/ansible-collections/ansible.scm/pull/72)
       trivial:
         - Add GHA and fixes for sanity (https://github.com/ansible-collections/ansible.scm/pull/9)
         - Add a basic smoke unit test (https://github.com/ansible-collections/ansible.scm/pull/12)
@@ -41,10 +46,6 @@ releases:
         - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
         - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
         - test (https://github.com/ansible-collections/ansible.scm/pull/39)
-      bugfixes:
-        - Fix version name in GHA (https://github.com/ansible-collections/ansible.scm/pull/69)
-        - Fix string replacment (https://github.com/ansible-collections/ansible.scm/pull/70)
-        - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
     fragments:
       - 12.yaml
       - 13.yaml
