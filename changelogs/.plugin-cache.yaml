@@ -10,16 +10,18 @@ plugins:
   lookup: {}
   module:
     git_away:
-      description: Publish changes from a repository available on the execution node
+      description:
+        Publish changes from a repository available on the execution node
         to a distant location
       name: git_away
-      namespace: ''
+      namespace: ""
       version_added: 1.0.0
     git_here:
-      description: Retrieve a repository from a distant location and make it available
+      description:
+        Retrieve a repository from a distant location and make it available
         on the execution node
       name: git_here
-      namespace: ''
+      namespace: ""
       version_added: 1.0.0
   netconf: {}
   shell: {}
