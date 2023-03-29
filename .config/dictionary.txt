@@ -1,11 +1,14 @@
 argspec
 astimezone
+autoupdate
 cdcp
 cidrblock
+condtions
 dataclass
 etime
 extraheader
 isoformat
+nolabel
 notesdir
 returncode
 suboptions
