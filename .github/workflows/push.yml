@@ -14,6 +14,11 @@ on:
       - 'stable/**'
   workflow_call:  # allows reuse of this workflow from other devtools repos
 
+env:
+  NAMESPACE: ansible
+  COLLECTION_NAME: scm
+  ANSIBLE_COLLECTIONS_PATHS: ./
+
 jobs:
   update_release_draft:
     runs-on: ubuntu-22.04
