@@ -71,4 +71,3 @@ autolabeler:
       - "/type: deprecat(ed|ion)/i"
 template: |
   $CHANGES
-
