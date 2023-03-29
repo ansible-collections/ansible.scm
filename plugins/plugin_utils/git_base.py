@@ -53,8 +53,6 @@ class ActionInit:
 class ResultBase:
     """Data structure for the task result."""
 
-    # pylint: disable=too-many-instance-attributes
-
     changed: bool = True
     failed: bool = False
     msg: str = ""
