@@ -27,5 +27,5 @@ sections:
     - Known Issues
   - - doc_changes
     - Documentation Changes
-title: Ansible Utils Collection
+title: The Ansible SCM (ansible.scm) Collection
 trivial_section_name: trivial
