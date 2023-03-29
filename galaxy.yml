@@ -11,4 +11,4 @@ readme: README.md
 repository: https://github.com/ansible-collections/ansible.scm
 issues: https://github.com/ansible-collections/ansible.scm/issues
 tags: []
-version: 0.0.0
+version: 0.0.2-dev
