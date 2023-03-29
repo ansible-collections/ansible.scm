@@ -13,14 +13,14 @@ releases:
         - Label for integration (https://github.com/ansible-collections/ansible.scm/pull/26)
         - Drop approval, rely on first time contributor (https://github.com/ansible-collections/ansible.scm/pull/21)
         - Comment (https://github.com/ansible-collections/ansible.scm/pull/30)
-        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)'
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)"
         - Switch to Pr target with conditional label for approval (https://github.com/ansible-collections/ansible.scm/pull/19)
         - Add needs instead of individual condtions (https://github.com/ansible-collections/ansible.scm/pull/20)
         - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
         - Remove branch after push (https://github.com/ansible-collections/ansible.scm/pull/32)
         - Integration (https://github.com/ansible-collections/ansible.scm/pull/18)
         - Add token support (https://github.com/ansible-collections/ansible.scm/pull/17)
-        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)'
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)"
         - Add accept-new for host-key checking (https://github.com/ansible-collections/ansible.scm/pull/55)
         - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
         - Doc fix (https://github.com/ansible-collections/ansible.scm/pull/54)
@@ -30,7 +30,7 @@ releases:
         - Expose timeout (https://github.com/ansible-collections/ansible.scm/pull/52)
         - Don't run on label (https://github.com/ansible-collections/ansible.scm/pull/48)
         - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
-        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)'
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)"
         - Test (https://github.com/ansible-collections/ansible.scm/pull/34)
         - Auto label (https://github.com/ansible-collections/ansible.scm/pull/33)
         - Fix branch name (https://github.com/ansible-collections/ansible.scm/pull/58)
@@ -60,4 +60,4 @@ releases:
       - 63.yaml
       - 64.yaml
       - 9.yaml
-    release_date: '2023-03-29'
+    release_date: "2023-03-29"
