@@ -35,16 +35,17 @@ jobs:
       - name: Install antsibull-changelog, antsichaut
         run: python -m pip install antsibull-changelog antsichaut --disable-pip-version-check
 
-
-      # Drafts your next Release notes as Pull Requests are merged into "main"
       - name: Run release drafter
         id: release_drafter
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Remove the v prefix from the release drafter version
+        run: echo "RELEASE_VERSION=${{ steps.release_drafter.outputs.name }}" | sed 's/^v//' >> $GITHUB_ENV
+
       - name: Generate new version in changelog.yaml
-        run: antsibull-changelog release -v --version "${{ steps.release_drafter.outputs.name }}"
+        run: antsibull-changelog release -v --version "${{ env.RELEASE_VERSION }}"
 
       - name: 'Get Previous tag'
         id: previoustag
@@ -61,7 +62,7 @@ jobs:
       - name: Update Changelog.rst
         run: antsibull-changelog generate -v
 
-      - name: push changelog
+      - name: Push changelog
         uses: github-actions-x/commit@v2.9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
