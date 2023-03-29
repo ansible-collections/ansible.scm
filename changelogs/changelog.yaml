@@ -1,0 +1,63 @@
+---
+ancestor:
+releases:
+  0.1.0:
+    changes:
+      trivial:
+        - Add GHA and fixes for sanity (https://github.com/ansible-collections/ansible.scm/pull/9)
+        - Add root key for pr_url and open_browser (https://github.com/ansible-collections/ansible.scm/pull/15)
+        - Switch to action low level command (https://github.com/ansible-collections/ansible.scm/pull/14)
+        - Only configure email and name if not previously configured (https://github.com/ansible-collections/ansible.scm/pull/13)
+        - Add a basic smoke unit test (https://github.com/ansible-collections/ansible.scm/pull/12)
+        - Formatting (https://github.com/ansible-collections/ansible.scm/pull/29)
+        - Label for integration (https://github.com/ansible-collections/ansible.scm/pull/26)
+        - Drop approval, rely on first time contributor (https://github.com/ansible-collections/ansible.scm/pull/21)
+        - Comment (https://github.com/ansible-collections/ansible.scm/pull/30)
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)'
+        - Switch to Pr target with conditional label for approval (https://github.com/ansible-collections/ansible.scm/pull/19)
+        - Add needs instead of individual condtions (https://github.com/ansible-collections/ansible.scm/pull/20)
+        - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
+        - Remove branch after push (https://github.com/ansible-collections/ansible.scm/pull/32)
+        - Integration (https://github.com/ansible-collections/ansible.scm/pull/18)
+        - Add token support (https://github.com/ansible-collections/ansible.scm/pull/17)
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)'
+        - Add accept-new for host-key checking (https://github.com/ansible-collections/ansible.scm/pull/55)
+        - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
+        - Doc fix (https://github.com/ansible-collections/ansible.scm/pull/54)
+        - Safe to test (https://github.com/ansible-collections/ansible.scm/pull/41)
+        - Auto safe to test (https://github.com/ansible-collections/ansible.scm/pull/36)
+        - test (https://github.com/ansible-collections/ansible.scm/pull/39)
+        - Expose timeout (https://github.com/ansible-collections/ansible.scm/pull/52)
+        - Don't run on label (https://github.com/ansible-collections/ansible.scm/pull/48)
+        - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)'
+        - Test (https://github.com/ansible-collections/ansible.scm/pull/34)
+        - Auto label (https://github.com/ansible-collections/ansible.scm/pull/33)
+        - Fix branch name (https://github.com/ansible-collections/ansible.scm/pull/58)
+        - Fix lower (https://github.com/ansible-collections/ansible.scm/pull/60)
+        - Updates necessary for passing tests (https://github.com/ansible-collections/ansible.scm/pull/61)
+        - Add environment details to push (https://github.com/ansible-collections/ansible.scm/pull/64)
+        - Bring release drafter config here (https://github.com/ansible-collections/ansible.scm/pull/67)
+        - Comment out changelog, quote python version (https://github.com/ansible-collections/ansible.scm/pull/66)
+        - Add release drafter (https://github.com/ansible-collections/ansible.scm/pull/62)
+        - Move release drafter config to .github (https://github.com/ansible-collections/ansible.scm/pull/63)
+    fragments:
+      - 12.yaml
+      - 13.yaml
+      - 14.yaml
+      - 15.yaml
+      - 16.yaml
+      - 17.yaml
+      - 20.yaml
+      - 30.yaml
+      - 32.yaml
+      - 52.yaml
+      - 53.yaml
+      - 54.yaml
+      - 55.yaml
+      - 61.yaml
+      - 62.yaml
+      - 63.yaml
+      - 64.yaml
+      - 9.yaml
+    release_date: '2023-03-29'
