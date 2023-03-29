@@ -42,7 +42,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Remove the v prefix from the release drafter version
-        run: echo "VERSION=${steps.release_drafter.outputs.name#v}" >> $GITHUB_ENV
+        run: |
+          VERSION=${{ steps.release_drafter.outputs.tag_name }}
+          echo "VERSION=${VERSION#v}" >> $GITHUB_ENV
 
       - name: Generate new version in changelog.yaml
         run: antsibull-changelog release -v --version "${{ env.VERSION }}"
