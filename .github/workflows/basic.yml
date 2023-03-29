@@ -11,8 +11,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  changelog:
-    uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
+  # changelog:
+  #   uses: ansible-network/github_actions/.github/workflows/changelog.yml@main
 
   sanity:
     uses: ansible-network/github_actions/.github/workflows/sanity.yml@main
@@ -29,7 +29,7 @@ jobs:
   basic_passed:
     if: ${{ always() }}
     needs:
-      - changelog
+      # - changelog
       - sanity
       - unit-galaxy
       - unit-source
