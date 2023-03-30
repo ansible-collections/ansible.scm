@@ -3,7 +3,6 @@ astimezone
 autoupdate
 cdcp
 cidrblock
-condtions
 dataclass
 etime
 extraheader

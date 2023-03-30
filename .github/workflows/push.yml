@@ -73,3 +73,9 @@ jobs:
           force-add: 'true'
           files: CHANGELOG.rst changelogs/
           rebase: true
+
+      # do a second checkout to prevent race situation
+      # changelog gets updated but action works on old commit id
+      - uses: actions/checkout@v3.5.0
+        with:
+          ref: main
