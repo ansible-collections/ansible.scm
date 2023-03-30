@@ -72,8 +72,7 @@ jobs:
           commit-message: 'Update changelog'
           force-add: 'true'
           files: CHANGELOG.rst changelogs/
-          name: 'Collection Release Drafter Bot'
-          email: 'noreply@ansible.com'
+          email: 'bthornto@redhat.com'
           rebase: true
 
   
