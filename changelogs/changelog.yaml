@@ -48,7 +48,6 @@ releases:
         - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
         - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
         - test (https://github.com/ansible-collections/ansible.scm/pull/39)
-        - Remove extra changelog entries (https://github.com/ansible-collections/ansible.scm/pull/76)
     fragments:
       - 12.yaml
       - 13.yaml

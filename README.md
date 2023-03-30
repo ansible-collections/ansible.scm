@@ -24,8 +24,8 @@ Some modules and plugins require external libraries. Please check the requiremen
 ### Modules
 Name | Description
 --- | ---
-[ansible.scm.git_away](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_away_module.rst)|Publish changes from a repository available on the execution node to a distant location
 [ansible.scm.git_here](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_here_module.rst)|Retrieve a repository from a distant location and make it available on the execution node
+[ansible.scm.git_publish](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_publish_module.rst)|Publish changes from a repository available on the execution node to a distant location
 
 <!--end collection content-->
 

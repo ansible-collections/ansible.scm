@@ -13,19 +13,19 @@ import pytest
 
 from ansible.errors import AnsibleActionFail
 
-from ...plugins.action.git_away import ActionModule as GitAwayActionModule
 from ...plugins.action.git_here import ActionModule as GitHereActionModule
+from ...plugins.action.git_publish import ActionModule as GitPublishActionModule
 from .definitions import ActionModuleInit
 
 
 @pytest.mark.parametrize(
     "module",
-    (GitHereActionModule, GitAwayActionModule),
-    ids=("git_here", "git_away"),
+    (GitHereActionModule, GitPublishActionModule),
+    ids=("git_here", "git_publish"),
 )
 def test_fail_argspec(
     action_init: ActionModuleInit,
-    module: Union[GitAwayActionModule, GitHereActionModule],
+    module: Union[GitPublishActionModule, GitHereActionModule],
 ) -> None:
     """Test an argspec failure.
 
