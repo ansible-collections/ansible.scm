@@ -12,7 +12,10 @@ on:
       - main
       - 'releases/**'
       - 'stable/**'
-  workflow_call:  # allows reuse of this workflow from other devtools repos
+    # Prevent a 2nd run after the changelog is updated
+    paths-ignore:
+      - CHANGELOG.rst
+      - changelogs/changelog.yaml
 
 env:
   NAMESPACE: ansible
