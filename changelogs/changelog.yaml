@@ -4,18 +4,19 @@ releases:
   0.1.0:
     changes:
       bugfixes:
+        - Enable branch protection rules (https://github.com/ansible-collections/ansible.scm/pull/73)
         - Fix changelog collection name (https://github.com/ansible-collections/ansible.scm/pull/72)
+        - Fix string replacement (https://github.com/ansible-collections/ansible.scm/pull/70)
         - Fix string replacment (https://github.com/ansible-collections/ansible.scm/pull/70)
         - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
         - Fix version name in GHA (https://github.com/ansible-collections/ansible.scm/pull/69)
-        - Enable branch protection rules (https://github.com/ansible-collections/ansible.scm/pull/73)
-        - Fix string replacement (https://github.com/ansible-collections/ansible.scm/pull/70)
       trivial:
         - Add GHA and fixes for sanity (https://github.com/ansible-collections/ansible.scm/pull/9)
         - Add a basic smoke unit test (https://github.com/ansible-collections/ansible.scm/pull/12)
         - Add accept-new for host-key checking (https://github.com/ansible-collections/ansible.scm/pull/55)
         - Add environment details to push (https://github.com/ansible-collections/ansible.scm/pull/64)
         - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
+        - Add needs instead of individual conditions (https://github.com/ansible-collections/ansible.scm/pull/20)
         - Add needs instead of individual condtions (https://github.com/ansible-collections/ansible.scm/pull/20)
         - Add release drafter (https://github.com/ansible-collections/ansible.scm/pull/62)
         - Add root key for pr_url and open_browser (https://github.com/ansible-collections/ansible.scm/pull/15)
@@ -37,6 +38,7 @@ releases:
         - Move release drafter config to .github (https://github.com/ansible-collections/ansible.scm/pull/63)
         - Only configure email and name if not previously configured (https://github.com/ansible-collections/ansible.scm/pull/13)
         - Remove branch after push (https://github.com/ansible-collections/ansible.scm/pull/32)
+        - Remove entry from dictionary, restore 2nd checkout (https://github.com/ansible-collections/ansible.scm/pull/74)
         - Safe to test (https://github.com/ansible-collections/ansible.scm/pull/41)
         - Switch to Pr target with conditional label for approval (https://github.com/ansible-collections/ansible.scm/pull/19)
         - Switch to action low level command (https://github.com/ansible-collections/ansible.scm/pull/14)
@@ -48,8 +50,6 @@ releases:
         - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
         - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
         - test (https://github.com/ansible-collections/ansible.scm/pull/39)
-        - Add needs instead of individual conditions (https://github.com/ansible-collections/ansible.scm/pull/20)
-        - Remove entry from dictionary, restore 2nd checkout (https://github.com/ansible-collections/ansible.scm/pull/74)
     fragments:
       - 12.yaml
       - 13.yaml
