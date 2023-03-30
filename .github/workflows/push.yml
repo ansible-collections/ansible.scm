@@ -66,8 +66,8 @@ jobs:
 
       - name: Commit report
         run: |
-          git config --global user.name 'Changelog Bot'
-          git config --global user.email 'noreply@ansible.com'
+          git config --global user.name 'Bradley A. Thornton'
+          git config --global user.email 'bthornto@redhat.com'
           git remote set-url origin https://x-access-token:${{ secrets.RELEASE_DRAFTER_BOT }}@github.com/${{ github.repository }}
           git commit -am "Changelog update for ${{ env.VERSION }}"
           git push
