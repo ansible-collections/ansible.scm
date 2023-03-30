@@ -72,10 +72,8 @@ jobs:
           commit-message: 'Update changelog'
           force-add: 'true'
           files: CHANGELOG.rst changelogs/
+          name: 'Collection Release Drafter Bot'
+          email: 'noreply@ansible.com'
           rebase: true
 
-      # do a second checkout to prevent race situation
-      # changelog gets updated but action works on old commit id
-      - uses: actions/checkout@v3.5.0
-        with:
-          ref: main
+  
