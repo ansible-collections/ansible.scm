@@ -75,5 +75,3 @@ jobs:
           git add .
           git commit -m "Changelog updated"
           git push
-
-
