@@ -64,16 +64,12 @@ jobs:
       - name: Update Changelog.rst
         run: antsibull-changelog generate -v
 
-      - name: Push changelog
-        uses: github-actions-x/commit@v2.9
-        with:
-          github-token: ${{ secrets.RELEASE_DRAFTER_BOT }}
-          push-branch: 'main'
-          commit-message: 'Update changelog'
-          force-add: 'true'
-          files: CHANGELOG.rst changelogs/
-          name: 'Bradley A. Thornton'
-          email: 'bthornto@redhat.com'
-          rebase: true
+      - name: Commit report
+        run: |
+          git config --global user.name 'Changelog Bot'
+          git config --global user.email 'noreply@ansible.com'
+          git remote set-url origin https://x-access-token:${{ secrets.RELEASE_DRAFTER_BOT }}@github.com/${{ github.repository }}
+          git commit -am "Changelog update for ${{ env.VERSION }}"
+          git push
 
   
