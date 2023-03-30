@@ -111,7 +111,7 @@ options:
 notes:
 - This plugin always runs on the execution node
 - This plugin will not run on a managed node
-- To persist changes to the remote repository, use the git_away plugin
+- To persist changes to the remote repository, use the git_publish plugin
 
 author:
 - Bradley Thornton (@cidrblock)

@@ -13,7 +13,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 DOCUMENTATION = """
-module: git_away
+module: git_publish
 short_description: >-
   Publish changes from a repository available on the execution node to a distant location
 version_added: "1.0.0"
@@ -59,7 +59,9 @@ options:
   token:
     description:
       - The token to use to authenticate to the origin repository
-      - If provided, an 'http.extraheader' will be added to the commands interacting with the origin repository
+      - >
+        If provided, an 'http.extraheader' will be added to the commands
+        interacting with the origin repository
       - Will only be used for https based connections
     type: str
   user:
@@ -107,10 +109,10 @@ EXAMPLES = r"""
         dest: "{{ repository['path'] }}/details.yaml"
 
     - name: Publish the changes
-      ansible.scm.git_away:
+      ansible.scm.git_publish:
         path: "{{ repository['path'] }}"
 
-# TASK [Publish the changes] ***************************************************************************************************
+# TASK [Publish the changes] **********************************************************************
 # changed: [localhost] => {
 #     "changed": true,
 #     "msg": "Successfully published local changes from: /tmp/tmpvtm6_ejo/scm_testing",

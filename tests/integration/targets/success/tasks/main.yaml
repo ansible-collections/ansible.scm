@@ -12,7 +12,7 @@
     mode: 0664
 
 - name: Publish the changes
-  ansible.scm.git_away:
+  ansible.scm.git_publish:
     path: "{{ repository['path'] }}"
     remove: false
     token: "{{ lookup('env', 'GITHUB_TOKEN') }}"

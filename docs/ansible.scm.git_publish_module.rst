@@ -1,9 +1,9 @@
-.. _ansible.scm.git_away_module:
+.. _ansible.scm.git_publish_module:
 
 
-********************
-ansible.scm.git_away
-********************
+***********************
+ansible.scm.git_publish
+***********************
 
 **Publish changes from a repository available on the execution node to a distant location**
 
@@ -259,10 +259,10 @@ Examples
             dest: "{{ repository['path'] }}/details.yaml"
 
         - name: Publish the changes
-          ansible.scm.git_away:
+          ansible.scm.git_publish:
             path: "{{ repository['path'] }}"
 
-    # TASK [Publish the changes] ***************************************************************************************************
+    # TASK [Publish the changes] **********************************************************************
     # changed: [localhost] => {
     #     "changed": true,
     #     "msg": "Successfully published local changes from: /tmp/tmpvtm6_ejo/scm_testing",
