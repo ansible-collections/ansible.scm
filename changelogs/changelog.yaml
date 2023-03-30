@@ -1,4 +1,5 @@
-ancestor: null
+---
+ancestor:
 releases:
   0.1.0:
     changes:
@@ -41,12 +42,13 @@ releases:
         - Switch to action low level command (https://github.com/ansible-collections/ansible.scm/pull/14)
         - Test (https://github.com/ansible-collections/ansible.scm/pull/34)
         - Updates necessary for passing tests (https://github.com/ansible-collections/ansible.scm/pull/61)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)"
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)"
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)"
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)'
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)'
+        - '[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)'
         - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
         - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
         - test (https://github.com/ansible-collections/ansible.scm/pull/39)
+        - Remove extra changelog entries (https://github.com/ansible-collections/ansible.scm/pull/76)
     fragments:
       - 12.yaml
       - 13.yaml
@@ -66,4 +68,4 @@ releases:
       - 63.yaml
       - 64.yaml
       - 9.yaml
-    release_date: "2023-03-29"
+    release_date: '2023-03-29'
