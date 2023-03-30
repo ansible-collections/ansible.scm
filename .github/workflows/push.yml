@@ -67,17 +67,9 @@ jobs:
       - name: Push changelog
         uses: github-actions-x/commit@v2.9
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.RELEASE_DRAFTER_BOT }}
           push-branch: 'main'
-          commit-message: 'update changelog'
+          commit-message: 'Update changelog'
           force-add: 'true'
           files: CHANGELOG.rst changelogs/
-          name: 'Ansible devtools bot'
-          email: 'devtools@ansible.com'
           rebase: true
-
-      # do a second checkout to prevent race situation
-      # changelog gets updated but action works on old commit id
-      - uses: actions/checkout@v3.5.0
-        with:
-          ref: main
