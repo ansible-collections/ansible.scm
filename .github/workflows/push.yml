@@ -70,6 +70,7 @@ jobs:
       
       - name: Cleanup as needed
         run: pre-commit run prettier --all-files
+        continue-on-error: true
 
       - name: Commit changelog
         run: |
