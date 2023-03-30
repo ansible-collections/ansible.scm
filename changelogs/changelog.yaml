@@ -6,7 +6,6 @@ releases:
       - Enable branch protection rules (https://github.com/ansible-collections/ansible.scm/pull/73)
       - Fix changelog collection name (https://github.com/ansible-collections/ansible.scm/pull/72)
       - Fix string replacement (https://github.com/ansible-collections/ansible.scm/pull/70)
-      - Fix string replacment (https://github.com/ansible-collections/ansible.scm/pull/70)
       - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
       - Fix version name in GHA (https://github.com/ansible-collections/ansible.scm/pull/69)
       trivial:
@@ -16,7 +15,6 @@ releases:
       - Add environment details to push (https://github.com/ansible-collections/ansible.scm/pull/64)
       - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
       - Add needs instead of individual conditions (https://github.com/ansible-collections/ansible.scm/pull/20)
-      - Add needs instead of individual condtions (https://github.com/ansible-collections/ansible.scm/pull/20)
       - Add release drafter (https://github.com/ansible-collections/ansible.scm/pull/62)
       - Add root key for pr_url and open_browser (https://github.com/ansible-collections/ansible.scm/pull/15)
       - Add token support (https://github.com/ansible-collections/ansible.scm/pull/17)
