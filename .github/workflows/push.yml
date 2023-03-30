@@ -72,6 +72,7 @@ jobs:
           commit-message: 'Update changelog'
           force-add: 'true'
           files: CHANGELOG.rst changelogs/
+          name: 'Bradley A. Thornton'
           email: 'bthornto@redhat.com'
           rebase: true
 
