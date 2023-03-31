@@ -1,5 +1,5 @@
 - name: Retrieve a repository from a distant location and make it available locally
-  ansible.scm.git_here:
+  ansible.scm.git_retrieve:
     origin:
       url: https://github.com/ansible-network/ansible.scm.git
       token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
