@@ -75,6 +75,8 @@ releases:
         - Rename git_away to git_publish (https://github.com/ansible-collections/ansible.scm/pull/75)
       trivial:
         - Format changelog (https://github.com/ansible-collections/ansible.scm/pull/77)
+        - Cleanup push and galaxy file (https://github.com/ansible-collections/ansible.scm/pull/79)
+        - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
     modules:
       - description:
           Retrieve a repository from a distant location and make it available
