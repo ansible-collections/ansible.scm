@@ -5,6 +5,8 @@
 - name: Set a fact for the user specified directory
   ansible.builtin.set_fact:
     parent_directory: /tmp/{{ random_name }}
+  vars:
+    random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
 
 - name: Test with a user specific directory
   ansible.scm.git_here:
