@@ -89,11 +89,12 @@ jobs:
         run: |
           git config user.name "Ansible Bot"
           git config user.email devtools@ansible.com
-          git checkout -t -b ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+          git checkout -t -b ${{ github.workflow }}-${{ github.run_id }}
           git add .
           git commit -m "Changelog updated"
+          git push origin ${{ github.workflow }}-${{ github.run_id }}
           gh pr create --title "Changelog updated" --body "Changelog updated" --base main
         if: steps.pr_check.outcome == 'failure'
         env:
-          GITHUB_TOKEN: ${{ secrets.BOT_PAT }}
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
 
