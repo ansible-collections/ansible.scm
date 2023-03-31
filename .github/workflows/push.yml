@@ -97,5 +97,5 @@ jobs:
         if: steps.pr_check.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.BOT_PAT }}
-          BRANCH_NAME: chore-${{ github.workflow }}-${{ github.run_id }}
+          BRANCH_NAME: chore-${{ github.workflow }}-${{ github.run_number }}
 
