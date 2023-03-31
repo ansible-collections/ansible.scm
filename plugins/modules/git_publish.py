@@ -96,7 +96,7 @@ EXAMPLES = r"""
   gather_facts: true
   tasks:
     - name: Retrieve a repository from a distant location and make it available locally
-      ansible.scm.git_here:
+      ansible.scm.git_retrieve:
         origin:
           url: git@github.com:cidrblock/scm_testing.git
         upstream:
