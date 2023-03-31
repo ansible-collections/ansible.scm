@@ -1,0 +1,26 @@
+
+- name: Generate a random name
+  ansible.builtin.set_fact:
+    random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
+
+- name: Set a fact for the user specified directory
+  ansible.builtin.set_fact:
+    parent_directory: /tmp/{{ random_name }}
+
+- name: Test with a user specific directory
+  ansible.scm.git_here:
+    origin:
+      url: https://github.com/ansible-collections/ansible.scm.git
+      token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+    parent_directory: "{{ parent_directory }}"
+  register: repository
+
+- name: Verify the repository was created in the directory
+  assert:
+    that:
+      - repository.path.startswith(parent_directory)
+
+- name: Remove the repository
+  ansible.builtin.file:
+    path: "{{ parent_directory }}"
+    state: absent
