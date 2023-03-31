@@ -13,6 +13,11 @@ Major Changes
 
 - Rename git_away to git_publish (https://github.com/ansible-collections/ansible.scm/pull/75)
 
+Bugfixes
+--------
+
+- Create user specified parent directory (https://github.com/ansible-collections/ansible.scm/pull/81)
+
 New Modules
 -----------
 
