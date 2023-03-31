@@ -1,7 +1,3 @@
-- name: Generate a random name
-  ansible.builtin.set_fact:
-    random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
-
 - name: Set a fact for the user specified directory
   ansible.builtin.set_fact:
     parent_directory: /tmp/{{ random_name }}
