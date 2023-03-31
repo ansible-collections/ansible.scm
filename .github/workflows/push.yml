@@ -79,7 +79,7 @@ jobs:
       - name: Update the glaxay.yml version if needed
         run: pre-commit run autoversion --all-files
         continue-on-error: true
-      
+
       - name: Determine if a PR is necessary
         run: git diff --no-ext-diff --quiet --exit-code
         continue-on-error: true
@@ -98,4 +98,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.BOT_PAT }}
           BRANCH_NAME: chore-${{ github.workflow }}-${{ github.run_number }}
-
