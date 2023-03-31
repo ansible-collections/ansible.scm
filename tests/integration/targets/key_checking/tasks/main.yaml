@@ -1,5 +1,5 @@
 - name: Confirm host key checking config triggers commands (no)
-  ansible.scm.git_here:
+  ansible.scm.git_retrieve:
     origin:
       url: git@github.com:ansible-network/ansible.scm.git
     host_key_checking: no
@@ -14,7 +14,7 @@
     string: "ssh -o StrictHostKeyChecking=no"
 
 - name: Confirm host key checking config triggers commands (accept-new)
-  ansible.scm.git_here:
+  ansible.scm.git_retrieve:
     origin:
       url: git@github.com:ansible-network/ansible.scm.git
     host_key_checking: accept-new
