@@ -94,4 +94,6 @@ jobs:
           git commit -m "Changelog updated"
           gh pr create --title "Changelog updated" --body "Changelog updated" --base main
         if: steps.pr_check.outcome == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_PAT }}
 
