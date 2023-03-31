@@ -79,6 +79,11 @@ jobs:
       - name: Update the glaxay.yml version if needed
         run: pre-commit run autoversion --all-files
         continue-on-error: true
+      
+      - name: Determine if a PR is necessary
+        run: git diff --no-ext-diff --quiet --exit-code
+        continue-on-error: true
+        id: pr_check
 
       - name: Create PR for changelog
         run: |
@@ -86,3 +91,5 @@ jobs:
           git add .
           git commit -m "Changelog updated"
           gh pr create --title "Changelog updated" --body "Changelog updated" --base main --head main
+        if: steps.pr_check.outcome == 'failure'
+
