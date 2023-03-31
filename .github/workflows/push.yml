@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
-          token: ${{ secrets.RELEASE_DRAFTER_BOT }}
+          token: ${{ secrets.BOT_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -80,10 +80,8 @@ jobs:
         run: pre-commit run autoversion --all-files
         continue-on-error: true
 
-      - name: Commit changelog
+      - name: Create PR for changelog
         run: |
-          git config user.name "Collection changelog updater"
-          git config user.email noreply@ansible.com
           git add .
           git commit -m "Changelog updated"
-          git push
+          gh pr create --title "Changelog updated" --body "Changelog updated" --base main --head main
