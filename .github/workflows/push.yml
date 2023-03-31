@@ -87,6 +87,8 @@ jobs:
 
       - name: Create PR for changelog
         run: |
+          git config user.name "Ansible Bot"
+          git config user.email devtools@ansible.com
           git checkout -t -b ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
           git add .
           git commit -m "Changelog updated"
