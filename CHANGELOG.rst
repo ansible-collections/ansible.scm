@@ -12,6 +12,7 @@ Major Changes
 -------------
 
 - Rename git_away to git_publish (https://github.com/ansible-collections/ansible.scm/pull/75)
+- Rename git_here to git_retrieve (https://github.com/ansible-collections/ansible.scm/pull/78)
 
 Bugfixes
 --------
