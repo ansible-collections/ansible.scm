@@ -59,8 +59,9 @@ per-file-ignores =
 
   # D100: Allow a missing docstring since ansible-sanity will treat the module as a module
   # E501: Allow long lines in examples, since they are often used for documentation.
-  plugins/modules/git_retrieve.py: D100, E501
   plugins/modules/git_publish.py: D100, E501
+  plugins/modules/git_retrieve.py: D100, E501
+
 
    # S101: Allow the use of assert within the tests directory, since tests require it.
   tests/**.py: S101

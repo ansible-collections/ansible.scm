@@ -24,6 +24,10 @@ Some modules and plugins require external libraries. Please check the requiremen
 ### Modules
 Name | Description
 --- | ---
+<<<<<<< HEAD
+=======
+[ansible.scm.git_retrieve](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_retrieve_module.rst)|Retrieve a repository from a distant location and make it available on the execution node
+>>>>>>> 9b7033c (Rename git_here to git_retrieve)
 [ansible.scm.git_publish](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_publish_module.rst)|Publish changes from a repository available on the execution node to a distant location
 [ansible.scm.git_retrieve](https://github.com/ansible-collections/ansible.scm/blob/main/docs/ansible.scm.git_retrieve_module.rst)|Retrieve a repository from a distant location and make it available on the execution node
 
