@@ -13,8 +13,8 @@ import pytest
 
 from ansible.errors import AnsibleActionFail
 
-from ...plugins.action.git_retrieve import ActionModule as GitRetrieveActionModule
 from ...plugins.action.git_publish import ActionModule as GitPublishActionModule
+from ...plugins.action.git_retrieve import ActionModule as GitRetrieveActionModule
 from .definitions import ActionModuleInit
 
 

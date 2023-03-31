@@ -1,9 +1,9 @@
 .. _ansible.scm.git_retrieve_module:
 
 
-********************
+************************
 ansible.scm.git_retrieve
-********************
+************************
 
 **Retrieve a repository from a distant location and make it available on the execution node**
 
