@@ -68,7 +68,7 @@ jobs:
       - name: Update Changelog.rst
         run: antsibull-changelog generate -v
 
-      - name: Cleanup as needed
+      - name: Cleanup as needed using prettier
         run: pre-commit run prettier --all-files
         continue-on-error: true
       
