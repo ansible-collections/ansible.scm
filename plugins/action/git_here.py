@@ -322,6 +322,9 @@ class ActionModule(GitBase):
         self._parent_directory = self._task.args["parent_directory"].format(
             temporary_directory=tempfile.mkdtemp(),
         )
+
+        Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
+
         self._base_command = ("git", "-C", self._parent_directory)
         self._timeout = self._task.args["timeout"]
 
