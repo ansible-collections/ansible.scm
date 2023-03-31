@@ -5,6 +5,10 @@
 # https://github.com/T-Systems-MMS/ansible-collection-icinga-director
 name: push
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     # branches to consider in the event; optional, defaults to all
