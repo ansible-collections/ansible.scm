@@ -1,10 +1,9 @@
 # Some tests require secrets from the repo
 # and therefore require an approval/label to run
-
 name: privileged
 
 concurrency:
-  group: ${{ github.event.pull_request.head.sha }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 on:
