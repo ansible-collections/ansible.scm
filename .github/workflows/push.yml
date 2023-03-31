@@ -92,6 +92,6 @@ jobs:
           git checkout -t -b ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
           git add .
           git commit -m "Changelog updated"
-          gh pr create --title "Changelog updated" --body "Changelog updated" --base main --head main
+          gh pr create --title "Changelog updated" --body "Changelog updated" --base main
         if: steps.pr_check.outcome == 'failure'
 
