@@ -5,7 +5,7 @@
     random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
 
 - name: Test with a user specific directory
-  ansible.scm.git_here:
+  ansible.scm.git_retrieve:
     origin:
       url: https://github.com/ansible-collections/ansible.scm.git
       token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
