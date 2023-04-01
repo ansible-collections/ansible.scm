@@ -17,6 +17,7 @@ Major Changes
 Bugfixes
 --------
 
+- Correct sample playbook (https://github.com/ansible-collections/ansible.scm/pull/89)
 - Create user specified parent directory (https://github.com/ansible-collections/ansible.scm/pull/81)
 
 New Modules
