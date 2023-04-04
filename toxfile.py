@@ -1,7 +1,12 @@
+# cspell:ignore envlist
 """tox plugin to emit a github matrix."""
 
 import json
+import os
 import sys
+import uuid
+
+from pathlib import Path
 
 from tox.config.cli.parser import ToxParser
 from tox.config.sets import CoreConfigSet
@@ -47,5 +52,18 @@ def tox_add_core_config(
             else:
                 version = f"{candidates[0][0]}.{candidates[0][1:]}"
                 results.append({"name": env_name, "factors": factors, "python": version})
-    print(json.dumps(results))
+
+    gh_output = os.getenv("GITHUB_OUTPUT")
+    value = json.dumps(results)
+    if not gh_output:
+        raise RuntimeError("GITHUB_OUTPUT environment variable not set")
+
+    if "\n" in value:
+        eof = f"EOF-{uuid.uuid4()}"
+        encoded = f"envlist<<{eof}\n{value}\n{eof}\n"
+    else:
+        encoded = f"envlist={value}\n"
+
+    with Path(gh_output).open("a", encoding="utf-8") as f:
+        f.write(encoded)
     sys.exit(0)
