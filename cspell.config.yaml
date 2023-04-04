@@ -28,6 +28,8 @@ ignorePaths:
   - test-requirements.txt
   # the bindep file
   - bindep.txt
+  # The tox configuration file
+  - tox.ini
 
 languageSettings:
   - languageId: python

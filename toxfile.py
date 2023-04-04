@@ -24,16 +24,16 @@ def tox_add_core_config(
     core_conf: CoreConfigSet,  # pylint: disable=unused-argument
     state: State,
 ) -> None:
-    """Dump the envlist and exit.
-    import sys
-        :param core_conf: The core configuration object.
-        :param state: The state object.
-        :raises RuntimeError: If multiple python versions are found in an env.
+    """Dump the environment list and exit.
+
+    :param core_conf: The core configuration object.
+    :param state: The state object.
+    :raises RuntimeError: If multiple python versions are found in an env.
     """
     results = []
     if state.conf.options.gh_matrix:
-        envlist = state.envs.iter
-        for env_name in envlist():
+        env_list = state.envs.iter
+        for env_name in env_list():
             candidates = []
             factors = env_name.split("-")
             for factor in factors:
