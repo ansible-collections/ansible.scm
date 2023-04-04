@@ -36,22 +36,23 @@ def tox_add_core_config(
     :raises RuntimeError: If multiple python versions are found in an env.
     """
     results = []
-    if state.conf.options.gh_matrix:
-        env_list = state.envs.iter
-        for env_name in env_list():
-            candidates = []
-            factors = env_name.split("-")
-            for factor in factors:
-                match = PY_FACTORS_RE.match(factor)
-                if match:
-                    candidates.append(match[2])
-            if len(candidates) > 1:
-                raise RuntimeError(f"Multiple python versions found in {env_name}")
-            if len(candidates) == 0:
-                results.append({"name": env_name, "factors": factors})
-            else:
-                version = f"{candidates[0][0]}.{candidates[0][1:]}"
-                results.append({"name": env_name, "factors": factors, "python": version})
+    if not state.conf.options.gh_matrix:
+        return
+    env_list = sorted(list(state.envs.iter()))
+    for env_name in env_list:
+        candidates = []
+        factors = env_name.split("-")
+        for factor in factors:
+            match = PY_FACTORS_RE.match(factor)
+            if match:
+                candidates.append(match[2])
+        if len(candidates) > 1:
+            raise RuntimeError(f"Multiple python versions found in {env_name}")
+        if len(candidates) == 0:
+            results.append({"name": env_name, "factors": factors})
+        else:
+            version = f"{candidates[0][0]}.{candidates[0][1:]}"
+            results.append({"name": env_name, "factors": factors, "python": version})
 
     gh_output = os.getenv("GITHUB_OUTPUT")
     value = json.dumps(results)
