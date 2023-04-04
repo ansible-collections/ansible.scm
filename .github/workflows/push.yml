@@ -29,6 +29,7 @@ env:
 jobs:
   update_release_draft:
     runs-on: ubuntu-22.04
+    environment: push
     steps:
       - uses: actions/checkout@v3.5.0
         with:
