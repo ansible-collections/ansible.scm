@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        entry: ${{ fromJson(needs.tox_matrix.outputs.envlist) }}
+        entry: ${{ fromJson(needs.tox-matrix.outputs.envlist) }}
     name: ${{ matrix.entry.name }}
     runs-on: ubuntu-latest
     steps:
