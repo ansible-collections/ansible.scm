@@ -87,12 +87,12 @@ repos:
     hooks:
       - id: pylint
         args:
-          - plugins/
-          - tests/
+          - --output-format=colorized
         additional_dependencies:
           - ansible-core
           - pytest
-        pass_filenames: false
+          - tox
+          - git+https://github.com/ansible-network/pytest-ansible-network-integration.git
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
     rev: v1.1.1
