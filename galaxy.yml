@@ -12,3 +12,13 @@ repository: https://github.com/ansible-collections/ansible.scm
 issues: https://github.com/ansible-collections/ansible.scm/issues
 tags: []
 version: 1.0.0
+build_ignore:
+  - .github
+  - .gitignore
+  - .isort.cfg
+  - .pre-commit-config.yaml
+  - mypy.ini
+  - pyproject.toml
+  - tox.ini
+  - toxfile.py
+  - .vscode
