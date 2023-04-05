@@ -12,4 +12,5 @@ notesdir
 returncode
 suboptions
 tmpvtm
+toxfile
 tracebackhide
