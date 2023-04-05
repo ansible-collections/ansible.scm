@@ -31,7 +31,7 @@ jobs:
       github.event.action != 'labeled'
     needs:
       - safe-to-test
-    uses: ansible-network/github_actions/.github/workflows/integration_simple_39.yml@main
+    uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
