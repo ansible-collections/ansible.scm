@@ -47,7 +47,7 @@ def custom_sort(string: str):
         try:
             converted.append(int(part))
         except ValueError:
-            num_part = "".join(str(ord(char)) for char in part[0:2])
+            num_part = "".join((str(ord(char)).rjust(3, "0")) for char in part[0:2])
             converted.append(int(num_part))
     return tuple(converted)
 
