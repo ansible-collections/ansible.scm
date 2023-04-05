@@ -51,7 +51,10 @@ def tox_add_core_config(
         if len(candidates) == 0:
             results.append({"name": env_name, "factors": factors})
         else:
-            version = f"{candidates[0][0]}.{candidates[0][1:]}"
+            if "." in candidates[0]:
+                version = candidates[0]
+            else:
+                version = f"{candidates[0][0]}.{candidates[0][1:]}"
             results.append({"name": env_name, "factors": factors, "python": version})
 
     gh_output = os.getenv("GITHUB_OUTPUT")
