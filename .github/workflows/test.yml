@@ -22,7 +22,7 @@ jobs:
     uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
   tox-matrix:
     if: >-
       github.event.label.name == 'safe to test' ||
