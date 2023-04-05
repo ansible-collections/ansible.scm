@@ -1,7 +1,10 @@
+ansible-core
 black
 coverage==4.5.4
 flake8
 git+https://github.com/ansible-network/pytest-ansible-network-integration.git
 git+https://github.com/ansible-community/pytest-ansible-units.git
+mypy
 pre-commit
 pytest-xdist
+tox

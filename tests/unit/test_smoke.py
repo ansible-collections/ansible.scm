@@ -13,8 +13,14 @@ import pytest
 
 from ansible.errors import AnsibleActionFail
 
-from ...plugins.action.git_publish import ActionModule as GitPublishActionModule
-from ...plugins.action.git_retrieve import ActionModule as GitRetrieveActionModule
+# pylint: disable=import-error
+from ansible_collections.ansible.scm.plugins.action.git_publish import (
+    ActionModule as GitPublishActionModule,
+)
+from ansible_collections.ansible.scm.plugins.action.git_retrieve import (
+    ActionModule as GitRetrieveActionModule,
+)
+
 from .definitions import ActionModuleInit
 
 
