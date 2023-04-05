@@ -43,7 +43,7 @@ jobs:
       - name: Generate matrix
         id: generate-matrix
         run: |
-          python -m tox --gh-matrix
+          python -m tox --gh-matrix 3.11
 
     outputs:
       envlist: ${{ steps.generate-matrix.outputs.envlist }}
