@@ -73,4 +73,4 @@ jobs:
       - name: Run tox
         run: python -m tox -e ${{ matrix.entry.name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
