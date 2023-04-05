@@ -3,6 +3,7 @@
 
 import json
 import os
+import re
 import sys
 import uuid
 
@@ -21,7 +22,34 @@ def tox_add_option(parser: ToxParser) -> None:
 
     :param parser: The tox CLI parser.
     """
-    parser.add_argument("--gh-matrix", action="store_true")
+    parser.add_argument(
+        "--gh-matrix",
+        action="store",
+        default="1234",
+        dest="gh_matrix",
+        help="Emit a github matrix",
+    )
+
+
+def custom_sort(string: str):
+    """Convert a env name into a tuple of ints.
+
+    In the case of a string, use the ord() of the first two characters.
+
+    :param string: The string to sort.
+    :return: The tuple of converted values.
+    """
+    parts = re.split(r"\.|-|py", string)
+    converted = []
+    for part in parts:
+        if not part:
+            continue
+        try:
+            converted.append(int(part))
+        except ValueError:
+            num_part = "".join((str(ord(char)).rjust(3, "0")) for char in part[0:2])
+            converted.append(int(num_part))
+    return tuple(converted)
 
 
 @impl
@@ -36,9 +64,9 @@ def tox_add_core_config(
     :raises RuntimeError: If multiple python versions are found in an env.
     """
     results = []
-    if not state.conf.options.gh_matrix:
+    if state.conf.options.gh_matrix == "1234":
         return
-    env_list = sorted(list(state.envs.iter()))
+    env_list = sorted(list(state.envs.iter()), key=custom_sort)
     for env_name in env_list:
         candidates = []
         factors = env_name.split("-")
@@ -49,13 +77,25 @@ def tox_add_core_config(
         if len(candidates) > 1:
             raise RuntimeError(f"Multiple python versions found in {env_name}")
         if len(candidates) == 0:
-            results.append({"name": env_name, "factors": factors})
+            results.append(
+                {
+                    "name": env_name,
+                    "factors": factors,
+                    "python": state.conf.options.gh_matrix,
+                },
+            )
         else:
             if "." in candidates[0]:
                 version = candidates[0]
             else:
                 version = f"{candidates[0][0]}.{candidates[0][1:]}"
-            results.append({"name": env_name, "factors": factors, "python": version})
+            results.append(
+                {
+                    "name": env_name,
+                    "factors": factors,
+                    "python": version,
+                },
+            )
 
     gh_output = os.getenv("GITHUB_OUTPUT")
     value = json.dumps(results)
