@@ -5,11 +5,30 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
+    types:
+    - labeled
+    - opened
+    - reopened
+    - synchronize
+  workflow_dispatch:
 
 jobs:
+  safe-to-test:
+    if: >-
+      github.event.label.name == 'safe to test' ||
+      github.event.action != 'labeled'
+    uses: ansible-network/github_actions/.github/workflows/safe-to-test.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
   tox-matrix:
+    if: >-
+      github.event.label.name == 'safe to test' ||
+      github.event.action != 'labeled'
+    needs:
+      - safe-to-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.0
@@ -33,6 +52,9 @@ jobs:
       envlist: ${{ steps.generate-matrix.outputs.envlist }}
 
   test:
+    if: >-
+        github.event.label.name == 'safe to test' ||
+        github.event.action != 'labeled'
     needs: tox-matrix
     strategy:
       fail-fast: false
