@@ -73,7 +73,7 @@ jobs:
       - name: Run tox
         run: python -m tox -e ${{ matrix.entry.name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   test_passed:
     needs: test
@@ -83,4 +83,3 @@ jobs:
           python -c "assert set([
           '${{ needs.test.result }}',
           ]) == {'success'}"
-
