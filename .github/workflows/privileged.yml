@@ -32,14 +32,6 @@ jobs:
     needs:
       - safe-to-test
     uses: ansible-network/github_actions/.github/workflows/integration_simple.yml@main
-    with:
-      matrix_exclude: >-
-        [
-          {"python-version": "3.8"},
-          {"ansible-version": "stable-2.9"},
-          {"ansible-version": "stable-2.12", "python-version": "3.11"},
-          {"ansible-version": "stable-2.13", "python-version": "3.11"}
-        ]
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
