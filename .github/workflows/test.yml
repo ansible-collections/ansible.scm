@@ -83,4 +83,3 @@ jobs:
           python -c "assert set([
           '${{ needs.test.result }}',
           ]) == {'success'}"
-
