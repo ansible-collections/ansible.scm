@@ -83,7 +83,7 @@ repos:
           - flake8-docstrings # uses pydocstyle
 
   - repo: https://github.com/pycqa/pylint.git
-    rev: v3.0.0a6
+    rev: v2.17.2
     hooks:
       - id: pylint
         args:
