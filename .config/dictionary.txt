@@ -11,6 +11,7 @@ isoformat
 nolabel
 notesdir
 returncode
+setuptools
 suboptions
 tmpvtm
 toxfile
