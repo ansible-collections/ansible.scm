@@ -80,6 +80,8 @@ releases:
       trivial:
         - Add all green (https://github.com/ansible-collections/ansible.scm/pull/105)
         - Add release workflow (https://github.com/ansible-collections/ansible.scm/pull/91)
+        - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/84)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/86)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/88)
@@ -94,12 +96,14 @@ releases:
         - Format flake8 (https://github.com/ansible-collections/ansible.scm/pull/96)
         - Swap integration tests back (https://github.com/ansible-collections/ansible.scm/pull/100)
         - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/94)
+        - Update test.yml (https://github.com/ansible-collections/ansible.scm/pull/109)
         - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
         - Update to reflect ansible-core 2.12+ (https://github.com/ansible-collections/ansible.scm/pull/85)
         - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/93)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
-        - Update test.yml (https://github.com/ansible-collections/ansible.scm/pull/109)
-        - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
+        - Test without fetch depth (https://github.com/ansible-collections/ansible.scm/pull/114)
+        - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
+        - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
     modules:
       - description:
           Retrieve a repository from a distant location and make it available
