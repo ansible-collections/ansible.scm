@@ -82,6 +82,7 @@ releases:
         - Add release workflow (https://github.com/ansible-collections/ansible.scm/pull/91)
         - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/84)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/86)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/88)
@@ -94,16 +95,17 @@ releases:
         - Fix secret (https://github.com/ansible-collections/ansible.scm/pull/104)
         - Format changelog (https://github.com/ansible-collections/ansible.scm/pull/77)
         - Format flake8 (https://github.com/ansible-collections/ansible.scm/pull/96)
+        - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
+        - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
         - Swap integration tests back (https://github.com/ansible-collections/ansible.scm/pull/100)
+        - Test without fetch depth (https://github.com/ansible-collections/ansible.scm/pull/114)
         - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/94)
         - Update test.yml (https://github.com/ansible-collections/ansible.scm/pull/109)
         - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
         - Update to reflect ansible-core 2.12+ (https://github.com/ansible-collections/ansible.scm/pull/85)
         - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/93)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
-        - Test without fetch depth (https://github.com/ansible-collections/ansible.scm/pull/114)
-        - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
-        - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/118)
+        - Pin to earlier setuptools for 3.8/2.9 (https://github.com/ansible-collections/ansible.scm/pull/117)
     modules:
       - description:
           Retrieve a repository from a distant location and make it available
