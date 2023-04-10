@@ -320,7 +320,7 @@ class ActionModule(GitBase):
 
     def run(
         self: T,
-        tmp: None = None,  # pylint: disable=unused-argument
+        tmp: None = None,
         task_vars: Optional[Dict[str, JSONTypes]] = None,
     ) -> Dict[str, JSONTypes]:
         """Run the action plugin.
