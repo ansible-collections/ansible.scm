@@ -1,5 +1,5 @@
 """Run the integration tests."""
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
 
 import subprocess
 
@@ -11,7 +11,7 @@ from pytest_ansible_network_integration import AnsibleProject
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type
+__metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
 
@@ -43,8 +43,7 @@ def run(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
     process = subprocess.run(
         args=args,
         env=environment,
-        stderr=subprocess.PIPE,
-        stdout=subprocess.PIPE,
+        capture_output=True,
         check=False,
         shell=False,
     )
@@ -52,7 +51,7 @@ def run(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
         print(process.stdout.decode("utf-8"))
         print(process.stderr.decode("utf-8"))
 
-        pytest.fail(reason=f"Integration test failed: {localhost_project.role}")
+        pytest.fail(msg=f"Integration test failed: {localhost_project.role}")
 
 
 def test_integration(

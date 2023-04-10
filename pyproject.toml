@@ -43,3 +43,35 @@ addopts = [
 ]
 testpaths = ["tests"]
 filterwarnings = ['ignore:AnsibleCollectionFinder has already been configured']
+
+[tool.ruff]
+fix = true
+line-length = 100
+select = ["ALL"]
+# ARG = flake8 argument, overlap with pylint
+# FBT = flake8 boolean, silly
+ignore = ["ARG", "FBT"]
+target-version = "py38"
+
+[tool.ruff.per-file-ignores]
+# D104 Missing docstring in public package (ansible)
+"*/__init__.py" = ["D104"]
+# E501 line too long, good examples
+"plugins/modules/git_publish.py" = ["E501"]
+"plugins/modules/git_retrieve.py" = ["E501"]
+# T201 allow print in tests
+"tests/**" = ["T201"]
+
+[tool.ruff.isort]
+force-single-line = true # Force from .. import to be 1 per line, minimizing changes at time of implementation
+lines-after-imports = 2 # Ensures consistency for cases when there's variable vs function/class definitions after imports
+lines-between-types = 1 # Separate import/from with 1 line, minimizing changes at time of implementation
+no-lines-before = [
+  "local-folder"
+] # Keeps local imports bundled with first-party
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.flake8-pytest-style]
+parametrize-values-type = "tuple"

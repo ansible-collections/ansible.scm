@@ -1,15 +1,14 @@
 {
-    "python.formatting.provider": "black",
-    "editor.formatOnSave": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.mypyEnabled": true,
-    "isort.check": true,
     "[python]": {
+        "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.fixAll": true
         }
     },
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyEnabled": true,
     "prettier.enable": true,
     "python.testing.pytestArgs": [
         "tests"

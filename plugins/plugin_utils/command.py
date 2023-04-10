@@ -1,17 +1,25 @@
 """Definitions for the command runner."""
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type
+__metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Union
+import shlex
 
-from .compatibility import shlex_join
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import TypeVar
+from typing import Union
+
+
+T = TypeVar("T", bound="Command")
 
 
 @dataclass(frozen=False)
@@ -36,15 +44,15 @@ class Command:
     stderr_lines: List[str] = field(default_factory=list)
 
     @property
-    def command(self) -> str:
+    def command(self: T) -> str:
         """Return the command as a string.
 
         :return: The command as a string.
         """
-        return shlex_join(self.command_parts)
+        return shlex.join(self.command_parts)
 
     @property
-    def cleaned(self) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
+    def cleaned(self: T) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
         """Return the sanitized details of the command for the log.
 
         :return: The sanitized details of the command for the log.
@@ -60,7 +68,7 @@ class Command:
                         data[idx] = part.replace(find, replace)
 
         return {
-            "command": shlex_join(command_parts),
+            "command": shlex.join(command_parts),
             "env": self.env or "",
             "stdout_lines": stdout_lines,
             "stderr_lines": stderr_lines,

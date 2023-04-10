@@ -1,22 +1,22 @@
-# -*- coding: utf-8 -*-
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """The git_publish action plugin."""
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
 
 import shutil
 import webbrowser
 
+from contextlib import suppress
 from dataclasses import asdict, dataclass
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Optional, Union, TypeVar
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
 from ansible.playbook.task import Task
-from ansible.plugins import loader as Loader
+from ansible.plugins import loader as plugin_loader
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
 
@@ -25,16 +25,16 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
     AnsibleArgSpecValidator,
 )
 
-from ..modules.git_publish import DOCUMENTATION
-from ..plugin_utils.command import Command
-from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
+from plugins.modules.git_publish import DOCUMENTATION
+from plugins.plugin_utils.command import Command
+from plugins.plugin_utils.git_base import ActionInit, GitBase, ResultBase
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type
+__metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
-JSONTypes = Union[bool, int, str, Dict, List]
+JSONTypes = Union[bool, int, str, dict, list]
 
 
 @dataclass(frozen=False)
@@ -46,16 +46,19 @@ class Result(ResultBase):
     pr_url: str = ""
 
 
+T = TypeVar("T", bound="ActionModule")
+
+
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     # pylint: disable=too-many-arguments
-    def __init__(
-        self,
+    def __init__(  # noqa: PLR0913
+        self: T,
         connection: Connection,
         loader: DataLoader,
         play_context: PlayContext,
-        shared_loader_obj: Loader,
+        shared_loader_obj: plugin_loader,
         task: Task,
         templar: Templar,
     ) -> None:
@@ -79,13 +82,13 @@ class ActionModule(GitBase):
             ),
         )
 
-        self._base_command: Tuple[str, ...]
+        self._base_command: tuple[str, ...]
         self._path_to_repo: str
         self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
 
-    def _check_argspec(self) -> None:
+    def _check_argspec(self: T) -> None:
         """Check the argspec for the action plugin.
 
         :raises AnsibleActionFail: If the argspec is invalid
@@ -98,10 +101,11 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-        if self._task.args.get("token") == "":
-            raise AnsibleActionFail("Token can not be an empty string")
+        if not self._task.args.get("token"):
+            err = "Token can not be an empty string"
+            raise AnsibleActionFail(err)
 
-    def _configure_git_user_name(self) -> None:
+    def _configure_git_user_name(self: T) -> None:
         """Configure the git user name."""
         command_parts = list(self._base_command)
         command_parts.extend(["config", "--get", "user.name"])
@@ -124,7 +128,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         self._result.user_name = name
 
-    def _configure_git_user_email(self) -> None:
+    def _configure_git_user_email(self: T) -> None:
         """Configure the git user email."""
         command_parts = list(self._base_command)
         command_parts.extend(["config", "--get", "user.email"])
@@ -147,7 +151,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         self._result.user_email = email
 
-    def _add(self) -> None:
+    def _add(self: T) -> None:
         """Add files for the pending commit."""
         command_parts = list(self._base_command)
         files = " ".join(self._task.args["include"])
@@ -158,7 +162,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _commit(self) -> None:
+    def _commit(self: T) -> None:
         """Perform a commit for the pending push."""
         command_parts = list(self._base_command)
         message = self._task.args["commit"]["message"].format(play_name=self._play_name)
@@ -170,7 +174,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _push(self) -> None:
+    def _push(self: T) -> None:
         """Push the commit to the origin."""
         command_parts = list(self._base_command)
         command_parts.extend(["remote", "-v"])
@@ -205,14 +209,12 @@ class ActionModule(GitBase):
             no_log=no_log,
         )
         self._run_command(command=command)
-        try:
+        with suppress(StopIteration):
             self._result.pr_url = next(
                 line for line in command.stderr.split("remote:") if "https" in line
             ).strip()
-        except StopIteration:
-            pass
 
-    def _remove_repo(self) -> None:
+    def _remove_repo(self: T) -> None:
         """Remove the temporary directory."""
         if not self._task.args["remove"]:
             return
@@ -224,10 +226,10 @@ class ActionModule(GitBase):
             self._result.msg = "Failed to remove repository"
 
     def run(
-        self,
+        self: T,
         tmp: None = None,
-        task_vars: Optional[Dict[str, JSONTypes]] = None,
-    ) -> Dict[str, JSONTypes]:
+        task_vars: Optional[dict[str, JSONTypes]] = None,
+    ) -> dict[str, JSONTypes]:
         """Run the action plugin.
 
         :param tmp: The temporary directory

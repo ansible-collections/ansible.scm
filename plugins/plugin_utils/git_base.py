@@ -1,22 +1,28 @@
 """A base class for the git action plugins."""
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type
+__metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
 import base64
 import subprocess
 
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass
+from dataclasses import field
+from dataclasses import fields
 from types import ModuleType
-from typing import Dict, List, Tuple, Union
+from typing import Dict
+from typing import List
+from typing import Tuple
+from typing import TypeVar
+from typing import Union
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
 from ansible.playbook.task import Task
-from ansible.plugins import loader as Loader
+from ansible.plugins import loader as plugin_loader
 from ansible.plugins.action import ActionBase
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
@@ -26,6 +32,8 @@ from .command import Command
 
 JSONTypes = Union[bool, int, str, Dict, List]
 
+T = TypeVar("T", bound="ActionInit")
+
 
 @dataclass(frozen=False)
 class ActionInit:
@@ -34,13 +42,13 @@ class ActionInit:
     connection: Connection
     loader: DataLoader
     play_context: PlayContext
-    shared_loader_obj: Loader
+    shared_loader_obj: plugin_loader
     task: Task
     templar: Templar
 
     @property
     def asdict(
-        self,
+        self: T,
     ) -> Dict[str, Union[Connection, DataLoader, PlayContext, ModuleType, Task, Templar]]:
         """Create a dictionary, avoiding the deepcopy with dataclass.asdict.
 
@@ -61,10 +69,13 @@ class ResultBase:
     )
 
 
+U = TypeVar("U", bound="GitBase")
+
+
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
     """Base class for the git paction plugins."""
 
-    def __init__(self, action_init: ActionInit) -> None:
+    def __init__(self: U, action_init: ActionInit) -> None:
         """Initialize the action plugin.
 
         :param action_init: The keyword arguments for action base
@@ -90,7 +101,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         ]
         return basic_encoded, cli_parameters
 
-    def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
+    def _run_command(self: U, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
 
         :param command: The command to run
@@ -101,9 +112,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
                 command.command_parts,
                 env=command.env,
                 check=True,
-                # shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 timeout=self._timeout,
             )
             command.return_code = result.returncode

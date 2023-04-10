@@ -1,10 +1,10 @@
 """Some basic smoke tests."""
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type
+__metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
 from typing import Union
