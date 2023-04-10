@@ -9,9 +9,13 @@ import sys
 import uuid
 
 from pathlib import Path
+<<<<<<< HEAD
 from typing import List
 
 import yaml
+=======
+from typing import Tuple
+>>>>>>> e544a79 (Tuple)
 
 from tox.config.cli.parser import ToxParser
 from tox.config.loader.memory import MemoryLoader
@@ -49,7 +53,7 @@ VALID_SANITY_PY_VERS = ["3.8", "3.9", "3.10", "3.11"]
 TOX_WORK_DIR = ""
 
 
-def custom_sort(string: str) -> tuple[int, ...]:
+def custom_sort(string: str) -> Tuple[int, ...]:
     """Convert a env name into a tuple of ints.
 
     In the case of a string, use the ord() of the first two characters.
