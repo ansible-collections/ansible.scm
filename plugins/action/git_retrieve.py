@@ -9,9 +9,17 @@ import datetime
 import re
 import tempfile
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict
+from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union, TypeVar
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
+from typing import TypeVar
+
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -28,7 +36,9 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 
 from plugins.modules.git_retrieve import DOCUMENTATION
 from plugins.plugin_utils.command import Command
-from plugins.plugin_utils.git_base import ActionInit, GitBase, ResultBase
+from plugins.plugin_utils.git_base import ActionInit
+from plugins.plugin_utils.git_base import GitBase
+from plugins.plugin_utils.git_base import ResultBase
 
 
 # pylint: disable=invalid-name
