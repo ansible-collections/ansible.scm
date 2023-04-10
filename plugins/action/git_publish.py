@@ -1,22 +1,15 @@
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""The git_publish action plugin."""
 
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
+from __future__ import (absolute_import, division, print_function)
 
 import shutil
 import webbrowser
 
 from contextlib import suppress
-from dataclasses import asdict
-from dataclasses import dataclass
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Union
-from typing import TypeVar
-
+from dataclasses import asdict, dataclass
+from typing import Dict, List, Optional, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -33,13 +26,11 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 
 from ..modules.git_publish import DOCUMENTATION
 from ..plugin_utils.command import Command
-from ..plugin_utils.git_base import ActionInit
-from ..plugin_utils.git_base import GitBase
-from ..plugin_utils.git_base import ResultBase
+from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type  # noqa: UP001
+__metaclass__ = type
 # pylint: enable=invalid-name
 
 JSONTypes = Union[bool, int, str, Dict, List]

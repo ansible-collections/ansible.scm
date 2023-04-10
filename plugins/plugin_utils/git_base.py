@@ -1,23 +1,17 @@
 """A base class for the git action plugins."""
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
+from __future__ import absolute_import, division, print_function
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type  # noqa: UP001
+__metaclass__ = type
 # pylint: enable=invalid-name
 
 import base64
 import subprocess
 
-from dataclasses import dataclass
-from dataclasses import field
-from dataclasses import fields
+from dataclasses import dataclass, field, fields
 from types import ModuleType
-from typing import Dict
-from typing import List
-from typing import Tuple
-from typing import TypeVar
-from typing import Union
+from typing import Dict, List, Tuple, TypeVar, Union
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext

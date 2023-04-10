@@ -1,23 +1,13 @@
 """Definitions for the command runner."""
-
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
-
+from __future__ import (absolute_import, division, print_function)
 
 # pylint: disable=invalid-name
-__metaclass__ = type  # noqa: UP001
+__metaclass__ = type
 # pylint: enable=invalid-name
 
 
-import shlex
-
-from dataclasses import dataclass
-from dataclasses import field
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import TypeVar
-from typing import Union
-
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Union
 
 T = TypeVar("T", bound="Command")
 

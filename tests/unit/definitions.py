@@ -1,6 +1,6 @@
 """Shared definitions for unit tests."""
 
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
+from __future__ import absolute_import, division, print_function  # noqa: UP010
 
 
 # pylint: disable=invalid-name
@@ -9,8 +9,7 @@ __metaclass__ = type  # noqa: UP001
 
 import types
 
-from typing import Dict
-from typing import Union
+from typing import Dict, Union
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext

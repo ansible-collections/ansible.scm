@@ -1,6 +1,6 @@
 """Shared fixtures for unit tests."""
 
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
+from __future__ import absolute_import, division, print_function  # noqa: UP010
 
 
 # pylint: disable=invalid-name

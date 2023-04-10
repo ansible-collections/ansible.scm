@@ -1,13 +1,12 @@
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""The git_retrieve docstring."""
 
-from __future__ import absolute_import, division, print_function  # noqa: I001, UP010
+from __future__ import absolute_import, division, print_function
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type  # noqa: UP001
+__metaclass__ = type
 # pylint: enable=invalid-name
 
 DOCUMENTATION = """
