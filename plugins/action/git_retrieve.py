@@ -117,7 +117,7 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-        # ansible provides an emptry sting if the parent is used
+        # ansible provides an empty sting if the parent is used
         if self._task.args["origin"].get("token") == "":  # noqa: PLC1901
             err = "Origin token can not be an empty string"
             raise AnsibleActionFail(err)
