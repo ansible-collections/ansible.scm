@@ -34,11 +34,11 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
     AnsibleArgSpecValidator,
 )
 
-from plugins.modules.git_retrieve import DOCUMENTATION
-from plugins.plugin_utils.command import Command
-from plugins.plugin_utils.git_base import ActionInit
-from plugins.plugin_utils.git_base import GitBase
-from plugins.plugin_utils.git_base import ResultBase
+from ansible_collections.ansible.scm.plugins.modules.git_retrieve import DOCUMENTATION
+from ansible_collections.ansible.scm.plugins.plugin_utils.command import Command
+from ansible_collections.ansible.scm.plugins.plugin_utils.git_base import ActionInit
+from ansible_collections.ansible.scm.plugins.plugin_utils.git_base import GitBase
+from ansible_collections.ansible.scm.plugins.plugin_utils.git_base import ResultBase
 
 
 # pylint: disable=invalid-name
