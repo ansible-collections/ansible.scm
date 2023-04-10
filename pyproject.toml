@@ -50,7 +50,8 @@ line-length = 100
 select = ["ALL"]
 # ARG = flake8 argument, overlap with pylint
 # FBT = flake8 boolean, silly
-ignore = ["ARG", "FBT"]
+# TID = flake8 tidy imports, need relative for pylint
+ignore = ["ARG", "FBT", "TID"]
 target-version = "py38"
 
 [tool.ruff.per-file-ignores]
