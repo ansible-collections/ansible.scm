@@ -11,9 +11,12 @@ import webbrowser
 from contextlib import suppress
 from dataclasses import asdict
 from dataclasses import dataclass
+from typing import Dict
+from typing import List
 from typing import Optional
 from typing import Union
 from typing import TypeVar
+
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -39,7 +42,7 @@ from ansible_collections.ansible.scm.plugins.plugin_utils.git_base import Result
 __metaclass__ = type  # noqa: UP001
 # pylint: enable=invalid-name
 
-JSONTypes = Union[bool, int, str, dict, list]
+JSONTypes = Union[bool, int, str, Dict, List]
 
 
 @dataclass(frozen=False)
