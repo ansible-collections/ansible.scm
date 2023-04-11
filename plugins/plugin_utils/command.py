@@ -1,5 +1,6 @@
 """Definitions for the command runner."""
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 
 # pylint: disable=invalid-name
 __metaclass__ = type
@@ -7,7 +8,8 @@ __metaclass__ = type
 
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, TypeVar, Union
+
 
 T = TypeVar("T", bound="Command")
 
