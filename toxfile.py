@@ -9,13 +9,7 @@ import sys
 import uuid
 
 from pathlib import Path
-<<<<<<< HEAD
-from typing import List
-
-import yaml
-=======
 from typing import Tuple
->>>>>>> e544a79 (Tuple)
 
 from tox.config.cli.parser import ToxParser
 from tox.config.loader.memory import MemoryLoader

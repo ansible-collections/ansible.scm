@@ -63,9 +63,6 @@ target-version = "py38"
 # E501 line too long, good examples
 "plugins/modules/git_publish.py" = ["E501"]
 "plugins/modules/git_retrieve.py" = ["E501"]
-# I001 breaks __future__
-"plugins/action/**" = ["I001"]
-"plugins/modules/**" = ["I001"]
 
 # T201 allow print in tests
 "tests/**" = ["T201"]

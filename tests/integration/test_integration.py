@@ -1,5 +1,5 @@
 """Run the integration tests."""
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 import subprocess
 
@@ -11,7 +11,7 @@ from pytest_ansible_network_integration import AnsibleProject
 
 
 # pylint: disable=invalid-name
-__metaclass__ = type  # noqa: UP001
+__metaclass__ = type
 # pylint: enable=invalid-name
 
 

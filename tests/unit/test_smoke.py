@@ -1,6 +1,6 @@
 """Some basic smoke tests."""
 
-from __future__ import absolute_import, division, print_function  # noqa: UP010
+from __future__ import absolute_import, division, print_function
 
 
 # pylint: disable=invalid-name
