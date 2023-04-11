@@ -63,13 +63,11 @@ target-version = "py38"
 # E501 line too long, good examples
 "plugins/modules/git_publish.py" = ["E501"]
 "plugins/modules/git_retrieve.py" = ["E501"]
-
 # T201 allow print in tests
 "tests/**" = ["T201"]
 # UP001 until __metaclass__ is not required
 # UP010 until from __future__ is gone
 "**" = ["UP001", "UP010"]
-
 
 [tool.ruff.isort]
 lines-after-imports = 2 # Ensures consistency for cases when there's variable vs function/class definitions after imports
