@@ -1,6 +1,8 @@
 """Definitions for the command runner."""
 from __future__ import absolute_import, division, print_function
 
+import shlex
+
 
 # pylint: disable=invalid-name
 __metaclass__ = type
@@ -11,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, TypeVar, Union
 
 
-T = TypeVar("T", bound="Command")
+T = TypeVar("T", bound="Command")  # pylint: disable=invalid-name, useless-suppression
 
 
 @dataclass(frozen=False)

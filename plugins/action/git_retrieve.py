@@ -3,7 +3,7 @@
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """The git_retrieve action plugin."""
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 import datetime
 import re
@@ -48,7 +48,7 @@ class Result(ResultBase):
     path: str = ""
 
 
-T = TypeVar("T", bound="ActionModule")
+T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
 
 
 class ActionModule(GitBase):
