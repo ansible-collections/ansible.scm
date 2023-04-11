@@ -68,7 +68,8 @@ target-version = "py38"
 "tests/**" = ["T201"]
 # UP001 until __metaclass__ is not required
 # UP010 until from __future__ is gone
-"plugins/**" = ["UP001", "UP010"]
+"**" = ["UP001", "UP010"]
+
 
 [tool.ruff.isort]
 lines-after-imports = 2 # Ensures consistency for cases when there's variable vs function/class definitions after imports
