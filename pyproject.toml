@@ -75,13 +75,13 @@ target-version = "py38"
 
 [tool.ruff.isort]
 lines-after-imports = 2 # Ensures consistency for cases when there's variable vs function/class definitions after imports
-lines-between-types = 1 # Separate import/from with 1 line, minimizing changes at time of implementation
-no-lines-before = [
-  "local-folder"
-] # Keeps local imports bundled with first-party
+lines-between-types = 1 # Separate import/from with 1 line
+required-imports = [
+  "from __future__ import absolute_import, division, print_function"
+]
 
 [tool.ruff.pydocstyle]
-convention = "google"
+convention = "pep257"
 
 [tool.ruff.flake8-pytest-style]
 parametrize-values-type = "tuple"

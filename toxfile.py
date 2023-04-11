@@ -1,5 +1,6 @@
 # cspell:ignore envlist
 """tox plugin to emit a github matrix."""
+from __future__ import absolute_import, division, print_function
 
 import json
 import os
