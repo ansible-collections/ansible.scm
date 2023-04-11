@@ -26,7 +26,7 @@ from .command import Command
 
 JSONTypes = Union[bool, int, str, Dict, List]
 
-T = TypeVar("T", bound="ActionInit")
+T = TypeVar("T", bound="ActionInit")  # pylint: disable=invalid-name, useless-suppression
 
 
 @dataclass(frozen=False)
@@ -63,7 +63,7 @@ class ResultBase:
     )
 
 
-U = TypeVar("U", bound="GitBase")
+U = TypeVar("U", bound="GitBase")  # pylint: disable=invalid-name, useless-suppression
 
 
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
