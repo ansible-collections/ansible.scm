@@ -10,7 +10,9 @@ import sys
 import uuid
 
 from pathlib import Path
-from typing import Tuple
+from typing import List, TypeVar
+
+import yaml
 
 from tox.config.cli.parser import ToxParser
 from tox.config.loader.memory import MemoryLoader
@@ -48,7 +50,7 @@ VALID_SANITY_PY_VERS = ["3.8", "3.9", "3.10", "3.11"]
 TOX_WORK_DIR = ""
 
 
-def custom_sort(string: str) -> Tuple[int, ...]:
+def custom_sort(string: str) -> tuple:
     """Convert a env name into a tuple of ints.
 
     In the case of a string, use the ord() of the first two characters.
@@ -101,12 +103,198 @@ def tox_add_core_config(
     :param core_conf: The core configuration object.
     :param state: The state object.
     """
-    # pylint: disable=too-many-locals
-    results = []
+    global TOX_WORK_DIR  # pylint: disable=global-statement # noqa: PLW0603
+    TOX_WORK_DIR = state.conf.work_dir
+    if not state.conf.options.ansible:
+        return
+
+    env_list = add_ansible_matrix(state)
+
     if state.conf.options.gh_matrix == "1234":
         return
-    env_list = sorted((state.envs.iter()), key=custom_sort)
-    for env_name in env_list:
+
+    generate_gh_matrix(env_list=env_list, state=state)
+    sys.exit(0)
+
+
+@impl
+def tox_add_env_config(env_conf: EnvConfigSet, state: State) -> None:
+    """Add the test requirements and ansible-core to the virtual environment.
+
+    :param env_conf: The environment configuration object.
+    :param state: The state object.
+    """
+    # pylint: disable=unused-argument
+
+    test_type = env_conf.name.split("-")[0]
+    if test_type not in ["integration", "sanity", "unit"]:
+        return
+
+    deps = []
+    if test_type in ["integration", "unit"]:
+        try:
+            with (TOX_WORK_DIR / "test-requirements.txt").open() as fileh:
+                deps.extend(fileh.readlines())
+        except FileNotFoundError:
+            pass
+
+    ansible_version = env_conf.name.split("-")[2]
+    base_url = "https://github.com/ansible/ansible/archive/"
+    if ansible_version in ["devel", "milestone"]:
+        ansible_package = f"{base_url}{ansible_version}.tar.gz"
+    else:
+        ansible_package = f"{base_url}stable-{ansible_version}.tar.gz"
+    deps.append(ansible_package)
+
+    loader = MemoryLoader(deps="\n".join(deps), package="skip")
+    env_conf.loaders.insert(0, loader)
+
+
+@impl
+def tox_before_run_commands(tox_env: ToxEnv) -> None:  # noqa: C901, PLR0912, PLR0915
+    """Run the ansible-test sanity command before the other commands.
+
+    :param tox_env: The tox environment object.
+    :raises RuntimeError: If the galaxy.yml file is not found.
+    """
+    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-statements
+
+    if not tox_env.options.ansible:
+        return
+
+    # Add the allowed external commands to the tox environment
+    tox_env.conf["allowlist_externals"].extend(ALLOWED_EXTERNALS)
+
+    setenv = {"ANSIBLE_COLLECTIONS_PATHS": f"{tox_env.env_tmp_dir}/collections/"}
+    tox_env.conf["setenv"].update(setenv)
+    tox_env.conf["passenv"].append("GITHUB_TOKEN")
+
+    # Add the ansible-core package as a dependency
+    ansible_version = tox_env.name.split("-")[2]
+    base_url = "https://github.com/ansible/ansible/archive/"
+    if ansible_version in ["devel", "milestone"]:
+        ansible_package = f"{base_url}{ansible_version}.tar.gz"
+    else:
+        ansible_package = f"{base_url}stable-{ansible_version}.tar.gz"
+    dep = ParsedRequirement(req=ansible_package, options={}, from_file="plugin", lineno=0)
+    tox_env.conf["deps"].requirements.append(dep)
+
+    galaxy_path = TOX_WORK_DIR / "galaxy.yml"
+
+    try:
+        with galaxy_path.open() as galaxy_file:
+            galaxy = yaml.safe_load(galaxy_file)
+    except FileNotFoundError as exc:
+        err = f"Unable to find galaxy.yml file at {galaxy_path}"
+        raise RuntimeError(err) from exc
+
+    try:
+        c_name = galaxy["name"]
+        c_namespace = galaxy["namespace"]
+    except KeyError as exc:
+        err = f"Unable to find {exc} in galaxy.yml"
+        raise RuntimeError(err) from exc
+
+    build_install_collection(tox_env, c_name, c_namespace)
+
+    test_type = tox_env.name.split("-")[0]
+    if test_type not in ["unit", "integration", "sanity"]:
+        return
+
+    if test_type in ["unit", "integration"]:
+        if tox_env.name == "unit-py3.8-2.9":
+            # We rely on pytest-ansible-unit and need the galaxy.yml file to be in the
+            # collections directory. The unit tests will be run from inside the installed collection
+            # directory.
+            coll_dir = (
+                f"{tox_env.env_tmp_dir}/collections/ansible_collections/{c_namespace}/{c_name}"
+            )
+            cp_cmd = f"cp {galaxy_path} {coll_dir}"
+            tox_env.conf["commands"].append(Command(args=shlex.split(cp_cmd)))
+            command = UNIT_3_8_2_9.format(
+                toxinidir=TOX_WORK_DIR,
+                test_type=test_type,
+            )
+            unit_ch_dir = coll_dir
+        else:
+            # pytest-ansible-units is not needed, because if the unit tests are run
+            # from the root of the collections directory, the collection
+            # will be found natively by ansible-core
+            command = UNIT_INT_TST_CMD.format(
+                toxinidir=TOX_WORK_DIR,
+                test_type=test_type,
+            )
+            unit_ch_dir = f"{tox_env.env_tmp_dir}/collections/"
+        if test_type == "unit":
+            command = f"bash -c 'cd {unit_ch_dir} && {command}'"
+        tox_env.conf["commands"].append(Command(args=shlex.split(command)))
+        return
+
+    if test_type == "sanity":
+        py_ver = tox_env.conf["basepython"][0].replace("py", "")
+        if "." not in py_ver:
+            py_ver = f"{py_ver[0]}.{py_ver[1:]}"
+        if py_ver not in VALID_SANITY_PY_VERS:
+            err = f"Invalid python version for sanity tests: {py_ver}"
+            raise RuntimeError(err)
+        command = SANITY_TST_CMD.format(py_ver=py_ver)
+        ch_dir = f"cd {tox_env.env_tmp_dir}/collections/ansible_collections/{c_namespace}/{c_name}"
+        full_command = shlex.split(f"bash -c '{ch_dir} && {command}'")
+        tox_env.conf["commands"].append(Command(args=full_command))
+
+
+def add_ansible_matrix(state: State) -> EnvList:
+    """Add the ansible matrix to the state.
+
+    :param state: The state object.
+    :return: The environment list.
+    """
+    ansible_config = state.conf.get_section_config(
+        Section(None, "ansible"),
+        base=[],
+        of_type=AnsibleConfigSet,
+        for_env=None,
+    )
+    env_list = StrConvert().to_env_list(ENV_LIST)
+    env_list.envs = [
+        env for env in env_list.envs if all(skip not in env for skip in ansible_config["skip"])
+    ]
+    env_list.envs = sorted(env_list.envs, key=custom_sort)
+    state.conf.core.loaders.insert(
+        0,
+        MemoryLoader(env_list=env_list),
+    )
+    return env_list
+
+
+T = TypeVar("T", bound=ConfigSet)
+
+
+class AnsibleConfigSet(ConfigSet):
+    """The ansible configuration."""
+
+    def register_config(self: T) -> None:
+        """Register the ansible configuration."""
+        self.add_config(
+            "skip",
+            of_type=List[str],
+            default=[],
+            desc="ansible configuration",
+        )
+
+
+def generate_gh_matrix(env_list: EnvList, state: State) -> None:
+    """Generate the github matrix.
+
+    :param env_list: The environment list.
+    :param state: The state object.
+    :raises RuntimeError: If multiple python versions are found in an environment.
+    """
+    results = []
+
+    for env_name in env_list.envs:
         candidates = []
         factors = env_name.split("-")
         for factor in factors:
@@ -154,7 +342,7 @@ def tox_add_core_config(
     sys.exit(0)
 
 
-def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
+def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str) -> None:
     """Build and install the collection.
 
     :param tox_env: The tox environment object.
@@ -168,7 +356,6 @@ def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
     collections_root = tox_env.env_tmp_dir / "collections"
     collection_installed_at = collections_root / f"ansible_collections/{c_namespace}/{c_name}"
     galaxy_build_dir = tox_env.env_tmp_dir / "collection_build"
-    root_dir = tox_env.conf._conf.work_dir  # pylint: disable=protected-access
     end_group = "echo ::endgroup::"
 
     group = "echo ::group::Make the galaxy build dir"
@@ -178,7 +365,7 @@ def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
 
     group = "echo ::group::Copy the collection to the galaxy build dir"
     commands_pre.append(Command(args=shlex.split(group)))
-    cd_tox_dir = f"cd {root_dir}"
+    cd_tox_dir = f"cd {TOX_WORK_DIR}"
     rsync_cmd = f'rsync -r --cvs-exclude --filter=":- .gitignore" . {galaxy_build_dir}'
     full_cmd = f"bash -c '{cd_tox_dir} && {rsync_cmd}'"
     commands_pre.append(Command(args=shlex.split(full_cmd)))
