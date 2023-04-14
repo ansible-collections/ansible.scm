@@ -1,5 +1,6 @@
 # cspell:ignore envlist
 """tox plugin to emit a github matrix."""
+from __future__ import absolute_import, division, print_function
 
 import json
 import os
@@ -9,7 +10,7 @@ import sys
 import uuid
 
 from pathlib import Path
-from typing import List
+from typing import List, TypeVar
 
 import yaml
 
@@ -49,7 +50,7 @@ VALID_SANITY_PY_VERS = ["3.8", "3.9", "3.10", "3.11"]
 TOX_WORK_DIR = ""
 
 
-def custom_sort(string: str):
+def custom_sort(string: str) -> tuple:
     """Convert a env name into a tuple of ints.
 
     In the case of a string, use the ord() of the first two characters.
@@ -102,7 +103,7 @@ def tox_add_core_config(
     :param core_conf: The core configuration object.
     :param state: The state object.
     """
-    global TOX_WORK_DIR  # pylint: disable=global-statement
+    global TOX_WORK_DIR  # pylint: disable=global-statement # noqa: PLW0603
     TOX_WORK_DIR = state.conf.work_dir
     if not state.conf.options.ansible:
         return
@@ -117,7 +118,7 @@ def tox_add_core_config(
 
 
 @impl
-def tox_add_env_config(env_conf: EnvConfigSet, state: State):
+def tox_add_env_config(env_conf: EnvConfigSet, state: State) -> None:
     """Add the test requirements and ansible-core to the virtual environment.
 
     :param env_conf: The environment configuration object.
@@ -132,11 +133,7 @@ def tox_add_env_config(env_conf: EnvConfigSet, state: State):
     deps = []
     if test_type in ["integration", "unit"]:
         try:
-            with open(
-                TOX_WORK_DIR / "test-requirements.txt",
-                mode="r",
-                encoding="utf-8",
-            ) as fileh:
+            with (TOX_WORK_DIR / "test-requirements.txt").open() as fileh:
                 deps.extend(fileh.readlines())
         except FileNotFoundError:
             pass
@@ -154,7 +151,7 @@ def tox_add_env_config(env_conf: EnvConfigSet, state: State):
 
 
 @impl
-def tox_before_run_commands(tox_env: ToxEnv):
+def tox_before_run_commands(tox_env: ToxEnv) -> None:  # noqa: C901, PLR0912, PLR0915
     """Run the ansible-test sanity command before the other commands.
 
     :param tox_env: The tox environment object.
@@ -163,6 +160,7 @@ def tox_before_run_commands(tox_env: ToxEnv):
     # pylint: disable=too-many-locals
     # pylint: disable=too-many-branches
     # pylint: disable=too-many-statements
+
     if not tox_env.options.ansible:
         return
 
@@ -183,7 +181,7 @@ def tox_before_run_commands(tox_env: ToxEnv):
     dep = ParsedRequirement(req=ansible_package, options={}, from_file="plugin", lineno=0)
     tox_env.conf["deps"].requirements.append(dep)
 
-    galaxy_path = tox_env.conf._conf.work_dir / "galaxy.yml"  # pylint: disable=protected-access
+    galaxy_path = TOX_WORK_DIR / "galaxy.yml"
 
     try:
         with galaxy_path.open() as galaxy_file:
@@ -271,10 +269,13 @@ def add_ansible_matrix(state: State) -> EnvList:
     return env_list
 
 
+T = TypeVar("T", bound=ConfigSet)
+
+
 class AnsibleConfigSet(ConfigSet):
     """The ansible configuration."""
 
-    def register_config(self) -> None:
+    def register_config(self: T) -> None:
         """Register the ansible configuration."""
         self.add_config(
             "skip",
@@ -284,7 +285,7 @@ class AnsibleConfigSet(ConfigSet):
         )
 
 
-def generate_gh_matrix(env_list: EnvList, state: State):
+def generate_gh_matrix(env_list: EnvList, state: State) -> None:
     """Generate the github matrix.
 
     :param env_list: The environment list.
@@ -301,7 +302,8 @@ def generate_gh_matrix(env_list: EnvList, state: State):
             if match:
                 candidates.append(match[2])
         if len(candidates) > 1:
-            raise RuntimeError(f"Multiple python versions found in {env_name}")
+            err = f"Multiple python versions found in {env_name}"
+            raise RuntimeError(err)
         if len(candidates) == 0:
             results.append(
                 {
@@ -326,7 +328,8 @@ def generate_gh_matrix(env_list: EnvList, state: State):
     gh_output = os.getenv("GITHUB_OUTPUT")
     value = json.dumps(results)
     if not gh_output:
-        raise RuntimeError("GITHUB_OUTPUT environment variable not set")
+        err = "GITHUB_OUTPUT environment variable not set"
+        raise RuntimeError(err)
 
     if "\n" in value:
         eof = f"EOF-{uuid.uuid4()}"
@@ -339,7 +342,7 @@ def generate_gh_matrix(env_list: EnvList, state: State):
     sys.exit(0)
 
 
-def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
+def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str) -> None:
     """Build and install the collection.
 
     :param tox_env: The tox environment object.
@@ -353,7 +356,6 @@ def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
     collections_root = tox_env.env_tmp_dir / "collections"
     collection_installed_at = collections_root / f"ansible_collections/{c_namespace}/{c_name}"
     galaxy_build_dir = tox_env.env_tmp_dir / "collection_build"
-    root_dir = tox_env.conf._conf.work_dir  # pylint: disable=protected-access
     end_group = "echo ::endgroup::"
 
     group = "echo ::group::Make the galaxy build dir"
@@ -363,7 +365,7 @@ def build_install_collection(tox_env: ToxEnv, c_name: str, c_namespace: str):
 
     group = "echo ::group::Copy the collection to the galaxy build dir"
     commands_pre.append(Command(args=shlex.split(group)))
-    cd_tox_dir = f"cd {root_dir}"
+    cd_tox_dir = f"cd {TOX_WORK_DIR}"
     rsync_cmd = f'rsync -r --cvs-exclude --filter=":- .gitignore" . {galaxy_build_dir}'
     full_cmd = f"bash -c '{cd_tox_dir} && {rsync_cmd}'"
     commands_pre.append(Command(args=shlex.split(full_cmd)))

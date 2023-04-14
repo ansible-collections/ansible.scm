@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2022 Red Hat
 # GNU General Public License v3.0+
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -12,13 +11,13 @@ import tempfile
 
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
 from ansible.playbook.task import Task
-from ansible.plugins import loader as Loader
+from ansible.plugins import loader as plugin_loader
 from ansible.plugins.connection.local import Connection
 from ansible.template import Templar
 
@@ -49,17 +48,20 @@ class Result(ResultBase):
     path: str = ""
 
 
+T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
+
+
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-instance-attributes
-    def __init__(
-        self,
+    def __init__(  # noqa: PLR0913
+        self: T,
         connection: Connection,
         loader: DataLoader,
         play_context: PlayContext,
-        shared_loader_obj: Loader,
+        shared_loader_obj: plugin_loader,
         task: Task,
         templar: Templar,
     ) -> None:
@@ -92,7 +94,7 @@ class ActionModule(GitBase):
         self._supports_async = True
         self._result: Result = Result()
 
-    def _check_argspec(self) -> None:
+    def _check_argspec(self: T) -> None:
         """Check the argspec for the action plugin.
 
         :raises AnsibleActionFail: If the argspec is invalid
@@ -105,20 +107,23 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-        if self._task.args["origin"].get("token") == "":
-            raise AnsibleActionFail("Origin token can not be an empty string")
-        if self._task.args["upstream"].get("token") == "":
-            raise AnsibleActionFail("Upstream token can not be an empty string")
+        # ansible provides an empty sting if the parent is used
+        if self._task.args["origin"].get("token") == "":  # noqa: PLC1901
+            err = "Origin token can not be an empty string"
+            raise AnsibleActionFail(err)
+        if self._task.args["upstream"].get("token") == "":  # noqa: PLC1901
+            err = "Upstream token can not be an empty string"
+            raise AnsibleActionFail(err)
 
     @property
-    def _branch_exists(self) -> bool:
+    def _branch_exists(self: T) -> bool:
         """Return True if the branch exists.
 
         :returns: True if the branch exists
         """
         return self._branch_name in self._branches
 
-    def _host_key_checking(self) -> None:
+    def _host_key_checking(self: T) -> None:
         """Configure host key checking."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
@@ -142,7 +147,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _clone(self) -> None:
+    def _clone(self: T) -> None:
         """Clone the repository.
 
         Additionally set the base command to the repository path.
@@ -192,7 +197,7 @@ class ActionModule(GitBase):
         self._base_command = ("git", "-C", self._repo_path)
         return
 
-    def _get_branches(self) -> None:
+    def _get_branches(self: T) -> None:
         """Get the branches."""
         command_parts = list(self._base_command)
         command_parts.extend(["branch", "-a"])
@@ -239,14 +244,14 @@ class ActionModule(GitBase):
         self._result.branch_name = self._branch_name
         return
 
-    def _detect_duplicate_branch(self) -> None:
+    def _detect_duplicate_branch(self: T) -> None:
         """Detect duplicate branch."""
         duplicate_detection = self._task.args["branch"]["duplicate_detection"]
         if duplicate_detection and self._branch_exists:
             self._result.failed = True
             self._result.msg = f"Branch '{self._branch_name}' already exists"
 
-    def _switch_checkout(self) -> None:
+    def _switch_checkout(self: T) -> None:
         """Switch to or checkout the branch."""
         command_parts = list(self._base_command)
         branch = self._branch_name
@@ -262,7 +267,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _add_upstream_remote(self) -> None:
+    def _add_upstream_remote(self: T) -> None:
         """Add the upstream remote."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -277,7 +282,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         return
 
-    def _pull_upstream(self) -> None:
+    def _pull_upstream(self: T) -> None:
         """Pull from upstream."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -304,7 +309,7 @@ class ActionModule(GitBase):
         return
 
     def run(
-        self,
+        self: T,
         tmp: None = None,
         task_vars: Optional[Dict[str, JSONTypes]] = None,
     ) -> Dict[str, JSONTypes]:

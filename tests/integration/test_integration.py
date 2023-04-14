@@ -43,8 +43,7 @@ def run(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
     process = subprocess.run(
         args=args,
         env=environment,
-        stderr=subprocess.PIPE,
-        stdout=subprocess.PIPE,
+        capture_output=True,
         check=False,
         shell=False,
     )
@@ -52,7 +51,7 @@ def run(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
         print(process.stdout.decode("utf-8"))
         print(process.stderr.decode("utf-8"))
 
-        pytest.fail(reason=f"Integration test failed: {localhost_project.role}")
+        pytest.fail(msg=f"Integration test failed: {localhost_project.role}")
 
 
 def test_integration(
