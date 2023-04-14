@@ -16,3 +16,7 @@ suboptions
 tmpvtm
 toxfile
 tracebackhide
+devel
+toxinidir
+basepython
+endgroup
