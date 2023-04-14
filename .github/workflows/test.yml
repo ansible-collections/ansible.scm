@@ -38,8 +38,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install tox
-        run: python -m pip install tox --disable-pip-version-check
+      - name: Install deps
+        run: python -m pip install tox pyyaml --disable-pip-version-check
 
       - name: Generate matrix
         id: generate-matrix
