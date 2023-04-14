@@ -55,7 +55,10 @@ def run(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
         pytest.fail(reason=f"Integration test failed: {localhost_project.role}")
 
 
-def test_integration(localhost_project: AnsibleProject, environment: Dict[str, str]) -> None:
+def test_integration(
+    localhost_project: AnsibleProject,
+    environment: Dict[str, str],
+) -> None:
     """Run the integration tests.
 
     :param localhost_project: The localhost project.
