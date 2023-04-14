@@ -10,7 +10,7 @@ import sys
 import uuid
 
 from pathlib import Path
-from typing import List, TypeVar, Tuple
+from typing import List, Tuple, TypeVar
 
 import yaml
 
