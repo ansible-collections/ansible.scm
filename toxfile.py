@@ -10,7 +10,7 @@ import sys
 import uuid
 
 from pathlib import Path
-from typing import List, TypeVar
+from typing import List, TypeVar, Tuple
 
 import yaml
 
@@ -306,7 +306,7 @@ def add_deps_to_env(env_conf: EnvConfigSet, test_type: str) -> None:
     env_conf.loaders.insert(0, loader)
 
 
-def get_collection_name(galaxy_path: Path) -> tuple[str, str]:
+def get_collection_name(galaxy_path: Path) -> Tuple[str, str]:
     """Extract collection information from the galaxy.yml file.
 
     :param galaxy_path: The path to the galaxy.yml file.
