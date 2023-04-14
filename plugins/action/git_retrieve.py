@@ -155,7 +155,9 @@ class ActionModule(GitBase):
         host_key_checking = self._task.args["host_key_checking"]
 
         if host_key_checking != "system" and has_ssh_url:
-            env = {"GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={host_key_checking}"}
+            env = {
+                "GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={host_key_checking}",
+            }
         else:
             env = None
 
@@ -168,7 +170,9 @@ class ActionModule(GitBase):
             command_parts.extend(cli_parameters)
             no_log[token_base64] = "<TOKEN>"
 
-        command_parts.extend(["clone", "--depth=1", "--progress", "--no-single-branch", origin])
+        command_parts.extend(
+            ["clone", "--depth=1", "--progress", "--no-single-branch", origin],
+        )
 
         command = Command(
             command_parts=command_parts,

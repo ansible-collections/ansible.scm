@@ -84,7 +84,10 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         """
         basic = f"x-access-token:{token}"
         basic_encoded = base64.b64encode(basic.encode("utf-8")).decode("utf-8")
-        cli_parameters = ["-c", f"http.extraheader=AUTHORIZATION: basic {basic_encoded}"]
+        cli_parameters = [
+            "-c",
+            f"http.extraheader=AUTHORIZATION: basic {basic_encoded}",
+        ]
         return basic_encoded, cli_parameters
 
     def _run_command(self, command: Command, ignore_errors: bool = False) -> None:

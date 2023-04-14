@@ -17,14 +17,25 @@ from tox.config.cli.parser import ToxParser
 from tox.config.loader.memory import MemoryLoader
 from tox.config.loader.section import Section
 from tox.config.loader.str_convert import StrConvert
-from tox.config.sets import ConfigSet, CoreConfigSet
+from tox.config.sets import ConfigSet, CoreConfigSet, EnvConfigSet
 from tox.config.types import Command, EnvList
 from tox.plugin import impl
 from tox.session.state import State
 from tox.tox_env.api import ToxEnv
 from tox.tox_env.python.api import PY_FACTORS_RE
+from tox.tox_env.python.pip.req.file import ParsedRequirement
 
 
+ALLOWED_EXTERNALS = [
+    "bash",
+    "cp",
+    "git",
+    "rm",
+    "rsync",
+    "mkdir",
+    "cd",
+    "echo",
+]
 ENV_LIST = """
 {integration, sanity, unit}-py3.8-{2.9, 2.10, 2.11, 2.12, 2.13}
 {integration, sanity, unit}-py3.9-{2.10, 2.11, 2.12, 2.13, 2.14, milestone, devel}
@@ -36,28 +47,6 @@ UNIT_3_8_2_9 = "python -m pytest {toxinidir}/tests/{test_type}"
 SANITY_TST_CMD = "ansible-test sanity --local --requirements --python {py_ver}"
 VALID_SANITY_PY_VERS = ["3.8", "3.9", "3.10", "3.11"]
 TOX_WORK_DIR = ""
-
-
-@impl
-def tox_add_option(parser: ToxParser) -> None:
-    """Add the --gh-matrix option to the tox CLI.
-
-    :param parser: The tox CLI parser.
-    """
-    parser.add_argument(
-        "--gh-matrix",
-        action="store",
-        default="1234",
-        dest="gh_matrix",
-        help="Emit a github matrix",
-    )
-
-    parser.add_argument(
-        "--ansible",
-        action="store_true",
-        default=False,
-        help="Enable ansible testing",
-    )
 
 
 def custom_sort(string: str):
@@ -82,14 +71,117 @@ def custom_sort(string: str):
 
 
 @impl
+def tox_add_option(parser: ToxParser) -> None:
+    """Add the --gh-matrix option to the tox CLI.
+
+    :param parser: The tox CLI parser.
+    """
+    parser.add_argument(
+        "--gh-matrix",
+        action="store",
+        default="1234",
+        dest="gh_matrix",
+        help="Emit a github matrix",
+    )
+
+    parser.add_argument(
+        "--ansible",
+        action="store_true",
+        default=False,
+        help="Enable ansible testing",
+    )
+
+
+@impl
+def tox_add_core_config(
+    core_conf: CoreConfigSet,  # pylint: disable=unused-argument
+    state: State,
+) -> None:
+    """Dump the environment list and exit.
+
+    :param core_conf: The core configuration object.
+    :param state: The state object.
+    """
+    global TOX_WORK_DIR  # pylint: disable=global-statement
+    TOX_WORK_DIR = state.conf.work_dir
+    if not state.conf.options.ansible:
+        return
+
+    env_list = add_ansible_matrix(state)
+
+    if state.conf.options.gh_matrix == "1234":
+        return
+
+    generate_gh_matrix(env_list=env_list, state=state)
+    sys.exit(0)
+
+
+@impl
+def tox_add_env_config(env_conf: EnvConfigSet, state: State):
+    """Add the test requirements and ansible-core to the virtual environment.
+
+    :param env_conf: The environment configuration object.
+    :param state: The state object.
+    """
+    # pylint: disable=unused-argument
+
+    test_type = env_conf.name.split("-")[0]
+    if test_type not in ["integration", "sanity", "unit"]:
+        return
+
+    deps = []
+    if test_type in ["integration", "unit"]:
+        try:
+            with open(
+                TOX_WORK_DIR / "test-requirements.txt",
+                mode="r",
+                encoding="utf-8",
+            ) as fileh:
+                deps.extend(fileh.readlines())
+        except FileNotFoundError:
+            pass
+
+    ansible_version = env_conf.name.split("-")[2]
+    base_url = "https://github.com/ansible/ansible/archive/"
+    if ansible_version in ["devel", "milestone"]:
+        ansible_package = f"{base_url}{ansible_version}.tar.gz"
+    else:
+        ansible_package = f"{base_url}stable-{ansible_version}.tar.gz"
+    deps.append(ansible_package)
+
+    loader = MemoryLoader(deps="\n".join(deps), package="skip")
+    env_conf.loaders.insert(0, loader)
+
+
+@impl
 def tox_before_run_commands(tox_env: ToxEnv):
     """Run the ansible-test sanity command before the other commands.
 
     :param tox_env: The tox environment object.
     :raises RuntimeError: If the galaxy.yml file is not found.
     """
+    # pylint: disable=too-many-locals
+    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-statements
     if not tox_env.options.ansible:
         return
+
+    # Add the allowed external commands to the tox environment
+    tox_env.conf["allowlist_externals"].extend(ALLOWED_EXTERNALS)
+
+    setenv = {"ANSIBLE_COLLECTIONS_PATHS": f"{tox_env.env_tmp_dir}/collections/"}
+    tox_env.conf["setenv"].update(setenv)
+    tox_env.conf["passenv"].append("GITHUB_TOKEN")
+
+    # Add the ansible-core package as a dependency
+    ansible_version = tox_env.name.split("-")[2]
+    base_url = "https://github.com/ansible/ansible/archive/"
+    if ansible_version in ["devel", "milestone"]:
+        ansible_package = f"{base_url}{ansible_version}.tar.gz"
+    else:
+        ansible_package = f"{base_url}stable-{ansible_version}.tar.gz"
+    dep = ParsedRequirement(req=ansible_package, options={}, from_file="plugin", lineno=0)
+    tox_env.conf["deps"].requirements.append(dep)
 
     galaxy_path = tox_env.conf._conf.work_dir / "galaxy.yml"  # pylint: disable=protected-access
 
@@ -155,43 +247,6 @@ def tox_before_run_commands(tox_env: ToxEnv):
         tox_env.conf["commands"].append(Command(args=full_command))
 
 
-class AnsibleConfigSet(ConfigSet):
-    """The ansible configuration."""
-
-    def register_config(self) -> None:
-        """Register the ansible configuration."""
-        self.add_config(
-            "skip",
-            of_type=List[str],
-            default=[],
-            desc="ansible configuration",
-        )
-
-
-@impl
-def tox_add_core_config(
-    core_conf: CoreConfigSet,  # pylint: disable=unused-argument
-    state: State,
-) -> None:
-    """Dump the environment list and exit.
-
-    :param core_conf: The core configuration object.
-    :param state: The state object.
-    """
-    global TOX_WORK_DIR  # pylint: disable=global-statement
-    TOX_WORK_DIR = state.conf.work_dir
-    if not state.conf.options.ansible:
-        return
-
-    env_list = add_ansible_matrix(state)
-
-    if state.conf.options.gh_matrix == "1234":
-        return
-
-    generate_gh_matrix(env_list=env_list, state=state)
-    sys.exit(0)
-
-
 def add_ansible_matrix(state: State) -> EnvList:
     """Add the ansible matrix to the state.
 
@@ -214,6 +269,19 @@ def add_ansible_matrix(state: State) -> EnvList:
         MemoryLoader(env_list=env_list),
     )
     return env_list
+
+
+class AnsibleConfigSet(ConfigSet):
+    """The ansible configuration."""
+
+    def register_config(self) -> None:
+        """Register the ansible configuration."""
+        self.add_config(
+            "skip",
+            of_type=List[str],
+            default=[],
+            desc="ansible configuration",
+        )
 
 
 def generate_gh_matrix(env_list: EnvList, state: State):
