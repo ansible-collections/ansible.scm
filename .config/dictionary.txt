@@ -4,6 +4,7 @@ autoupdate
 basepython
 cdcp
 cidrblock
+cmds
 dataclass
 devel
 endgroup
