@@ -1,6 +1,18 @@
 {
     "version": "0.2.0",
     "configurations": [
+        {
+            "name": "Python: Module",
+            "type": "python",
+            "request": "launch",
+            "module": "tox",
+            "args": [
+                "--ansible",
+                "-e",
+                "unit-py3.8-2.9"
+            ],
+            "justMyCode": true
+        },
         // Run testing debugging in the terminal so the workspace venv is used
         {
             "name": "Debug tests",
