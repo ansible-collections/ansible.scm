@@ -5,7 +5,6 @@ from __future__ import absolute_import, division, print_function
 import json
 import os
 import re
-import shlex
 import sys
 import uuid
 
@@ -46,7 +45,7 @@ UNIT_INT_TST_CMD = "python -m pytest -p no:ansible-units {toxinidir}/tests/{test
 UNIT_3_8_2_9 = "python -m pytest {toxinidir}/tests/{test_type}"
 SANITY_TST_CMD = "ansible-test sanity --local --requirements --python {py_ver}"
 VALID_SANITY_PY_VERS = ["3.8", "3.9", "3.10", "3.11"]
-TOX_WORK_DIR = ""
+TOX_WORK_DIR = Path()
 
 
 T = TypeVar("T", bound=ConfigSet)
@@ -69,16 +68,16 @@ class AnsibleConfigSet(ConfigSet):
 class AnsibleTestConf:
     """Ansible test configuration."""
 
+    deps: str
+    passenv: str
+    setenv: str
     skip_install: bool
     allowlist_externals: list[str] = field(default_factory=list)
-    setenv: dict[str, str] = field(default_factory=dict)
-    passenv: list[str] = field(default_factory=list)
     commands_pre: list[str] = field(default_factory=list)
     commands: list[str] = field(default_factory=list)
-    deps: list[str] = field(default_factory=list)
 
 
-def custom_sort(string: str) -> tuple:
+def custom_sort(string: str) -> tuple[int, ...]:
     """Convert a env name into a tuple of ints.
 
     In the case of a string, use the ord() of the first two characters.
@@ -337,7 +336,7 @@ def conf_commands_for_integration_unit(
     :param galaxy_path: The path to the galaxy.yml file.
     :param test_type: The test type, either "integration" or "unit".
     :param env_conf: The tox environment configuration object.
-    :return: The commands to run.
+    :return: The command to run.
     """
     commands = []
     envtmpdir = env_conf["envtmpdir"]
@@ -364,8 +363,10 @@ def conf_commands_for_integration_unit(
         )
         unit_ch_dir = f"{envtmpdir}/collections/"
     if test_type == "unit":
-        command = f"bash -c 'cd {unit_ch_dir} && {command}'"
-    return [command]
+        commands.append(f"bash -c 'cd {unit_ch_dir} && {command}'")
+    else:
+        commands.append(command)
+    return commands
 
 
 def conf_commands_for_sanity(
@@ -381,6 +382,7 @@ def conf_commands_for_sanity(
     :raises RuntimeError: If the python version is not valid.
     :return: The commands to run.
     """
+    commands = []
     envtmpdir = env_conf["envtmpdir"]
 
     py_ver = env_conf["basepython"][0].replace("py", "")
@@ -391,11 +393,16 @@ def conf_commands_for_sanity(
         raise RuntimeError(err)
     command = SANITY_TST_CMD.format(py_ver=py_ver)
     ch_dir = f"cd {envtmpdir}/collections/ansible_collections/{c_namespace}/{c_name}"
-    full_command = shlex.split(f"bash -c '{ch_dir} && {command}'")
-    return [full_command]
+    full_command = f"bash -c '{ch_dir} && {command}'"
+    commands.append(full_command)
+    return commands
 
 
-def conf_commands_pre(env_conf: EnvConfigSet, c_name: str, c_namespace: str) -> list[str]:
+def conf_commands_pre(
+    env_conf: EnvConfigSet,
+    c_name: str,
+    c_namespace: str,
+) -> list[str]:
     """Build and install the collection.
 
     :param env_conf: The tox environment configuration object.
