@@ -72,9 +72,9 @@ class AnsibleTestConf:
     passenv: str
     setenv: str
     skip_install: bool
-    allowlist_externals: list[str] = field(default_factory=list)
-    commands_pre: list[str] = field(default_factory=list)
-    commands: list[str] = field(default_factory=list)
+    allowlist_externals: List[str] = field(default_factory=list)
+    commands_pre: List[str] = field(default_factory=list)
+    commands: List[str] = field(default_factory=list)
 
 
 def custom_sort(string: str) -> tuple[int, ...]:
