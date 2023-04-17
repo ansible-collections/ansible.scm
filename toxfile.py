@@ -69,15 +69,15 @@ class AnsibleTestConf:
     """Ansible test configuration."""
 
     deps: str
-    passenv: str
     setenv: str
     skip_install: bool
     allowlist_externals: List[str] = field(default_factory=list)
     commands_pre: List[str] = field(default_factory=list)
     commands: List[str] = field(default_factory=list)
+    passenv: List[str] = field(default_factory=list)
 
 
-def custom_sort(string: str) -> tuple[int, ...]:
+def custom_sort(string: str) -> Tuple[int, ...]:
     """Convert a env name into a tuple of ints.
 
     In the case of a string, use the ord() of the first two characters.
@@ -293,7 +293,7 @@ def conf_commands(
     env_conf: EnvConfigSet,
     galaxy_path: Path,
     test_type: str,
-) -> list[str]:
+) -> List[str]:
     """Build the commands for the tox environment.
 
     :param c_name: The collection name.
@@ -328,7 +328,7 @@ def conf_commands_for_integration_unit(
     env_conf: EnvConfigSet,
     galaxy_path: Path,
     test_type: str,
-) -> list[str]:
+) -> List[str]:
     """Build the commands for integration and unit tests.
 
     :param c_name: The collection name.
@@ -373,7 +373,7 @@ def conf_commands_for_sanity(
     c_name: str,
     c_namespace: str,
     env_conf: EnvConfigSet,
-) -> list[str]:
+) -> List[str]:
     """Add commands for sanity tests.
 
     :param c_name: The collection name.
@@ -402,7 +402,7 @@ def conf_commands_pre(
     env_conf: EnvConfigSet,
     c_name: str,
     c_namespace: str,
-) -> list[str]:
+) -> List[str]:
     """Build and install the collection.
 
     :param env_conf: The tox environment configuration object.
@@ -494,14 +494,14 @@ def conf_deps(env_conf: EnvConfigSet, test_type: str) -> str:
     return "\n".join(deps)
 
 
-def conf_passenv() -> str:
+def conf_passenv() -> List[str]:
     """Build the pass environment variables for the tox environment.
 
     :return: The pass environment variables.
     """
     passenv = []
     passenv.append("GITHUB_TOKEN")
-    return "\n".join(passenv)
+    return passenv
 
 
 def conf_setenv(env_conf: EnvConfigSet) -> str:
