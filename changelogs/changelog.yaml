@@ -83,6 +83,7 @@ releases:
         - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/118)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/84)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/86)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/88)
@@ -92,9 +93,12 @@ releases:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/98)
         - Chore tox (https://github.com/ansible-collections/ansible.scm/pull/99)
         - Cleanup push and galaxy file (https://github.com/ansible-collections/ansible.scm/pull/79)
+        - Comments and spelling (https://github.com/ansible-collections/ansible.scm/pull/123)
         - Fix secret (https://github.com/ansible-collections/ansible.scm/pull/104)
         - Format changelog (https://github.com/ansible-collections/ansible.scm/pull/77)
         - Format flake8 (https://github.com/ansible-collections/ansible.scm/pull/96)
+        - Improve tox.ini (https://github.com/ansible-collections/ansible.scm/pull/120)
+        - Pin to earlier setuptools for 3.8/2.9 (https://github.com/ansible-collections/ansible.scm/pull/117)
         - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
         - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
         - Swap integration tests back (https://github.com/ansible-collections/ansible.scm/pull/100)
@@ -104,10 +108,6 @@ releases:
         - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
         - Update to reflect ansible-core 2.12+ (https://github.com/ansible-collections/ansible.scm/pull/85)
         - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/93)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/118)
-        - Pin to earlier setuptools for 3.8/2.9 (https://github.com/ansible-collections/ansible.scm/pull/117)
-        - Improve tox.ini (https://github.com/ansible-collections/ansible.scm/pull/120)
-        - Comments and spelling (https://github.com/ansible-collections/ansible.scm/pull/123)
     modules:
       - description:
           Retrieve a repository from a distant location and make it available
@@ -120,3 +120,14 @@ releases:
         name: git_publish
         namespace: ""
     release_date: "2023-03-30"
+  1.0.1:
+    changes:
+      trivial:
+        - Rsync instead of clone (https://github.com/ansible-collections/ansible.scm/pull/127)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/126)"
+        - Continue moving ini logic to plugin (https://github.com/ansible-collections/ansible.scm/pull/130)
+        - Refactor plugin (https://github.com/ansible-collections/ansible.scm/pull/131)
+        - Add `ruff` and `darglint`, remove `flake8` and `isort` (https://github.com/ansible-collections/ansible.scm/pull/125)
+        - Move matrix to plugin (https://github.com/ansible-collections/ansible.scm/pull/129)
+        - Refactor plugin (https://github.com/ansible-collections/ansible.scm/pull/132)
+    release_date: "2023-04-17"
