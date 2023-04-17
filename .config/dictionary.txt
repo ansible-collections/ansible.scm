@@ -9,6 +9,7 @@ dataclass
 devel
 endgroup
 envname
+envtmpdir
 etime
 extraheader
 fileh
