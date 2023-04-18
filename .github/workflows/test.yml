@@ -40,9 +40,9 @@ jobs:
 
       - name: Install deps
         run: >-
-          python -m pip install \
-          tox \
-          git+https://github.com/cidrblock/ansitest.git \
+          python -m pip install
+          tox
+          git+https://github.com/cidrblock/ansitest.git
           --disable-pip-version-check
 
 
@@ -75,9 +75,9 @@ jobs:
 
       - name: Install deps
         run: >-
-          python -m pip install \
-          tox \
-          git+https://github.com/cidrblock/ansitest.git \
+          python -m pip install
+          tox
+          git+https://github.com/cidrblock/ansitest.git
           --disable-pip-version-check
 
       - name: Run tox test
