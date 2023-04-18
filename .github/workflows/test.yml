@@ -24,7 +24,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ansitest:
-    uses: cidrblock/github_actions/.github/workflows/ansitest.yml@main
+    uses: cidrblock/ansitest/.github/workflows/run.yml@main
     needs:
       - safe-to-test
 
