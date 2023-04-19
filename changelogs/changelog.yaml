@@ -125,3 +125,5 @@ releases:
       trivial:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/140)
     release_date: "2023-04-19"
+  1.0.3:
+    release_date: "2023-04-19"
