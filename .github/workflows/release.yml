@@ -12,10 +12,18 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Publish collection on ah"
-        uses: ansible/ansible-publish-action@v1.0.0
-        with:
-          api_key: ${{ secrets.AH_TOKEN }}
-          api_server: https://cloud.redhat.com/api/automation-hub/
+        run: >-
+          ansible-galaxy collection build -v --force
+          TARBALL=$(ls -1 ./*.tar.gz)
+          cat << EOF > ansible.cfg
+          [galaxy]
+          server_list = rh_automation_hub
+          [galaxy_server.rh_automation_hub]
+          url=https://cloud.redhat.com/api/automation-hub/
+          auth_url=https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+          token=${{ secrets.AH_TOKEN }}
+          EOF
+          ansible-galaxy collection publish "${TARBALL}"
 
   release_galaxy:
     runs-on: ubuntu-latest
