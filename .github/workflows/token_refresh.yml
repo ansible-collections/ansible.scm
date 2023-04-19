@@ -13,5 +13,5 @@ jobs:
           curl https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
           -d grant_type=refresh_token
           -d client_id=cloud-services
-          -d refresh_token="{{ secrets.AH_TOKEN }}"
+          -d refresh_token="${{ secrets.AH_TOKEN }}"
           --fail --silent --show-error --output /dev/null
