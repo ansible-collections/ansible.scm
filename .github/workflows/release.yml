@@ -5,8 +5,21 @@ on:
     types: [published]
 
 jobs:
-  release:
+  release_ah:
     runs-on: ubuntu-latest
+    environment: ah
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Publish collection on ah"
+        uses: ansible/ansible-publish-action@v1.0.0
+        with:
+          api_key: ${{ secrets.AH_TOKEN }}
+          api_server: https://cloud.redhat.com/api/automation-hub/
+
+  release_galaxy:
+    runs-on: ubuntu-latest
+    needs: release_ah
     steps:
       - uses: actions/checkout@v3
 
