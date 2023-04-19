@@ -9,13 +9,6 @@ plugins:
   inventory: {}
   lookup: {}
   module:
-    git_here:
-      description:
-        Retrieve a repository from a distant location and make it available
-        on the execution node
-      name: git_here
-      namespace: ""
-      version_added: 1.0.0
     git_publish:
       description:
         Publish changes from a repository available on the execution node
@@ -23,8 +16,15 @@ plugins:
       name: git_publish
       namespace: ""
       version_added: 1.0.0
+    git_retrieve:
+      description:
+        Retrieve a repository from a distant location and make it available
+        on the execution node
+      name: git_retrieve
+      namespace: ""
+      version_added: 1.0.0
   netconf: {}
   shell: {}
   strategy: {}
   vars: {}
-version: 1.0.0
+version: 1.0.2
