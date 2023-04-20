@@ -1,5 +1,4 @@
----
-ancestor:
+ancestor: null
 releases:
   0.1.0:
     changes:
@@ -115,8 +114,8 @@ releases:
         name: git_here
         namespace: ""
       - description:
-          Publish changes from a repository available on the execution
-          node to a distant location
+          Publish changes from a repository available on the execution node
+          to a distant location
         name: git_publish
         namespace: ""
     release_date: "2023-03-30"
