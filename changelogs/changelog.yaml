@@ -139,4 +139,6 @@ releases:
     changes:
       trivial:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
+        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
     release_date: "2023-04-19"
