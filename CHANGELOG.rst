@@ -5,6 +5,21 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 .. contents:: Topics
 
 
+v1.0.7
+======
+
+v1.0.6
+======
+
+v1.0.5
+======
+
+v1.0.3
+======
+
+v1.0.2
+======
+
 v1.0.0
 ======
 

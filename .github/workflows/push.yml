@@ -33,7 +33,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.0
         with:
+          repository: ansible-collections/ansible.scm
           fetch-depth: 0
+          token: ${{ secrets.BOT_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
