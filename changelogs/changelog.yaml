@@ -141,4 +141,6 @@ releases:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
         - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
+        - Add concurrency to ack (https://github.com/ansible-collections/ansible.scm/pull/151)
     release_date: "2023-04-19"
