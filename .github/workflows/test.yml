@@ -23,8 +23,8 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  ansitest:
-    uses: cidrblock/ansitest/.github/workflows/run.yml@main
+  tox:
+    uses: tox-dev/tox-ansible/.github/workflows/run.yml@uplift_v2
     needs:
       - safe-to-test
 
