@@ -28,7 +28,7 @@ jobs:
     needs:
       - safe-to-test
 
-  all_green:
+  tox-ansible-passed:
     if: ${{ always() }}
     needs:
       - tox-ansible
@@ -36,5 +36,5 @@ jobs:
     steps:
       - run: >-
           python -c "assert set([
-          '${{ needs.ansitest.result }}',
+          '${{ needs.tox-ansible.result }}',
           ]) == {'success'}"
