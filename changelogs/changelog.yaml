@@ -137,13 +137,18 @@ releases:
     release_date: "2023-04-19"
   1.0.7:
     changes:
+      bugfixes:
+        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
       trivial:
         - Add concurrency to ack (https://github.com/ansible-collections/ansible.scm/pull/151)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
-        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/152)
-      bugfixes:
-        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
+        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/154)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
+        - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
+        - Fix workflow needs (https://github.com/ansible-collections/ansible.scm/pull/159)
+        - Remove unused workflows / Correct test (https://github.com/ansible-collections/ansible.scm/pull/161)
     release_date: "2023-04-19"
