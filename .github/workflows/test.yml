@@ -23,15 +23,15 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  ansitest:
-    uses: cidrblock/ansitest/.github/workflows/run.yml@main
+  tox-ansible:
+    uses: tox-dev/tox-ansible/.github/workflows/run.yml@uplift_v2
     needs:
       - safe-to-test
 
   all_green:
     if: ${{ always() }}
     needs:
-      - ansitest
+      - tox-ansible
     runs-on: ubuntu-latest
     steps:
       - run: >-
