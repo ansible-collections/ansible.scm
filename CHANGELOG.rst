@@ -8,6 +8,11 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 v1.0.7
 ======
 
+Bugfixes
+--------
+
+- Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
+
 v1.0.6
 ======
 
