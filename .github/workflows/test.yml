@@ -23,7 +23,7 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  tox:
+  tox-ansible:
     uses: tox-dev/tox-ansible/.github/workflows/run.yml@uplift_v2
     needs:
       - safe-to-test
@@ -31,7 +31,7 @@ jobs:
   all_green:
     if: ${{ always() }}
     needs:
-      - ansitest
+      - tox-ansible
     runs-on: ubuntu-latest
     steps:
       - run: >-
