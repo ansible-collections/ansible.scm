@@ -66,6 +66,9 @@ target-version = "py38"
 "plugins/modules/git_publish.py" = ["E501"]
 "plugins/modules/git_retrieve.py" = ["E501"]
 #
+# S603, subprocess ok
+"plugins/plugin_utils/git_base.py" = ["S603"]
+#
 # T201 allow print in tests
 "tests/**" = ["T201"]
 #
