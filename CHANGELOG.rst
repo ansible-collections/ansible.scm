@@ -11,6 +11,7 @@ v1.0.7
 Bugfixes
 --------
 
+- Allow git_publish when token is not defined (https://github.com/ansible-collections/ansible.scm/pull/163)
 - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
 
 v1.0.6
