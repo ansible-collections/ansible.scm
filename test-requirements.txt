@@ -1,5 +1,5 @@
 black
-git+https://github.com/ansible-community/pytest-ansible-units.git
+git+https://github.com/ansible-community/pytest-ansible.git
 git+https://github.com/ansible-network/pytest-ansible-network-integration.git
 git+https://github.com/tox-dev/tox-ansible.git@uplift_v2
 mypy
