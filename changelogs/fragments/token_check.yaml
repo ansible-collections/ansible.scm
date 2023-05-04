@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Check for empty token only when token is provided.
