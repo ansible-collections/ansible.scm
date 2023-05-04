@@ -145,10 +145,12 @@ releases:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/152)
-        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/154)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
-        - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
         - Fix workflow needs (https://github.com/ansible-collections/ansible.scm/pull/159)
         - Remove unused workflows / Correct test (https://github.com/ansible-collections/ansible.scm/pull/161)
+        - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
+        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/162)
+        - Remove testing with python3.8, switch to pytest-ansible for tests (https://github.com/ansible-collections/ansible.scm/pull/164)
     release_date: "2023-04-19"
