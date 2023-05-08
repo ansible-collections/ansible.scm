@@ -44,10 +44,10 @@ jobs:
 
       - name: Install antsibull-changelog, antsichaut
         run: >
-          python -m pip install 
-          antsibull-changelog 
-          git+https://github.com/ansible-community/antsichaut.git 
-          pre-commit 
+          python -m pip install
+          antsibull-changelog
+          git+https://github.com/ansible-community/antsichaut.git
+          pre-commit
           --disable-pip-version-check
 
       - name: Run release drafter
