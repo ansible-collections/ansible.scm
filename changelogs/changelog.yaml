@@ -159,4 +159,5 @@ releases:
     changes:
       trivial:
         - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
     release_date: "2023-05-05"
