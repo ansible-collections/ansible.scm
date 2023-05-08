@@ -138,8 +138,8 @@ releases:
   1.0.7:
     changes:
       bugfixes:
-        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
         - Allow git_publish when token is not defined (https://github.com/ansible-collections/ansible.scm/pull/163)
+        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
       trivial:
         - Add concurrency to ack (https://github.com/ansible-collections/ansible.scm/pull/151)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
@@ -147,11 +147,16 @@ releases:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/152)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/154)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/162)
         - Fix workflow needs (https://github.com/ansible-collections/ansible.scm/pull/159)
+        - Remove testing with python3.8, switch to pytest-ansible for tests (https://github.com/ansible-collections/ansible.scm/pull/164)
         - Remove unused workflows / Correct test (https://github.com/ansible-collections/ansible.scm/pull/161)
         - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
         - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
         - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/162)
-        - Remove testing with python3.8, switch to pytest-ansible for tests (https://github.com/ansible-collections/ansible.scm/pull/164)
     release_date: "2023-04-19"
+  1.0.8:
+    changes:
+      trivial:
+        - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
+    release_date: "2023-05-05"
