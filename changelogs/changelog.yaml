@@ -158,6 +158,7 @@ releases:
   1.0.8:
     changes:
       trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
         - Run antsichaut from source (https://github.com/ansible-collections/ansible.scm/pull/170)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
         - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
