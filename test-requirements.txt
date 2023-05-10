@@ -1,6 +1,6 @@
 black
 git+https://github.com/ansible-network/pytest-ansible-network-integration.git
-tox-ansible
+git+https://github.com/tox-dev/tox-ansible.git@refs/pull/179/head
 mypy
 pre-commit
 pylint
