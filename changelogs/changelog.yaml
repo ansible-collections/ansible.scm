@@ -158,6 +158,8 @@ releases:
   1.0.8:
     changes:
       trivial:
+        - Use tox-ansible from pypi (https://github.com/ansible-collections/ansible.scm/pull/177)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/173)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
         - Run antsichaut from source (https://github.com/ansible-collections/ansible.scm/pull/170)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
