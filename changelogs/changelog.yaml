@@ -122,6 +122,8 @@ releases:
     release_date: "2023-03-30"
   1.0.10:
     release_date: "2023-05-11"
+  1.0.11:
+    release_date: "2023-05-11"
   1.0.2:
     changes:
       trivial:
@@ -177,5 +179,5 @@ releases:
   1.0.9:
     changes:
       trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/191)
+        - Update version in galaxy.yml (https://github.com/ansible-collections/ansible.scm/pull/196)
     release_date: "2023-05-11"
