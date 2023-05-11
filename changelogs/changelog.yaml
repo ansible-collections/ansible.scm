@@ -158,6 +158,10 @@ releases:
   1.0.8:
     changes:
       trivial:
+        - Restore tox-ansible dep (https://github.com/ansible-collections/ansible.scm/pull/186)
+        - Use PR (https://github.com/ansible-collections/ansible.scm/pull/183)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/179)
+        - Switch to reusable workflow (https://github.com/ansible-collections/ansible.scm/pull/178)
         - Use tox-ansible from pypi (https://github.com/ansible-collections/ansible.scm/pull/177)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/173)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
