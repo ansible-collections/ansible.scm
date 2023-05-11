@@ -157,7 +157,10 @@ releases:
     release_date: "2023-04-19"
   1.0.8:
     changes:
+      bugfixes:
+        - Enable py38 tests (https://github.com/ansible-collections/ansible.scm/pull/175)
       trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/187)
         - Restore tox-ansible dep (https://github.com/ansible-collections/ansible.scm/pull/186)
         - Use PR (https://github.com/ansible-collections/ansible.scm/pull/183)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/179)
