@@ -157,9 +157,24 @@ releases:
     release_date: "2023-04-19"
   1.0.8:
     changes:
+      bugfixes:
+        - Enable py38 tests (https://github.com/ansible-collections/ansible.scm/pull/175)
       trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/187)
+        - Restore tox-ansible dep (https://github.com/ansible-collections/ansible.scm/pull/186)
+        - Use PR (https://github.com/ansible-collections/ansible.scm/pull/183)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/179)
+        - Switch to reusable workflow (https://github.com/ansible-collections/ansible.scm/pull/178)
+        - Use tox-ansible from pypi (https://github.com/ansible-collections/ansible.scm/pull/177)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/173)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
         - Run antsichaut from source (https://github.com/ansible-collections/ansible.scm/pull/170)
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
         - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
     release_date: "2023-05-05"
+  1.0.9:
+    changes:
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/190)
+        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/189)
+    release_date: "2023-05-11"

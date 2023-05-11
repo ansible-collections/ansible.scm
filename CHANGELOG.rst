@@ -5,8 +5,16 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 .. contents:: Topics
 
 
+v1.0.9
+======
+
 v1.0.8
 ======
+
+Bugfixes
+--------
+
+- Enable py38 tests (https://github.com/ansible-collections/ansible.scm/pull/175)
 
 v1.0.7
 ======
