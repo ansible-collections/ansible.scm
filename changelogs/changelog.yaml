@@ -172,3 +172,8 @@ releases:
         - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
         - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
     release_date: "2023-05-05"
+  1.0.9:
+    changes:
+      trivial:
+        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/189)
+    release_date: "2023-05-11"
