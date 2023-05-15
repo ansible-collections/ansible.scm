@@ -177,9 +177,6 @@ releases:
         - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
     release_date: "2023-05-05"
   1.0.9:
-    changes:
-      trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/199)
-        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/198)
-        - Update version in galaxy.yml (https://github.com/ansible-collections/ansible.scm/pull/196)
+    changes: {}
     release_date: "2023-05-11"
+ate: "2023-05-11"
