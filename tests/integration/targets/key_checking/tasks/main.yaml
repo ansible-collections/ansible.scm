@@ -1,7 +1,7 @@
 - name: Confirm host key checking config triggers commands (no)
   ansible.scm.git_retrieve:
     origin:
-      url: git@github.com:ansible-network/ansible.scm.git
+      url: git@github.com:ansible-collections/ansible.scm.git
     host_key_checking: no
   ignore_errors: true
   register: repository
