@@ -46,7 +46,9 @@ class Result(ResultBase):
     pr_url: str = ""
 
 
-T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
+T = TypeVar(
+    "T", bound="ActionModule"
+)  # pylint: disable=invalid-name, useless-suppression
 
 
 class ActionModule(GitBase):
@@ -186,7 +188,9 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         try:
             push_line = next(
-                line for line in command.stdout_lines if "push" in line and "origin" in line
+                line
+                for line in command.stdout_lines
+                if "push" in line and "origin" in line
             )
         except StopIteration:
             self._result.failed = True
@@ -202,7 +206,7 @@ class ActionModule(GitBase):
             command_parts.extend(command_parameters)
             no_log[token_base64] = "<TOKEN>"
 
-        command_parts.extend(["push", "origin"])
+        command_parts.extend(["push", "origin", "HEAD"])
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to perform the push",
@@ -266,5 +270,7 @@ class ActionModule(GitBase):
         if self._result.pr_url and self._task.args["open_browser"]:
             webbrowser.open(self._result.pr_url, new=2)
 
-        self._result.msg = f"Successfully published local changes from: {self._path_to_repo}"
+        self._result.msg = (
+            f"Successfully published local changes from: {self._path_to_repo}"
+        )
         return asdict(self._result)
