@@ -46,10 +46,7 @@ class Result(ResultBase):
     pr_url: str = ""
 
 
-T = TypeVar(
-    "T",
-    bound="ActionModule",
-)  # pylint: disable=invalid-name, useless-suppression
+T = TypeVar("T",bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
 
 
 class ActionModule(GitBase):
