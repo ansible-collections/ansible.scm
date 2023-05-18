@@ -202,7 +202,7 @@ class ActionModule(GitBase):
             command_parts.extend(command_parameters)
             no_log[token_base64] = "<TOKEN>"
 
-        command_parts.extend(["push", "origin"])
+        command_parts.extend(["push", "origin", "HEAD"])
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to perform the push",
