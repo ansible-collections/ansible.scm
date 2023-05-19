@@ -48,9 +48,7 @@ class Result(ResultBase):
     path: str = ""
 
 
-T = TypeVar(
-    "T", bound="ActionModule"
-)  # pylint: disable=invalid-name, useless-suppression
+T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
 
 
 class ActionModule(GitBase):
