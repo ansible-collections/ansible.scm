@@ -1,8 +1,12 @@
 ---
 ancestor:
 releases:
+  1.1.0:
+    changes:
+      minor_changes:
+        - Avoid unnecessary use of a persistent connection (https://github.com/ansible-collections/ansible.scm/pull/215)
+    release_date: "2023-05-19"
   1.0.11:
-    changes: {}
     release_date: "2023-05-11"
   1.0.10:
     release_date: "2023-05-11"
