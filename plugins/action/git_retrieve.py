@@ -54,10 +54,11 @@ T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
-    _requires_connection = False
-
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-instance-attributes
+
+    _requires_connection = False
+
     def __init__(  # noqa: PLR0913
         self: T,
         connection: Connection,
@@ -354,7 +355,5 @@ class ActionModule(GitBase):
             if self._result.failed:
                 return asdict(self._result)
 
-        self._result.msg = (
-            f"Successfully retrieved repository: {self._task.args['origin']['url']}"
-        )
+        self._result.msg = f"Successfully retrieved repository: {self._task.args['origin']['url']}"
         return asdict(self._result)
