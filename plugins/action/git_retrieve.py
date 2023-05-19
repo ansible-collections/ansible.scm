@@ -56,6 +56,9 @@ class ActionModule(GitBase):
 
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-instance-attributes
+
+    _requires_connection = False
+
     def __init__(  # noqa: PLR0913
         self: T,
         connection: Connection,
