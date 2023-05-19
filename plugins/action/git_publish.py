@@ -52,6 +52,8 @@ T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
+    _requires_connection = False
+
     # pylint: disable=too-many-arguments
     def __init__(  # noqa: PLR0913
         self: T,

@@ -48,11 +48,15 @@ class Result(ResultBase):
     path: str = ""
 
 
-T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
+T = TypeVar(
+    "T", bound="ActionModule"
+)  # pylint: disable=invalid-name, useless-suppression
 
 
 class ActionModule(GitBase):
     """The retrieve action plugin."""
+
+    _requires_connection = False
 
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-instance-attributes
@@ -352,5 +356,7 @@ class ActionModule(GitBase):
             if self._result.failed:
                 return asdict(self._result)
 
-        self._result.msg = f"Successfully retrieved repository: {self._task.args['origin']['url']}"
+        self._result.msg = (
+            f"Successfully retrieved repository: {self._task.args['origin']['url']}"
+        )
         return asdict(self._result)
