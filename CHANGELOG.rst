@@ -5,6 +5,14 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 .. contents:: Topics
 
 
+v1.1.0
+======
+
+Minor Changes
+-------------
+
+- Avoid unnecessary use of a persistent connection (https://github.com/ansible-collections/ansible.scm/pull/215)
+
 v1.0.11
 =======
 
