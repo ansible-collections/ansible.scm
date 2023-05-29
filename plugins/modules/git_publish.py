@@ -61,6 +61,17 @@ options:
         interacting with the origin repository
       - Will only be used for https based connections
     type: str
+  tag:
+    description:
+      - The token used to identify a specific release
+    type: dict
+    suboptions:
+      annotation:
+        description: Specify annotate
+        type: str
+      message:
+        description: Specify tag message
+        type: str
   user:
     description:
       - Details for the user to be used for the commit
