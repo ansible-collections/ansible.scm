@@ -178,9 +178,17 @@ class ActionModule(GitBase):
             command_parts.extend(cli_parameters)
             no_log[token_base64] = "<TOKEN>"
 
-        command_parts.extend(
+        tag = self._task.args["origin"].get("tag")
+        if tag:
+            import q
+            q(tag)
+            command_parts.extend(
+            ["clone", "--depth=1", "--progress", "--no-single-branch", origin, tag],
+            )
+        else:
+            command_parts.extend(
             ["clone", "--depth=1", "--progress", "--no-single-branch", origin],
-        )
+            )
 
         command = Command(
             command_parts=command_parts,

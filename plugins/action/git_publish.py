@@ -275,7 +275,7 @@ class ActionModule(GitBase):
             self._add,
             self._commit,
         )
-        if self._task.args["tag"]:
+        if self._task.args.get("tag"):
             steps += (self._tag,)
 
         steps += (self._push,
