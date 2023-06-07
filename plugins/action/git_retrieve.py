@@ -183,7 +183,7 @@ class ActionModule(GitBase):
             import q
             q(tag)
             command_parts.extend(
-            ["clone", "--depth=1", "--progress", "--no-single-branch", origin, tag],
+            ["clone", "--depth=1", "--progress", "--branch", tag, origin],
             )
         else:
             command_parts.extend(
@@ -270,7 +270,11 @@ class ActionModule(GitBase):
         if self._branch_exists:
             command_parts.extend(["switch", branch])
         else:
-            command_parts.extend(["checkout", "-t", "-b", branch])
+            tag = self._task.args["origin"].get("tag")
+            if tag:
+                command_parts.extend(["checkout", "-b", branch])
+            else:
+                command_parts.extend(["checkout", "-t", "-b", branch])
 
         command = Command(
             command_parts=command_parts,
