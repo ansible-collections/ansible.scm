@@ -177,7 +177,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
 
     def _tag(self):
-        """Create a tag object"""
+        """Create a tag object."""
         command_parts = list(self._base_command)
         message = self._task.args["tag"].get("message")
         annotate = self._task.args["tag"]["annotation"]

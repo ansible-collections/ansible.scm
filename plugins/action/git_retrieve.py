@@ -181,11 +181,11 @@ class ActionModule(GitBase):
         tag = self._task.args["origin"].get("tag")
         if tag:
             command_parts.extend(
-            ["clone", "--depth=1", "--progress", "--branch", tag, origin],
+                ["clone", "--depth=1", "--progress", "--branch", tag, origin],
             )
         else:
             command_parts.extend(
-            ["clone", "--depth=1", "--progress", "--no-single-branch", origin],
+                ["clone", "--depth=1", "--progress", "--no-single-branch", origin],
             )
 
         command = Command(
