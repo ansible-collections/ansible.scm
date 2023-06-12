@@ -180,8 +180,6 @@ class ActionModule(GitBase):
 
         tag = self._task.args["origin"].get("tag")
         if tag:
-            import q
-            q(tag)
             command_parts.extend(
             ["clone", "--depth=1", "--progress", "--branch", tag, origin],
             )

@@ -179,16 +179,17 @@ class ActionModule(GitBase):
     def _tag(self):
         """Create a tag object"""
         command_parts = list(self._base_command)
-        message = self._task.args["tag"]["message"]
+        message = self._task.args["tag"].get("message")
         annotate = self._task.args["tag"]["annotation"]
-        message = message.replace("'", '"')
-        command_parts.extend(["tag", "-a", annotate, "-m", message])
+        command_parts.extend(["tag", "-a", annotate])
+        if message:
+            message = message.replace("'", '"')
+            command_parts.extend(["-m", message])
         command = Command(
             command_parts=command_parts,
             fail_msg=f"Failed to perform tagging: {message}",
         )
         self._run_command(command=command)
-
 
     def _push(self: T) -> None:
         """Push the commit to the origin."""
@@ -278,14 +279,15 @@ class ActionModule(GitBase):
         if self._task.args.get("tag"):
             steps += (self._tag,)
 
-        steps += (self._push,
-                  self._remove_repo,)
+        steps += (
+            self._push,
+            self._remove_repo,
+        )
 
         for step in steps:
             step()
             if self._result.failed:
                 return asdict(self._result)
-
 
         if self._result.pr_url and self._task.args["open_browser"]:
             webbrowser.open(self._result.pr_url, new=2)
