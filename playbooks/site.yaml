@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: Site playbook
+  hosts: localhost
   gather_facts: true
   tasks:
     - name: Retrieve a repository from a distant location and make it available locally
@@ -13,6 +14,7 @@
       ansible.builtin.copy:
         content: "{{ repository | to_nice_yaml }}"
         dest: "{{ repository['path'] }}/details.yaml"
+        mode: "0600"
 
     - name: Publish the changes
       ansible.scm.git_publish:

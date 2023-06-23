@@ -13,7 +13,7 @@
   register: repository
 
 - name: Verify the repository was created in the directory
-  assert:
+  ansible.builtin.assert:
     that:
       - repository.path.startswith(parent_directory)
 

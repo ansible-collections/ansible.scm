@@ -2,7 +2,7 @@
   ansible.scm.git_retrieve:
     origin:
       url: git@github.com:ansible-collections/ansible.scm.git
-    host_key_checking: no
+    host_key_checking: false
   ignore_errors: true
   register: repository
 
