@@ -1,10 +1,10 @@
 black
-git+https://github.com/ansible-community/pytest-ansible-units.git
 git+https://github.com/ansible-network/pytest-ansible-network-integration.git
-git+https://github.com/cidrblock/ansitest.git
 mypy
 pre-commit
 pylint
+pytest-ansible
 pytest-xdist
 ruff
 tox
+tox-ansible
