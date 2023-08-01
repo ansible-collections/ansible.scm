@@ -1,0 +1,11 @@
+---
+platforms:
+  - name: instance # not used
+
+scenario:
+  test_sequence:
+    - destroy
+    - prepare
+    - syntax
+    - converge
+    - destroy
