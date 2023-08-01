@@ -7,32 +7,32 @@
     integration_target_failures: []
 
   tasks:
-  - name: Find integration test targets
-    ansible.builtin.find:
-      file_type: directory
-      paths: "{{ integration_tests_path }}"
-      recurse: false
-    register: _targets
-  
-  - name: Format integration targets
-    ansible.builtin.set_fact:
-      integration_targets: "{{ _targets.files | map(attribute='path') | list | sort }}"
-  
-  - name: Run integration tests
-    ansible.builtin.include_tasks:
-      file: include_role.yml
-    with_items:
-      - "{{ integration_targets }}"
-  
-  - name: Integration tests failed
-    block:
-      - name: Show target failures
-        ansible.builtin.debug:
-          msg: "{{ integration_target_failures }}"
-        failed_when: true
-        ignore_errors: true
+    - name: Find integration test targets
+      ansible.builtin.find:
+        file_type: directory
+        paths: "{{ integration_tests_path }}"
+        recurse: false
+      register: _targets
 
-      - name: We have a problem
-        ansible.builtin.fail:
-          msg: "One or more integration tests failed!"
-    when: integration_target_failures
+    - name: Format integration targets
+      ansible.builtin.set_fact:
+        integration_targets: "{{ _targets.files | map(attribute='path') | list | sort }}"
+
+    - name: Run integration tests
+      ansible.builtin.include_tasks:
+        file: include_role.yml
+      with_items:
+        - "{{ integration_targets }}"
+
+    - name: Integration tests failed
+      block:
+        - name: Show target failures
+          ansible.builtin.debug:
+            msg: "{{ integration_target_failures }}"
+          failed_when: true
+          ignore_errors: true
+
+        - name: We have a problem
+          ansible.builtin.fail:
+            msg: "One or more integration tests failed!"
+      when: integration_target_failures

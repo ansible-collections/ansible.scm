@@ -19,17 +19,17 @@
       ansible.builtin.shell:
         cmd: cp -r --parents $(git ls-files 2> /dev/null || ls) "{{ build_dir }}"
         chdir: "{{ project_dir }}"
-    
+
     - name: Build the collection tarball
       ansible.builtin.shell:
         cmd: ansible-galaxy collection build
         chdir: "{{ build_dir }}"
-    
+
     - name: Install the collection and it's dependencies
       ansible.builtin.shell:
         cmd: ansible-galaxy collection install *.tar.gz -p "{{ collections_dir }}"
         chdir: "{{ build_dir }}"
-    
+
     - name: Template out the ansible.cfg file
       ansible.builtin.template:
         src: "{{ molecule_scenario_directory }}/ansible.cfg.j2"
