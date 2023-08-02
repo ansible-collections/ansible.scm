@@ -1,0 +1,26 @@
+- name: Integration test runner
+  hosts: localhost
+  gather_facts: false
+  vars:
+    common_state_file: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/../default/state.yml"
+    project_dir: "{{ lookup('env', 'MOLECULE_COLLECTION_SRC') }}"
+    build_dir: "{{ lookup('env', 'MOLECULE_COLLECTION_BUILD') }}"
+    collection_tmp: "{{ lookup('env', 'MOLECULE_COLLECTION_TMP') }}"
+    collections_dir: "{{ lookup('env', 'MOLECULE_COLLECTIONS_PATH') }}"
+
+  tasks:
+    - name: Check if the common state file exists
+      ansible.builtin.stat:
+        path: "{{ common_state_file }}"
+      register: common_state_stat
+
+    - name: Load the common state file
+      ansible.builtin.include_vars:
+        file: "{{ common_state_file }}"
+        name: common_state
+      when: common_state_stat.stat.exists
+
+    - name: Run the the default prepare
+      ansible.builtin.include_tasks:
+        file: ../task_files/prepare.yml
+      when: not common_state.prepared|default(false)

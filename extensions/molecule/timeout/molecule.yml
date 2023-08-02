@@ -4,12 +4,14 @@ platforms:
 provisioner:
   name: ansible
   playbooks:
-    destroy: ../_resources/playbooks/default_destroy.yml
+    cleanup: ../_resources/playbooks/noop.yml
+    converge: ../_resources/playbooks/converge.yml
+    destroy: ../_resources/playbooks/noop.yml
     prepare: ../_resources/playbooks/prepare.yml
 
 scenario:
   test_sequence:
     - prepare
-
+    - converge
   destroy_sequence:
     - destroy

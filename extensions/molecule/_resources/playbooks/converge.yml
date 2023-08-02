@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: "Integration test: {{ molecule_scenario_name }}"
+      ansible.builtin.include_role:
+        name: "{{ role_path }}"
+      vars:
+        scenario_name: "{{ lookup('env', 'MOLECULE_SCENARIO_NAME') }}"
+        collection_root: "{{ lookup('env', 'MOLECULE_COLLECTION_SRC') }}"
+        test_parent: tests/integration/targets/
+        role_path: "{{ collection_root }}{{test_parent }}{{scenario_name }}"
