@@ -15,5 +15,4 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "ansible.python.interpreterPath": "/home/bthornto/github/ansible.scm/venv/bin/python",
 }
