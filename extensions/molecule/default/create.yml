@@ -1,0 +1,40 @@
+- name: Default create playbook
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - ../resources/vars/vars.yml
+  tasks:
+    - name: Find integration test targets
+      ansible.builtin.find:
+        file_type: directory
+        paths: "{{ integration_tests_path }}"
+        recurse: false
+      register: _targets
+
+    - name: Create directories
+      ansible.builtin.file:
+        path: "{{ directory }}"
+        state: directory
+        mode: '0700'
+      loop: "{{ _targets.files }}"
+      loop_control:
+        loop_var: target
+        label: "{{ directory }}"
+      vars:
+        directory: "../{{ target.path | basename }}"
+
+    - name: Copy the template vars_files
+      ansible.builtin.template:
+        src: "{{ source }}"
+        dest: "{{ destination }}"
+        mode: '0700'
+      loop: "{{ _targets.files | product(files) | list }}"
+      loop_control:
+        loop_var: product
+        label: "{{ destination }}"
+      vars:
+        source: "{{ product[1] }}"
+        destination: "../{{ product[0].path | basename }}/{{ product[1] | basename }}"
+        files:
+          - ../resources/templates/molecule.yml
+

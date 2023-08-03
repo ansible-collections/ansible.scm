@@ -1,0 +1,11 @@
+- name: A test play
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Include a role
+      ansible.builtin.include_role:
+        name: a.b.c
+      vars:
+        v1: foo
+        v2: bar
+

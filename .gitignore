@@ -1,3 +1,9 @@
+# molecule
+molecule/
+!molecule/default/
+!molecule/resources/
+!molecule/.env.yml
+
 # sanity artifacts
 tests/output/
 
