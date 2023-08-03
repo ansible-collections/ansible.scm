@@ -37,4 +37,3 @@
         destination: "../{{ product[0].path | basename }}/{{ product[1] | basename }}"
         files:
           - ../resources/templates/molecule.yml
-
