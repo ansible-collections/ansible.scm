@@ -4,13 +4,13 @@
     state: directory
     mode: "0700"
   loop:
-    - "{{ build_dir }}"
+    - "{{ molecule_collection_build }}"
   loop_control:
     loop_var: directory
 
 - name: Copy the collection into the build directory # noqa no-changed-when
   ansible.builtin.shell:
-    cmd: cp -r --parents $(git ls-files 2> /dev/null || ls) "{{ build_dir }}"
+    cmd: cp -r --parents $(git ls-files 2> /dev/null || ls) "{{ molecule_collection_build }}"
     chdir: "{{ collection_root }}"
 
 - name: Build the collection tarball # noqa no-changed-when
