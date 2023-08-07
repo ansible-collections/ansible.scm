@@ -1,0 +1,17 @@
+platforms:
+  - name: na
+
+provisioner:
+  name: ansible
+  playbooks:
+    cleanup: ../resources/playbooks/noop.yml
+    converge: ../resources/playbooks/converge.yml
+    destroy: ../resources/playbooks/noop.yml
+    prepare: ../resources/playbooks/prepare.yml
+
+scenario:
+  test_sequence:
+    - prepare
+    - converge
+  destroy_sequence:
+    - destroy

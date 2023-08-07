@@ -1,7 +1,8 @@
 black
-git+https://github.com/ansible-network/pytest-ansible-network-integration.git
+molecule==6.0.0a2
 mypy
 pre-commit
 pylint
 ruff
+git+https://github.com/cidrblock/pytest-ansible.git@fix_better_molecule
 tox-ansible

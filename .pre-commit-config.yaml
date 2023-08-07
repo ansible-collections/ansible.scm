@@ -86,7 +86,7 @@ repos:
           - ansible-core
           - pytest
           - tox
-          - git+https://github.com/ansible-network/pytest-ansible-network-integration.git
+          - git+https://github.com/cidrblock/pytest-ansible.git@fix_better_molecule
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
     rev: v1.3.0
