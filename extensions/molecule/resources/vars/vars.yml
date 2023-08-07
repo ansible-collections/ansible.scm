@@ -9,5 +9,4 @@ molecule_collection_tmp: "/tmp/molecule/{{ collection_name }}"
 molecule_collection_build: "{{ molecule_collection_tmp }}/build"
 molecule_collections_path: "{{ molecule_collection_tmp }}/collections"
 
-
 common_state_file: "{{ molecule_ephemeral_directory }}/../default/state.yml"

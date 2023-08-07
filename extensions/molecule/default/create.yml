@@ -15,7 +15,7 @@
       ansible.builtin.file:
         path: "{{ directory }}"
         state: directory
-        mode: '0700'
+        mode: "0700"
       loop: "{{ _targets.files }}"
       loop_control:
         loop_var: target
@@ -27,7 +27,7 @@
       ansible.builtin.template:
         src: "{{ source }}"
         dest: "{{ destination }}"
-        mode: '0700'
+        mode: "0700"
       loop: "{{ _targets.files | product(files) | list }}"
       loop_control:
         loop_var: product
