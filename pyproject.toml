@@ -30,11 +30,12 @@ enable = [
 
 ]
 
+# Run with xdist 1 until molecule has shared scenario state
 [tool.pytest.ini_options]
 addopts = [
   "-vvv",
   "-n",
-  "2",
+  "1",
   "--log-level",
   "WARNING",
   "--color",
