@@ -8,8 +8,9 @@
       ansible.builtin.include_vars:
         file: ../../resources/vars/vars.yml
 
-    - name: "Integration test: {{ molecule_scenario_name }}"
+    - name: "Integration test: {{ test_name }}"
       ansible.builtin.include_role:
         name: "{{ test_path }}"
       vars:
-        test_path: "{{ integration_tests_path }}{{ molecule_scenario_name }}"
+        test_path: "{{ integration_tests_path }}{{ test_name }}"
+        test_name: "{{ molecule_scenario_name.replace('integration_', '') }}"

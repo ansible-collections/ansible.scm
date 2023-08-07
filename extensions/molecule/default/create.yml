@@ -21,7 +21,7 @@
         loop_var: target
         label: "{{ directory }}"
       vars:
-        directory: "../{{ target.path | basename }}"
+        directory: "../integration_{{ target.path | basename }}"
 
     - name: Copy the template vars_files
       ansible.builtin.template:
@@ -34,6 +34,6 @@
         label: "{{ destination }}"
       vars:
         source: "{{ product[1] }}"
-        destination: "../{{ product[0].path | basename }}/{{ product[1] | basename }}"
+        destination: "../integration_{{ product[0].path | basename }}/{{ product[1] | basename }}"
         files:
           - ../resources/templates/molecule.yml
