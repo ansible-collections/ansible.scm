@@ -24,7 +24,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tox-ansible:
-    uses: cidrblock/tox-ansible/.github/workflows/run.yml@fix_gh_action
+    uses: tox-dev/tox-ansible/.github/workflows/run.yml@main
     needs:
       - safe-to-test
 
