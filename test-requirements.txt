@@ -4,5 +4,4 @@ mypy
 pre-commit
 pylint
 ruff
-git+https://github.com/cidrblock/pytest-ansible.git@fix_better_molecule
 tox-ansible
