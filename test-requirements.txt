@@ -4,5 +4,4 @@ mypy
 pre-commit
 pylint
 ruff
-# tox-ansible
-git+https://github.com/cidrblock/tox-ansible.git@fix_gh_action
+tox-ansible
