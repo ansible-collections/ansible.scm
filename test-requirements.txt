@@ -1,5 +1,5 @@
 black
-molecule
+molecule==v6.0.0b0
 mypy
 pre-commit
 pylint

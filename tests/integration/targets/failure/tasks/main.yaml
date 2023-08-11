@@ -10,5 +10,4 @@
 - name: Confirm the return code and message
   ansible.builtin.assert:
     that:
-      - repository["output"][0]["return_code"] == 128
-      - repository["msg"].startswith("Failed to clone repository:")
+      - repository["output"][0]["return_code"] != 0

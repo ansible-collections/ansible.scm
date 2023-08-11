@@ -7,8 +7,10 @@ provisioner:
     cleanup: ../resources/playbooks/noop.yml
     converge: ../resources/playbooks/converge.yml
     destroy: ../resources/playbooks/noop.yml
-    prepare: ../resources/playbooks/prepare.yml
-
+    prepare: ../resources/playbooks/noop.yml
+  config_options:
+    defaults:
+      collections_path: ${ANSIBLE_COLLECTIONS_PATH}
 scenario:
   test_sequence:
     - prepare
