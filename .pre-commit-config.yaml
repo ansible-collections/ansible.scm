@@ -85,8 +85,7 @@ repos:
         additional_dependencies:
           - ansible-core
           - pytest
-          - tox
-          - git+https://github.com/cidrblock/pytest-ansible.git@fix_better_molecule
+          - pytest-ansible
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
     rev: v1.3.0
