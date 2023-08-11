@@ -85,8 +85,7 @@ repos:
         additional_dependencies:
           - ansible-core
           - pytest
-          - tox
-          - git+https://github.com/ansible-network/pytest-ansible-network-integration.git
+          - pytest-ansible
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
     rev: v1.3.0
