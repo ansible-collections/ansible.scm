@@ -176,7 +176,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _tag(self):
+    def _tag(self: T) -> None:
         """Create a tag object."""
         command_parts = list(self._base_command)
         message = self._task.args["tag"].get("message")
@@ -276,9 +276,9 @@ class ActionModule(GitBase):
             self._commit,
         )
         if self._task.args.get("tag"):
-            steps += (self._tag,)
+            steps = steps + (self._tag,)
 
-        steps += (
+        steps = steps + (
             self._push,
             self._remove_repo,
         )
