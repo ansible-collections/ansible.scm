@@ -220,10 +220,9 @@ class ActionModule(GitBase):
             no_log[token_base64] = "<TOKEN>"
 
         tag = self._task.args.get("tag")
+        command_parts.extend(["push", "origin", "HEAD"])
         if tag:
-            command_parts.extend(["push", "--tags", "origin", "HEAD"])
-        else:
-            command_parts.extend(["push", "origin", "HEAD"])
+            command_parts.extend(["--tags"])
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to perform the push",

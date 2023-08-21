@@ -63,7 +63,7 @@ options:
     type: str
   tag:
     description:
-      - The token used to identify a specific release
+      - Specify the tag details associated with the commit.
     type: dict
     suboptions:
       annotation:
