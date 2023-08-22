@@ -180,8 +180,8 @@ class ActionModule(GitBase):
 
         tag = self._task.args["origin"].get("tag")
         command_parts.extend(
-                ["clone", "--depth=1", "--progress"],
-            )
+            ["clone", "--depth=1", "--progress"],
+        )
         if tag:
             command_parts.extend(
                 ["--branch", tag],
