@@ -1,5 +1,6 @@
 black
-git+https://github.com/ansible-network/pytest-ansible-network-integration.git
+molecule ; python_version < '3.9'
+molecule==v6.0.0b0 ; python_version > '3.8'
 mypy
 pre-commit
 pylint

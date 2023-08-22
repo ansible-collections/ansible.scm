@@ -1,3 +1,10 @@
+# molecule
+# Remove the following once tox-ansible is molecule aware
+# molecule/
+# !molecule/default/
+# !molecule/resources/
+# !molecule/.env.yml
+
 # sanity artifacts
 tests/output/
 
