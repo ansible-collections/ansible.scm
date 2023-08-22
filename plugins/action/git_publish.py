@@ -269,19 +269,16 @@ class ActionModule(GitBase):
         self._base_command = ("git", "-C", self._path_to_repo)
         self._timeout = self._task.args["timeout"]
 
-        steps = (
+        steps = [
             self._configure_git_user_name,
             self._configure_git_user_email,
             self._add,
             self._commit,
-        )
+        ]
         if self._task.args.get("tag"):
-            steps = steps + (self._tag,)
+            steps.append(self._tag)
 
-        steps = steps + (
-            self._push,
-            self._remove_repo,
-        )
+        steps.extend([self._push, self._remove_repo])
 
         for step in steps:
             step()

@@ -150,7 +150,7 @@ Parameters
                 <td>
                 </td>
                 <td>
-                        <div>The token used to identify a specific release</div>
+                        <div>Specify the tag details associated with the commit.</div>
                 </td>
             </tr>
                                 <tr>
