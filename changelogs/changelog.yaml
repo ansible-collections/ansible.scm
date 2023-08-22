@@ -1,8 +1,12 @@
 ---
 ancestor:
 releases:
-  1.1.1:
+  1.2.0:
     changes: {}
+    fragments:
+      - support_git_tag.yaml
+    release_date: "2023-08-22"
+  1.1.1:
     release_date: "2023-08-01"
   1.1.0:
     changes:
