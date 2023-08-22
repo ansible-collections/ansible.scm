@@ -1,180 +1,53 @@
----
-ancestor:
+ancestor: null
 releases:
-  1.2.0:
-    changes: {}
-    fragments:
-      - support_git_tag.yaml
-    release_date: "2023-08-22"
-  1.1.1:
-    release_date: "2023-08-01"
-  1.1.0:
-    changes:
-      minor_changes:
-        - Avoid unnecessary use of a persistent connection (https://github.com/ansible-collections/ansible.scm/pull/215)
-    release_date: "2023-05-19"
-  1.0.11:
-    release_date: "2023-05-11"
-  1.0.10:
-    release_date: "2023-05-11"
-  1.0.9:
-    changes:
-      trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/199)
-        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/198)
-        - Update version in galaxy.yml (https://github.com/ansible-collections/ansible.scm/pull/196)
-    release_date: "2023-05-11"
-  1.0.8:
-    changes:
-      bugfixes:
-        - Enable py38 tests (https://github.com/ansible-collections/ansible.scm/pull/175)
-      trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/187)
-        - Restore tox-ansible dep (https://github.com/ansible-collections/ansible.scm/pull/186)
-        - Use PR (https://github.com/ansible-collections/ansible.scm/pull/183)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/179)
-        - Switch to reusable workflow (https://github.com/ansible-collections/ansible.scm/pull/178)
-        - Use tox-ansible from pypi (https://github.com/ansible-collections/ansible.scm/pull/177)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/173)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
-        - Run antsichaut from source (https://github.com/ansible-collections/ansible.scm/pull/170)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
-        - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
-    release_date: "2023-05-05"
-  1.0.7:
-    changes:
-      bugfixes:
-        - Allow git_publish when token is not defined (https://github.com/ansible-collections/ansible.scm/pull/163)
-        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
-      trivial:
-        - Remove testing with python3.8, switch to pytest-ansible for tests (https://github.com/ansible-collections/ansible.scm/pull/164)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/162)
-        - Remove unused workflows / Correct test (https://github.com/ansible-collections/ansible.scm/pull/161)
-        - Fix workflow needs (https://github.com/ansible-collections/ansible.scm/pull/159)
-        - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/154)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/152)
-        - Add concurrency to ack (https://github.com/ansible-collections/ansible.scm/pull/151)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
-        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
-    release_date: "2023-04-19"
-  1.0.6:
-    release_date: "2023-04-19"
-  1.0.5:
-    release_date: "2023-04-19"
-  1.0.3:
-    changes:
-      trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/142)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/141)
-    release_date: "2023-04-19"
-  1.0.2:
-    changes:
-      trivial:
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/140)
-    release_date: "2023-04-19"
-  1.0.0:
-    changes:
-      bugfixes:
-        - Correct sample playbook (https://github.com/ansible-collections/ansible.scm/pull/89)
-        - Create user specified parent directory (https://github.com/ansible-collections/ansible.scm/pull/81)
-      major_changes:
-        - Rename git_here to git_retrieve (https://github.com/ansible-collections/ansible.scm/pull/78)
-        - Rename git_away to git_publish (https://github.com/ansible-collections/ansible.scm/pull/75)
-      trivial:
-        - Comments and spelling (https://github.com/ansible-collections/ansible.scm/pull/123)
-        - Improve tox.ini (https://github.com/ansible-collections/ansible.scm/pull/120)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/118)
-        - Pin to earlier setuptools for 3.8/2.9 (https://github.com/ansible-collections/ansible.scm/pull/117)
-        - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
-        - Test without fetch depth (https://github.com/ansible-collections/ansible.scm/pull/114)
-        - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
-        - Update test.yml (https://github.com/ansible-collections/ansible.scm/pull/109)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
-        - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
-        - Add all green (https://github.com/ansible-collections/ansible.scm/pull/105)
-        - Fix secret (https://github.com/ansible-collections/ansible.scm/pull/104)
-        - Swap integration tests back (https://github.com/ansible-collections/ansible.scm/pull/100)
-        - Chore tox (https://github.com/ansible-collections/ansible.scm/pull/99)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/98)
-        - Format flake8 (https://github.com/ansible-collections/ansible.scm/pull/96)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/95)
-        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/94)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/93)"
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/92)
-        - Add release workflow (https://github.com/ansible-collections/ansible.scm/pull/91)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/90)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/88)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/86)
-        - Update to reflect ansible-core 2.12+ (https://github.com/ansible-collections/ansible.scm/pull/85)
-        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/84)
-        - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
-        - Cleanup push and galaxy file (https://github.com/ansible-collections/ansible.scm/pull/79)
-        - Format changelog (https://github.com/ansible-collections/ansible.scm/pull/77)
-    modules:
-      - description:
-          Retrieve a repository from a distant location and make it available
-          on the execution node
-        name: git_here
-        namespace: ""
-      - description:
-          Publish changes from a repository available on the execution
-          node to a distant location
-        name: git_publish
-        namespace: ""
-    release_date: "2023-03-30"
   0.1.0:
     changes:
       bugfixes:
         - Enable branch protection rules (https://github.com/ansible-collections/ansible.scm/pull/73)
         - Fix changelog collection name (https://github.com/ansible-collections/ansible.scm/pull/72)
-        - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
         - Fix string replacement (https://github.com/ansible-collections/ansible.scm/pull/70)
+        - Fix v replacement (https://github.com/ansible-collections/ansible.scm/pull/71)
         - Fix version name in GHA (https://github.com/ansible-collections/ansible.scm/pull/69)
       trivial:
-        - Remove extra changelog entries (https://github.com/ansible-collections/ansible.scm/pull/76)
-        - Remove entry from dictionary, restore 2nd checkout (https://github.com/ansible-collections/ansible.scm/pull/74)
-        - Bring release drafter config here (https://github.com/ansible-collections/ansible.scm/pull/67)
-        - Comment out changelog, quote python version (https://github.com/ansible-collections/ansible.scm/pull/66)
-        - Add environment details to push (https://github.com/ansible-collections/ansible.scm/pull/64)
-        - Move release drafter config to .github (https://github.com/ansible-collections/ansible.scm/pull/63)
-        - Add release drafter (https://github.com/ansible-collections/ansible.scm/pull/62)
-        - Updates necessary for passing tests (https://github.com/ansible-collections/ansible.scm/pull/61)
-        - Fix lower (https://github.com/ansible-collections/ansible.scm/pull/60)
-        - Fix branch name (https://github.com/ansible-collections/ansible.scm/pull/58)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)"
-        - Add accept-new for host-key checking (https://github.com/ansible-collections/ansible.scm/pull/55)
-        - Doc fix (https://github.com/ansible-collections/ansible.scm/pull/54)
-        - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
-        - Expose timeout (https://github.com/ansible-collections/ansible.scm/pull/52)
-        - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
-        - Don't run on label (https://github.com/ansible-collections/ansible.scm/pull/48)
-        - Safe to test (https://github.com/ansible-collections/ansible.scm/pull/41)
-        - test (https://github.com/ansible-collections/ansible.scm/pull/39)
-        - Auto safe to test (https://github.com/ansible-collections/ansible.scm/pull/36)
-        - Test (https://github.com/ansible-collections/ansible.scm/pull/34)
-        - Auto label (https://github.com/ansible-collections/ansible.scm/pull/33)
-        - Remove branch after push (https://github.com/ansible-collections/ansible.scm/pull/32)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)"
-        - Comment (https://github.com/ansible-collections/ansible.scm/pull/30)
-        - Formatting (https://github.com/ansible-collections/ansible.scm/pull/29)
-        - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
-        - Label for integration (https://github.com/ansible-collections/ansible.scm/pull/26)
-        - Drop approval, rely on first time contributor (https://github.com/ansible-collections/ansible.scm/pull/21)
-        - Add needs instead of individual conditions (https://github.com/ansible-collections/ansible.scm/pull/20)
-        - Switch to Pr target with conditional label for approval (https://github.com/ansible-collections/ansible.scm/pull/19)
-        - Integration (https://github.com/ansible-collections/ansible.scm/pull/18)
-        - Add token support (https://github.com/ansible-collections/ansible.scm/pull/17)
-        - Add root key for pr_url and open_browser (https://github.com/ansible-collections/ansible.scm/pull/15)
-        - Switch to action low level command (https://github.com/ansible-collections/ansible.scm/pull/14)
-        - Only configure email and name if not previously configured (https://github.com/ansible-collections/ansible.scm/pull/13)
-        - Add a basic smoke unit test (https://github.com/ansible-collections/ansible.scm/pull/12)
-        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)"
         - Add GHA and fixes for sanity (https://github.com/ansible-collections/ansible.scm/pull/9)
+        - Add a basic smoke unit test (https://github.com/ansible-collections/ansible.scm/pull/12)
+        - Add accept-new for host-key checking (https://github.com/ansible-collections/ansible.scm/pull/55)
+        - Add environment details to push (https://github.com/ansible-collections/ansible.scm/pull/64)
+        - Add host key checking (https://github.com/ansible-collections/ansible.scm/pull/53)
+        - Add needs instead of individual conditions (https://github.com/ansible-collections/ansible.scm/pull/20)
+        - Add release drafter (https://github.com/ansible-collections/ansible.scm/pull/62)
+        - Add root key for pr_url and open_browser (https://github.com/ansible-collections/ansible.scm/pull/15)
+        - Add token support (https://github.com/ansible-collections/ansible.scm/pull/17)
+        - Auto label (https://github.com/ansible-collections/ansible.scm/pull/33)
+        - Auto safe to test (https://github.com/ansible-collections/ansible.scm/pull/36)
+        - Bring release drafter config here (https://github.com/ansible-collections/ansible.scm/pull/67)
+        - Comment (https://github.com/ansible-collections/ansible.scm/pull/30)
+        - Comment out changelog, quote python version (https://github.com/ansible-collections/ansible.scm/pull/66)
+        - Doc fix (https://github.com/ansible-collections/ansible.scm/pull/54)
+        - Don't run on label (https://github.com/ansible-collections/ansible.scm/pull/48)
+        - Drop approval, rely on first time contributor (https://github.com/ansible-collections/ansible.scm/pull/21)
+        - Expose timeout (https://github.com/ansible-collections/ansible.scm/pull/52)
+        - Fix branch name (https://github.com/ansible-collections/ansible.scm/pull/58)
+        - Fix lower (https://github.com/ansible-collections/ansible.scm/pull/60)
+        - Formatting (https://github.com/ansible-collections/ansible.scm/pull/29)
+        - Integration (https://github.com/ansible-collections/ansible.scm/pull/18)
+        - Label for integration (https://github.com/ansible-collections/ansible.scm/pull/26)
+        - Move release drafter config to .github (https://github.com/ansible-collections/ansible.scm/pull/63)
+        - Only configure email and name if not previously configured (https://github.com/ansible-collections/ansible.scm/pull/13)
+        - Remove branch after push (https://github.com/ansible-collections/ansible.scm/pull/32)
+        - Remove entry from dictionary, restore 2nd checkout (https://github.com/ansible-collections/ansible.scm/pull/74)
+        - Remove extra changelog entries (https://github.com/ansible-collections/ansible.scm/pull/76)
+        - Safe to test (https://github.com/ansible-collections/ansible.scm/pull/41)
+        - Switch to Pr target with conditional label for approval (https://github.com/ansible-collections/ansible.scm/pull/19)
+        - Switch to action low level command (https://github.com/ansible-collections/ansible.scm/pull/14)
+        - Test (https://github.com/ansible-collections/ansible.scm/pull/34)
+        - Updates necessary for passing tests (https://github.com/ansible-collections/ansible.scm/pull/61)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/11)"
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/31)"
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/56)"
+        - basic and priv (https://github.com/ansible-collections/ansible.scm/pull/28)
+        - nolabel (https://github.com/ansible-collections/ansible.scm/pull/51)
+        - test (https://github.com/ansible-collections/ansible.scm/pull/39)
     fragments:
       - 12.yaml
       - 13.yaml
@@ -195,3 +68,128 @@ releases:
       - 64.yaml
       - 9.yaml
     release_date: "2023-03-29"
+  1.0.0:
+    changes:
+      bugfixes:
+        - Correct sample playbook (https://github.com/ansible-collections/ansible.scm/pull/89)
+        - Create user specified parent directory (https://github.com/ansible-collections/ansible.scm/pull/81)
+      major_changes:
+        - Rename git_away to git_publish (https://github.com/ansible-collections/ansible.scm/pull/75)
+        - Rename git_here to git_retrieve (https://github.com/ansible-collections/ansible.scm/pull/78)
+      trivial:
+        - Add all green (https://github.com/ansible-collections/ansible.scm/pull/105)
+        - Add release workflow (https://github.com/ansible-collections/ansible.scm/pull/91)
+        - Better sorting of envname (https://github.com/ansible-collections/ansible.scm/pull/107)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/108)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/111)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/118)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/84)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/86)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/88)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/90)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/92)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/95)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/98)
+        - Chore tox (https://github.com/ansible-collections/ansible.scm/pull/99)
+        - Cleanup push and galaxy file (https://github.com/ansible-collections/ansible.scm/pull/79)
+        - Comments and spelling (https://github.com/ansible-collections/ansible.scm/pull/123)
+        - Fix secret (https://github.com/ansible-collections/ansible.scm/pull/104)
+        - Format changelog (https://github.com/ansible-collections/ansible.scm/pull/77)
+        - Format flake8 (https://github.com/ansible-collections/ansible.scm/pull/96)
+        - Improve tox.ini (https://github.com/ansible-collections/ansible.scm/pull/120)
+        - Pin to earlier setuptools for 3.8/2.9 (https://github.com/ansible-collections/ansible.scm/pull/117)
+        - Remove root init (https://github.com/ansible-collections/ansible.scm/pull/116)
+        - Spelling addition (https://github.com/ansible-collections/ansible.scm/pull/112)
+        - Swap integration tests back (https://github.com/ansible-collections/ansible.scm/pull/100)
+        - Test without fetch depth (https://github.com/ansible-collections/ansible.scm/pull/114)
+        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/94)
+        - Update test.yml (https://github.com/ansible-collections/ansible.scm/pull/109)
+        - Update the galaxy.yml file during the push event (https://github.com/ansible-collections/ansible.scm/pull/80)
+        - Update to reflect ansible-core 2.12+ (https://github.com/ansible-collections/ansible.scm/pull/85)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/93)"
+    modules:
+      - description:
+          Retrieve a repository from a distant location and make it available
+          on the execution node
+        name: git_here
+        namespace: ""
+      - description:
+          Publish changes from a repository available on the execution node
+          to a distant location
+        name: git_publish
+        namespace: ""
+    release_date: "2023-03-30"
+  1.0.10:
+    release_date: "2023-05-11"
+  1.0.11:
+    release_date: "2023-05-11"
+  1.0.2:
+    changes:
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/140)
+    release_date: "2023-04-19"
+  1.0.3:
+    changes:
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/141)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/142)
+    release_date: "2023-04-19"
+  1.0.5:
+    release_date: "2023-04-19"
+  1.0.6:
+    release_date: "2023-04-19"
+  1.0.7:
+    changes:
+      bugfixes:
+        - Allow git_publish when token is not defined (https://github.com/ansible-collections/ansible.scm/pull/163)
+        - Readme doc update (https://github.com/ansible-collections/ansible.scm/pull/147)
+      trivial:
+        - Add concurrency to ack (https://github.com/ansible-collections/ansible.scm/pull/151)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/145)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/146)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/150)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/152)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/154)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/162)
+        - Fix workflow needs (https://github.com/ansible-collections/ansible.scm/pull/159)
+        - Remove testing with python3.8, switch to pytest-ansible for tests (https://github.com/ansible-collections/ansible.scm/pull/164)
+        - Remove unused workflows / Correct test (https://github.com/ansible-collections/ansible.scm/pull/161)
+        - Switch to tox-ansible (https://github.com/ansible-collections/ansible.scm/pull/157)
+        - Update test requirements (https://github.com/ansible-collections/ansible.scm/pull/149)
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/153)"
+    release_date: "2023-04-19"
+  1.0.8:
+    changes:
+      bugfixes:
+        - Enable py38 tests (https://github.com/ansible-collections/ansible.scm/pull/175)
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/168)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/171)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/173)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/179)
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/187)
+        - Restore tox-ansible dep (https://github.com/ansible-collections/ansible.scm/pull/186)
+        - Run antsichaut from source (https://github.com/ansible-collections/ansible.scm/pull/170)
+        - Switch to reusable workflow (https://github.com/ansible-collections/ansible.scm/pull/178)
+        - Use PR (https://github.com/ansible-collections/ansible.scm/pull/183)
+        - Use tox-ansible as installer, remove unit flag (https://github.com/ansible-collections/ansible.scm/pull/167)
+        - Use tox-ansible from pypi (https://github.com/ansible-collections/ansible.scm/pull/177)
+    release_date: "2023-05-05"
+  1.0.9:
+    changes:
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/199)
+        - Update push.yml (https://github.com/ansible-collections/ansible.scm/pull/198)
+        - Update version in galaxy.yml (https://github.com/ansible-collections/ansible.scm/pull/196)
+    release_date: "2023-05-11"
+  1.1.0:
+    changes:
+      minor_changes:
+        - Avoid unnecessary use of a persistent connection (https://github.com/ansible-collections/ansible.scm/pull/215)
+    release_date: "2023-05-19"
+  1.1.1:
+    release_date: "2023-08-01"
+  1.2.0:
+    fragments:
+      - support_git_tag.yaml
+    release_date: "2023-08-22"
