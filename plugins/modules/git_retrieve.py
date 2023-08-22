@@ -68,7 +68,9 @@ options:
         description:
           - The URL for the origin repository
         type: str
-
+      tag:
+        description: Specify the tag
+        type: str
   parent_directory:
     description:
       - The local directory where the repository will be placed

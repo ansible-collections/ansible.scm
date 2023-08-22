@@ -178,10 +178,18 @@ class ActionModule(GitBase):
             command_parts.extend(cli_parameters)
             no_log[token_base64] = "<TOKEN>"
 
+        tag = self._task.args["origin"].get("tag")
         command_parts.extend(
-            ["clone", "--depth=1", "--progress", "--no-single-branch", origin],
+            ["clone", "--depth=1", "--progress"],
         )
-
+        if tag:
+            command_parts.extend(
+                ["--branch", tag],
+            )
+        else:
+            command_parts.extend(
+                ["--no-single-branch", origin],
+            )
         command = Command(
             command_parts=command_parts,
             env=env,
@@ -262,7 +270,11 @@ class ActionModule(GitBase):
         if self._branch_exists:
             command_parts.extend(["switch", branch])
         else:
-            command_parts.extend(["checkout", "-t", "-b", branch])
+            tag = self._task.args["origin"].get("tag")
+            if tag:
+                command_parts.extend(["checkout", "-b", tag])
+            else:
+                command_parts.extend(["checkout", "-t", "-b", branch])
 
         command = Command(
             command_parts=command_parts,

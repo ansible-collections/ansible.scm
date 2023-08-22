@@ -176,6 +176,21 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
+    def _tag(self: T) -> None:
+        """Create a tag object."""
+        command_parts = list(self._base_command)
+        message = self._task.args["tag"].get("message")
+        annotate = self._task.args["tag"]["annotation"]
+        command_parts.extend(["tag", "-a", annotate])
+        if message:
+            message = message.replace("'", '"')
+            command_parts.extend(["-m", message])
+        command = Command(
+            command_parts=command_parts,
+            fail_msg=f"Failed to perform tagging: {message}",
+        )
+        self._run_command(command=command)
+
     def _push(self: T) -> None:
         """Push the commit to the origin."""
         command_parts = list(self._base_command)
@@ -204,7 +219,10 @@ class ActionModule(GitBase):
             command_parts.extend(command_parameters)
             no_log[token_base64] = "<TOKEN>"
 
+        tag = self._task.args.get("tag")
         command_parts.extend(["push", "origin", "HEAD"])
+        if tag:
+            command_parts.extend(["--tags"])
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to perform the push",
@@ -251,14 +269,16 @@ class ActionModule(GitBase):
         self._base_command = ("git", "-C", self._path_to_repo)
         self._timeout = self._task.args["timeout"]
 
-        steps = (
+        steps = [
             self._configure_git_user_name,
             self._configure_git_user_email,
             self._add,
             self._commit,
-            self._push,
-            self._remove_repo,
-        )
+        ]
+        if self._task.args.get("tag"):
+            steps.append(self._tag)
+
+        steps.extend([self._push, self._remove_repo])
 
         for step in steps:
             step()
