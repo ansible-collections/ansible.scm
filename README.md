@@ -1,6 +1,6 @@
 # Ansible SCM (Source Code Management) Collection
 
-This repository contains the `ansible.scm` Ansible Collection that alows you to manage Git repositories via Ansible.
+This repository contains the `ansible.scm` Ansible Collection that allows you to manage Git repositories via Ansible.
 
 <!--start requires_ansible-->
 ## Ansible version compatibility
