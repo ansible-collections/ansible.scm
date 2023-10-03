@@ -103,7 +103,7 @@ class ActionModule(GitBase):
         valid, errors, self._task.args = aav.validate()
         if not valid:
             raise AnsibleActionFail(errors)
-        if self._task.args.get("token") == "":  # noqa: PLC1901
+        if self._task.args.get("token") == "":
             err = "Token can not be an empty string"
             raise AnsibleActionFail(err)
 
