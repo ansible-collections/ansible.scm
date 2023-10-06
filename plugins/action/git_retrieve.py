@@ -9,13 +9,11 @@ import datetime
 import re
 import tempfile
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
+from typing import TYPE_CHECKING, ClassVar, Dict, List, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
-
-# pylint: disable=import-error
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )
@@ -40,13 +38,11 @@ __metaclass__ = type
 
 JSONTypes = Union[bool, int, str, Dict, List]
 
-
-@dataclass(frozen=False)
 class Result(ResultBase):
     """Data structure for the task result."""
 
     branch_name: str = ""
-    branches: list[str] = field(default_factory=list)
+    branches: ClassVar[list[str]] = []
     name: str = ""
     path: str = ""
 

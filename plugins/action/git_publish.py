@@ -9,12 +9,10 @@ import shutil
 import webbrowser
 
 from contextlib import suppress
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
-
-# pylint: disable=import-error
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )
@@ -39,8 +37,6 @@ __metaclass__ = type
 
 JSONTypes = Union[bool, int, str, Dict, List]
 
-
-@dataclass(frozen=False)
 class Result(ResultBase):
     """Data structure for the task result."""
 

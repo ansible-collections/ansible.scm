@@ -56,7 +56,7 @@ class ActionInit:
 
 
 @dataclass(frozen=False)
-class ResultBase:  # pylint: disable=too-many-instance-attributes
+class ResultBase:
     """Data structure for the task result."""
 
     changed: bool = True

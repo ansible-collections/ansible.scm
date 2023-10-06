@@ -11,6 +11,8 @@ provisioner:
   config_options:
     defaults:
       collections_path: ${ANSIBLE_COLLECTIONS_PATH}
+  env:
+    ANSIBLE_VERBOSITY: 3
 scenario:
   test_sequence:
     - prepare
