@@ -1,5 +1,5 @@
 """A base class for the git action plugins."""
-from __future__ import absolute_import, annotations, division, print_function
+from __future__ import absolute_import, division, print_function
 
 
 # pylint: disable=invalid-name
@@ -10,22 +10,18 @@ import base64
 import subprocess
 
 from dataclasses import dataclass, field, fields
-from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
+from types import ModuleType
+from typing import Dict, List, Tuple, TypeVar, Union
 
+from ansible.parsing.dataloader import DataLoader
+from ansible.playbook.play_context import PlayContext
+from ansible.playbook.task import Task
+from ansible.plugins import loader as plugin_loader
 from ansible.plugins.action import ActionBase
+from ansible.plugins.connection.local import Connection
+from ansible.template import Templar
 
-
-if TYPE_CHECKING:
-    from types import ModuleType
-
-    from ansible.parsing.dataloader import DataLoader
-    from ansible.playbook.play_context import PlayContext
-    from ansible.playbook.task import Task
-    from ansible.plugins import loader as plugin_loader
-    from ansible.plugins.connection.local import Connection
-    from ansible.template import Templar
-
-    from .command import Command
+from .command import Command
 
 
 JSONTypes = Union[bool, int, str, Dict, List]
@@ -47,7 +43,7 @@ class ActionInit:
     @property
     def asdict(
         self: T,
-    ) -> dict[str, Connection | DataLoader | PlayContext | ModuleType | Task | Templar]:
+    ) -> Dict[str, Union[Connection, DataLoader, PlayContext, ModuleType, Task, Templar]]:
         """Create a dictionary, avoiding the deepcopy with dataclass.asdict.
 
         :return: A dictionary of the keyword arguments.
@@ -56,13 +52,13 @@ class ActionInit:
 
 
 @dataclass(frozen=False)
-class ResultBase:
+class ResultBase:  # pylint: disable=too-many-instance-attributes
     """Data structure for the task result."""
 
     changed: bool = True
     failed: bool = False
     msg: str = ""
-    output: list[dict[str, int | dict[str, str] | list[str] | str]] = field(
+    output: List[Dict[str, Union[int, Dict[str, str], List[str], str]]] = field(
         default_factory=list,
     )
 
@@ -83,7 +79,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         self._timeout: int
 
     @staticmethod
-    def _git_auth_header(token: str) -> tuple[str, list[str]]:
+    def _git_auth_header(token: str) -> Tuple[str, List[str]]:
         """Create the authorization header.
 
         helpful: https://github.com/actions/checkout/blob/main/src/git-auth-helper.ts#L56
