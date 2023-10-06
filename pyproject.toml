@@ -32,14 +32,7 @@ enable = [
 
 # Run with xdist 1 until molecule has shared scenario state
 [tool.pytest.ini_options]
-addopts = [
-  "-n",
-  "1",
-  "--log-level",
-  "WARNING",
-  "--color",
-  "yes"
-]
+addopts = ["-n", "1", "--log-level", "WARNING", "--color", "yes"]
 testpaths = ["tests"]
 filterwarnings = ['ignore:AnsibleCollectionFinder has already been configured']
 
@@ -51,8 +44,9 @@ select = ["ALL"]
 # ARG = flake8 argument, overlap with pylint
 # FBT = flake8 boolean, silly
 # TID = flake8 tidy imports, need relative for pylint
-ignore = ["ARG", "FBT", "TID"]
-target-version = "py38"
+# FA100, FA102 issues with 3.8/3.9 + 2.12
+ignore = ["ARG", "FBT", "TID", "FA100", "FA102"]
+# target-version = "py38"
 
 [tool.ruff.per-file-ignores]
 # D100 Missing docstring in public module (ansible)
@@ -80,7 +74,7 @@ target-version = "py38"
 lines-after-imports = 2 # Ensures consistency for cases when there's variable vs function/class definitions after imports
 lines-between-types = 1 # Separate import/from with 1 line
 required-imports = [
-  "from __future__ import absolute_import, division, print_function"
+  "from __future__ import absolute_import, division, print_function",
 ]
 
 [tool.ruff.pydocstyle]

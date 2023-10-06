@@ -111,10 +111,10 @@ class ActionModule(GitBase):
         if not valid:
             raise AnsibleActionFail(errors)
         # ansible provides an empty sting if the parent is used
-        if self._task.args["origin"].get("token") == "":  # noqa: PLC1901
+        if self._task.args["origin"].get("token") == "":
             err = "Origin token can not be an empty string"
             raise AnsibleActionFail(err)
-        if self._task.args["upstream"].get("token") == "":  # noqa: PLC1901
+        if self._task.args["upstream"].get("token") == "":
             err = "Upstream token can not be an empty string"
             raise AnsibleActionFail(err)
 
