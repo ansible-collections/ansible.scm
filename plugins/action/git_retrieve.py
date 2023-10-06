@@ -3,19 +3,25 @@
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """The git_retrieve action plugin."""
 
-from __future__ import absolute_import, annotations, division, print_function
+from __future__ import absolute_import, division, print_function
 
 import datetime
 import re
 import tempfile
 
-from dataclasses import asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Dict, List, TypeVar, Union
+from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
+from ansible.parsing.dataloader import DataLoader
+from ansible.playbook.play_context import PlayContext
+from ansible.playbook.task import Task
+from ansible.plugins import loader as plugin_loader
+from ansible.plugins.connection.local import Connection
+from ansible.template import Templar
 
-# pylint: disable=import-error, useless-suppression
+# pylint: disable=import-error
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )
@@ -25,26 +31,19 @@ from ..plugin_utils.command import Command
 from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 
 
-if TYPE_CHECKING:
-    from ansible.parsing.dataloader import DataLoader
-    from ansible.playbook.play_context import PlayContext
-    from ansible.playbook.task import Task
-    from ansible.plugins import loader as plugin_loader
-    from ansible.plugins.connection.local import Connection
-    from ansible.template import Templar
-
-
 # pylint: disable=invalid-name
 __metaclass__ = type
 # pylint: enable=invalid-name
 
 JSONTypes = Union[bool, int, str, Dict, List]
 
+
+@dataclass(frozen=False)
 class Result(ResultBase):
     """Data structure for the task result."""
 
     branch_name: str = ""
-    branches: ClassVar[list[str]] = []
+    branches: List[str] = field(default_factory=list)
     name: str = ""
     path: str = ""
 
@@ -89,8 +88,8 @@ class ActionModule(GitBase):
             ),
         )
 
-        self._base_command: tuple[str, ...]
-        self._branches: list[str]
+        self._base_command: Tuple[str, ...]
+        self._branches: List[str]
         self._branch_name: str
         self._parent_directory: str
         self._repo_path: str
@@ -327,8 +326,8 @@ class ActionModule(GitBase):
     def run(
         self: T,
         tmp: None = None,
-        task_vars: dict[str, JSONTypes] | None = None,
-    ) -> dict[str, JSONTypes]:
+        task_vars: Optional[Dict[str, JSONTypes]] = None,
+    ) -> Dict[str, JSONTypes]:
         """Run the action plugin.
 
         :param tmp: The temporary directory
