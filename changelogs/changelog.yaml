@@ -1,8 +1,12 @@
 ---
 ancestor:
 releases:
+  1.2.2:
+    changes:
+      trivial:
+        - pre-commit updates (https://github.com/ansible-collections/ansible.scm/pull/218)
+    release_date: "2023-10-06"
   1.2.1:
-    changes: {}
     release_date: "2023-08-29"
   1.2.0:
     fragments:
