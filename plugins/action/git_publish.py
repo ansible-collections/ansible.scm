@@ -3,22 +3,16 @@
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 """The git_publish action plugin."""
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, annotations, division, print_function
 
 import shutil
 import webbrowser
 
 from contextlib import suppress
 from dataclasses import asdict, dataclass
-from typing import Dict, List, Optional, TypeVar, Union
+from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
-from ansible.parsing.dataloader import DataLoader
-from ansible.playbook.play_context import PlayContext
-from ansible.playbook.task import Task
-from ansible.plugins import loader as plugin_loader
-from ansible.plugins.connection.local import Connection
-from ansible.template import Templar
 
 # pylint: disable=import-error
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
@@ -28,6 +22,15 @@ from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_valid
 from ..modules.git_publish import DOCUMENTATION
 from ..plugin_utils.command import Command
 from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
+
+
+if TYPE_CHECKING:
+    from ansible.parsing.dataloader import DataLoader
+    from ansible.playbook.play_context import PlayContext
+    from ansible.playbook.task import Task
+    from ansible.plugins import loader as plugin_loader
+    from ansible.plugins.connection.local import Connection
+    from ansible.template import Templar
 
 
 # pylint: disable=invalid-name
@@ -248,8 +251,8 @@ class ActionModule(GitBase):
     def run(
         self: T,
         tmp: None = None,
-        task_vars: Optional[Dict[str, JSONTypes]] = None,
-    ) -> Dict[str, JSONTypes]:
+        task_vars: dict[str, JSONTypes] | None = None,
+    ) -> dict[str, JSONTypes]:
         """Run the action plugin.
 
         :param tmp: The temporary directory

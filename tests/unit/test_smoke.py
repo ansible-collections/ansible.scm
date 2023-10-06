@@ -1,13 +1,13 @@
 """Some basic smoke tests."""
 
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, annotations, division, print_function
 
 
 # pylint: disable=invalid-name
 __metaclass__ = type
 # pylint: enable=invalid-name
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -21,7 +21,9 @@ from ansible_collections.ansible.scm.plugins.action.git_retrieve import (
     ActionModule as GitRetrieveActionModule,
 )
 
-from .definitions import ActionModuleInit
+
+if TYPE_CHECKING:
+    from .definitions import ActionModuleInit
 
 
 @pytest.mark.parametrize(
@@ -31,7 +33,7 @@ from .definitions import ActionModuleInit
 )
 def test_fail_argspec(
     action_init: ActionModuleInit,
-    module: Union[GitPublishActionModule, GitRetrieveActionModule],
+    module: GitPublishActionModule | GitRetrieveActionModule,
 ) -> None:
     """Test an argspec failure.
 

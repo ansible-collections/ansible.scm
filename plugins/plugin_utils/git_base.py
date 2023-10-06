@@ -1,5 +1,5 @@
 """A base class for the git action plugins."""
-from __future__ import absolute_import, division, print_function
+from __future__ import absolute_import, annotations, division, print_function
 
 
 # pylint: disable=invalid-name
@@ -10,18 +10,22 @@ import base64
 import subprocess
 
 from dataclasses import dataclass, field, fields
-from types import ModuleType
-from typing import Dict, List, Tuple, TypeVar, Union
+from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
 
-from ansible.parsing.dataloader import DataLoader
-from ansible.playbook.play_context import PlayContext
-from ansible.playbook.task import Task
-from ansible.plugins import loader as plugin_loader
 from ansible.plugins.action import ActionBase
-from ansible.plugins.connection.local import Connection
-from ansible.template import Templar
 
-from .command import Command
+
+if TYPE_CHECKING:
+    from types import ModuleType
+
+    from ansible.parsing.dataloader import DataLoader
+    from ansible.playbook.play_context import PlayContext
+    from ansible.playbook.task import Task
+    from ansible.plugins import loader as plugin_loader
+    from ansible.plugins.connection.local import Connection
+    from ansible.template import Templar
+
+    from .command import Command
 
 
 JSONTypes = Union[bool, int, str, Dict, List]
@@ -43,7 +47,7 @@ class ActionInit:
     @property
     def asdict(
         self: T,
-    ) -> Dict[str, Union[Connection, DataLoader, PlayContext, ModuleType, Task, Templar]]:
+    ) -> dict[str, Connection | DataLoader | PlayContext | ModuleType | Task | Templar]:
         """Create a dictionary, avoiding the deepcopy with dataclass.asdict.
 
         :return: A dictionary of the keyword arguments.
@@ -58,7 +62,7 @@ class ResultBase:  # pylint: disable=too-many-instance-attributes
     changed: bool = True
     failed: bool = False
     msg: str = ""
-    output: List[Dict[str, Union[int, Dict[str, str], List[str], str]]] = field(
+    output: list[dict[str, int | dict[str, str] | list[str] | str]] = field(
         default_factory=list,
     )
 
@@ -79,7 +83,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         self._timeout: int
 
     @staticmethod
-    def _git_auth_header(token: str) -> Tuple[str, List[str]]:
+    def _git_auth_header(token: str) -> tuple[str, list[str]]:
         """Create the authorization header.
 
         helpful: https://github.com/actions/checkout/blob/main/src/git-auth-helper.ts#L56
