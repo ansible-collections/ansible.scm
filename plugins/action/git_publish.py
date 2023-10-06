@@ -13,6 +13,8 @@ from dataclasses import asdict
 from typing import TYPE_CHECKING, Dict, List, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
+
+# pylint: disable=import-error, useless-suppression
 from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
     AnsibleArgSpecValidator,
 )

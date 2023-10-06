@@ -12,6 +12,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 from ansible.errors import AnsibleActionFail
+
+# pylint: disable=import-error, useless-suppression
 from ansible_collections.ansible.scm.plugins.action.git_publish import (
     ActionModule as GitPublishActionModule,
 )
