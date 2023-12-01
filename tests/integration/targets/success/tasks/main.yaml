@@ -33,5 +33,5 @@
   no_log: true
   register: deleted
   vars:
-    auth: "{{ un64|b64encode }}"
+    auth: "{{ un64 | b64encode }}"
     un64: "x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}"
