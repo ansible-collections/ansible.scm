@@ -11,6 +11,7 @@
     "python.linting.mypyEnabled": true,
     "prettier.enable": true,
     "python.testing.pytestArgs": [
+        "--capture=fd",
         "tests"
     ],
     "python.testing.unittestEnabled": false,

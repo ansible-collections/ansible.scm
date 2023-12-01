@@ -1,0 +1,21 @@
+platforms:
+  - name: na
+
+provisioner:
+  name: ansible
+  playbooks:
+    cleanup: ../resources/playbooks/noop.yml
+    converge: ../resources/playbooks/converge.yml
+    destroy: ../resources/playbooks/noop.yml
+    prepare: ../resources/playbooks/noop.yml
+  config_options:
+    defaults:
+      collections_path: ${ANSIBLE_COLLECTIONS_PATH}
+  env:
+    ANSIBLE_VERBOSITY: 3
+scenario:
+  test_sequence:
+    - prepare
+    - converge
+  destroy_sequence:
+    - destroy
