@@ -1,6 +1,13 @@
 ---
 ancestor:
 releases:
+  1.2.3:
+    changes:
+      bugfixes:
+        - Enable ansible-lint (https://github.com/ansible-collections/ansible.scm/pull/220)
+      trivial:
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/236)
+    release_date: "2023-12-01"
   1.2.2:
     changes:
       trivial:
