@@ -349,7 +349,7 @@ class ActionModule(GitBase):
         )
 
         # Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
-        os.mkdir(self._parent_directory)
+        os.makedirs(os.path.dirname(self._parent_directory), exist_ok=True)
 
 
         self._base_command = ("git", "-C", self._parent_directory)
