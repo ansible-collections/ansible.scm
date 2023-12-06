@@ -8,6 +8,7 @@ from __future__ import absolute_import, division, print_function
 import datetime
 import re
 import tempfile
+import os
 
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -347,7 +348,9 @@ class ActionModule(GitBase):
             temporary_directory=tempfile.mkdtemp(),
         )
 
-        Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
+        # Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
+        os.mkdir(self._parent_directory)
+
 
         self._base_command = ("git", "-C", self._parent_directory)
         self._timeout = self._task.args["timeout"]
