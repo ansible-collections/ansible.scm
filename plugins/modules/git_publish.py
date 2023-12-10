@@ -115,6 +115,7 @@ EXAMPLES = r"""
       ansible.builtin.copy:
         content: "{{ repository | to_nice_yaml }}"
         dest: "{{ repository['path'] }}/details.yaml"
+        mode: '0644'
 
     - name: Publish the changes
       ansible.scm.git_publish:
