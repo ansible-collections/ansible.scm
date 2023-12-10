@@ -100,7 +100,8 @@ author:
 """
 
 EXAMPLES = r"""
-- hosts: localhost
+- name: Perform Retrieve Operation
+  hosts: localhost
   gather_facts: true
   tasks:
     - name: Retrieve a repository from a distant location and make it available locally

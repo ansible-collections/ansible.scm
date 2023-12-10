@@ -204,7 +204,8 @@ class ActionModule(GitBase):
 
         repo_name = command.stderr.splitlines()[0].split("'")[1]
         self._result.name = repo_name
-        self._repo_path = str(Path(self._parent_directory) / repo_name)
+        # self._repo_path = str(Path(self._parent_directory) / repo_name)
+        self._repo_path = self._parent_directory + "/" + repo_name
         self._result.path = self._repo_path
         self._base_command = ("git", "-C", self._repo_path)
         return
