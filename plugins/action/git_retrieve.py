@@ -347,6 +347,9 @@ class ActionModule(GitBase):
         self._parent_directory = self._task.args["parent_directory"].format(
             temporary_directory=tempfile.mkdtemp(),
         )
+        if not os.path.exists(self._parent_directory):
+            # If not, create it
+            os.makedirs(self._parent_directory)
 
         # Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
         os.makedirs(os.path.dirname(self._parent_directory), exist_ok=True)
