@@ -1,6 +1,14 @@
 ---
 ancestor:
 releases:
+  1.2.3:
+    changes:
+      bugfixes:
+        - Enable ansible-lint (https://github.com/ansible-collections/ansible.scm/pull/220)
+      trivial:
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/237)"
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/236)
+    release_date: "2023-12-10"
   1.2.2:
     changes:
       trivial:
