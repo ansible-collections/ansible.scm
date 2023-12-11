@@ -36,9 +36,8 @@ from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 __metaclass__ = type
 # pylint: enable=invalid-name
 
-# mypy: disable=type-arg
-JSONTypes = Union[bool, int, str, Dict, List]
-# mypy: enable=type-arg
+JSONTypes = Union[bool, int, str, Dict, List] # type:ignore
+
 
 @dataclass(frozen=False)
 class Result(ResultBase):
