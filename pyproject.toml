@@ -45,7 +45,8 @@ select = ["ALL"]
 # FBT = flake8 boolean, silly
 # TID = flake8 tidy imports, need relative for pylint
 # FA100, FA102 issues with 3.8/3.9 + 2.12
-ignore = ["ARG", "FBT", "TID", "FA100", "FA102"]
+# PTH110, PTH103, PTH120, PGH003 issues with os package
+ignore = ["ARG", "FBT", "TID", "FA100", "FA102", "PGH003", "PTH110", "PTH103", "PTH120"]
 # target-version = "py38"
 
 [tool.ruff.per-file-ignores]

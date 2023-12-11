@@ -305,7 +305,8 @@ Examples
 
 .. code-block:: yaml
 
-    - hosts: localhost
+    - name: Retrieve Github Repo
+      hosts: localhost
       gather_facts: true
       tasks:
         - name: Retrieve a repository from a distant location and make it available locally

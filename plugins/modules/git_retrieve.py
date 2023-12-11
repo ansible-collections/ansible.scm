@@ -117,7 +117,8 @@ author:
 """
 
 EXAMPLES = r"""
-- hosts: localhost
+- name: Retrieve Github Repo
+  hosts: localhost
   gather_facts: true
   tasks:
     - name: Retrieve a repository from a distant location and make it available locally
@@ -194,9 +195,7 @@ EXAMPLES = r"""
 #     ],
 #     "path": "/tmp/tmpvtm6_ejo/scm_testing"
 # }
-
 """
-
 RETURN = r"""
 # TO-DO: Enter return values here
 """

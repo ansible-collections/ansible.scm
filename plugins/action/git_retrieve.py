@@ -6,11 +6,11 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
+import os
 import re
 import tempfile
 
 from dataclasses import asdict, dataclass, field
-from pathlib import Path
 from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
@@ -35,7 +35,8 @@ from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 __metaclass__ = type
 # pylint: enable=invalid-name
 
-JSONTypes = Union[bool, int, str, Dict, List]
+# mypy disallow you from omitting parameters in generic types
+JSONTypes = Union[bool, int, str, Dict, List]  # type:ignore
 
 
 @dataclass(frozen=False)
@@ -203,7 +204,7 @@ class ActionModule(GitBase):
 
         repo_name = command.stderr.splitlines()[0].split("'")[1]
         self._result.name = repo_name
-        self._repo_path = str(Path(self._parent_directory) / repo_name)
+        self._repo_path = self._parent_directory + "/" + repo_name
         self._result.path = self._repo_path
         self._base_command = ("git", "-C", self._repo_path)
         return
@@ -346,8 +347,11 @@ class ActionModule(GitBase):
         self._parent_directory = self._task.args["parent_directory"].format(
             temporary_directory=tempfile.mkdtemp(),
         )
+        if not os.path.exists(self._parent_directory):
+            # If not, create it
+            os.makedirs(self._parent_directory)
 
-        Path(self._parent_directory).mkdir(parents=True, exist_ok=True)
+        os.makedirs(os.path.dirname(self._parent_directory), exist_ok=True)
 
         self._base_command = ("git", "-C", self._parent_directory)
         self._timeout = self._task.args["timeout"]
