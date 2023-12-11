@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Fix directory creation to avoid tox failures.
