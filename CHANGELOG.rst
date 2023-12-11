@@ -8,20 +8,13 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 v2.0.0
 ======
 
-Release Summary
----------------
+Bugfixes
+--------
 
-Starting from this release, the minimum `ansible-core` version this collection requires is `2.14.0`. The last known version compatible with ansible-core<2.14 is `v1.2.2`.
+- Enable ansible-lint (https://github.com/ansible-collections/ansible.scm/pull/220)
 
-Major Changes
--------------
-
-- Bumping `requires_ansible` to `>=2.14.0`, since previous ansible-core versions are EoL now.
-
-Minor Changes
--------------
-
-- Fix directory creation to avoid tox failures.
+v1.3.0
+======
 
 v1.2.2
 ======
@@ -99,7 +92,6 @@ Bugfixes
 New Modules
 -----------
 
-- git_here - Retrieve a repository from a distant location and make it available on the execution node
 - git_publish - Publish changes from a repository available on the execution node to a distant location
 
 v0.1.0
