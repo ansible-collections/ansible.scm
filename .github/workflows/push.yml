@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment: push
     steps:
-      - uses: actions/checkout@v3.5.0
+      - uses: actions/checkout@v4.1.1
         with:
           repository: ansible-collections/ansible.scm
           fetch-depth: 0
