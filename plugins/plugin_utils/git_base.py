@@ -24,7 +24,9 @@ from ansible.template import Templar
 from .command import Command
 
 
-JSONTypes = Union[bool, int, str, Dict, List] # type:ignore
+# mypy: disable=type-arg
+JSONTypes = Union[bool, int, str, Dict, List]
+# mypy: enable=type-arg
 
 T = TypeVar("T", bound="ActionInit")  # pylint: disable=invalid-name, useless-suppression
 

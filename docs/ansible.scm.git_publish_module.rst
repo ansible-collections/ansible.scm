@@ -290,7 +290,8 @@ Examples
 
 .. code-block:: yaml
 
-    - hosts: localhost
+    - name: Perform Retrieve Operation
+      hosts: localhost
       gather_facts: true
       tasks:
         - name: Retrieve a repository from a distant location and make it available locally
@@ -305,6 +306,7 @@ Examples
           ansible.builtin.copy:
             content: "{{ repository | to_nice_yaml }}"
             dest: "{{ repository['path'] }}/details.yaml"
+            mode: '0644'
 
         - name: Publish the changes
           ansible.scm.git_publish:
