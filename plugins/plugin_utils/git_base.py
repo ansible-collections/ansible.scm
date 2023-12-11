@@ -24,6 +24,7 @@ from ansible.template import Templar
 from .command import Command
 
 
+# mypy disallow you from omitting parameters in generic types
 JSONTypes = Union[bool, int, str, Dict, List] # type: ignore
 
 T = TypeVar("T", bound="ActionInit")  # pylint: disable=invalid-name, useless-suppression
