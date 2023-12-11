@@ -1,6 +1,19 @@
 ---
 ancestor:
 releases:
+  1.3.0:
+    changes:
+      bugfixes:
+        - Enable ansible-lint (https://github.com/ansible-collections/ansible.scm/pull/220)
+      minor_changes:
+        - Fix reported tox errors when performing in memory/system file operations
+          (https://github.com/ansible-collections/ansible.scm/pull/240)
+      trivial:
+        - "[pre-commit.ci] pre-commit autoupdate (https://github.com/ansible-collections/ansible.scm/pull/237)"
+        - Changelog updated (https://github.com/ansible-collections/ansible.scm/pull/236)
+    fragments:
+      - fix_tox_failures.yaml
+    release_date: "2023-12-11"
   1.2.2:
     changes:
       trivial:

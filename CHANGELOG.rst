@@ -5,6 +5,19 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 .. contents:: Topics
 
 
+v1.3.0
+======
+
+Minor Changes
+-------------
+
+- Fix reported tox errors when performing in memory/system file operations (https://github.com/ansible-collections/ansible.scm/pull/240)
+
+Bugfixes
+--------
+
+- Enable ansible-lint (https://github.com/ansible-collections/ansible.scm/pull/220)
+
 v1.2.2
 ======
 
