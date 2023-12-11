@@ -2,7 +2,7 @@
 authors:
   - Ansible Network Community (ansible-network)
 dependencies:
-  "ansible.utils": ">=2.6.1"
+  "ansible.utils": ">=3.0.0"
 license_file: LICENSE
 name: scm
 namespace: ansible
@@ -22,7 +22,7 @@ tags:
   - storage
   - tools
   - windows
-version: 1.2.2
+version: 2.0.0
 build_ignore:
   - .github
   - .gitignore
