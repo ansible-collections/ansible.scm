@@ -33,9 +33,9 @@ from ..plugin_utils.git_base import ActionInit, GitBase, ResultBase
 # pylint: disable=invalid-name
 __metaclass__ = type
 # pylint: enable=invalid-name
-  
+
 # mypy disallow you from omitting parameters in generic types
-JSONTypes = Union[bool, int, str, Dict, List] # type:ignore
+JSONTypes = Union[bool, int, str, Dict, List]  # type:ignore
 
 
 @dataclass(frozen=False)

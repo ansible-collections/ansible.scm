@@ -6,12 +6,11 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
+import os
 import re
 import tempfile
-import os
 
 from dataclasses import asdict, dataclass, field
-from pathlib import Path
 from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
@@ -37,7 +36,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 # mypy disallow you from omitting parameters in generic types
-JSONTypes = Union[bool, int, str, Dict, List] # type:ignore
+JSONTypes = Union[bool, int, str, Dict, List]  # type:ignore
 
 
 @dataclass(frozen=False)
@@ -353,7 +352,6 @@ class ActionModule(GitBase):
             os.makedirs(self._parent_directory)
 
         os.makedirs(os.path.dirname(self._parent_directory), exist_ok=True)
-
 
         self._base_command = ("git", "-C", self._parent_directory)
         self._timeout = self._task.args["timeout"]
