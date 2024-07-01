@@ -1,4 +1,5 @@
 """A base class for the git action plugins."""
+
 from __future__ import absolute_import, division, print_function
 
 
