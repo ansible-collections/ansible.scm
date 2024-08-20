@@ -1,0 +1,661 @@
+branch_name: ansible-shared_integration_test_runner-2024-08-20T092124.332587+0000
+branches:
+- main
+- main
+- ansible-localhost-2023-04-05T184924.899217+0000
+- ansible-localhost-2023-04-18T214712.887998+0000
+- ansible-localhost-2023-04-19T191835.440095+0000
+- ansible-localhost-2023-08-01T133401.184058+0000
+- chore-push-100
+- chore-push-101
+- chore-push-102
+- chore-push-103
+- chore-push-104
+- chore-push-105
+- chore-push-106
+- chore-push-107
+- chore-push-108
+- chore-push-109
+- chore-push-110
+- chore-push-111
+- chore-push-112
+- chore-push-113
+- chore-push-114
+- chore-push-115
+- chore-push-116
+- chore-push-117
+- chore-push-118
+- chore-push-119
+- chore-push-120
+- chore-push-121
+- chore-push-122
+- chore-push-123
+- chore-push-124
+- chore-push-125
+- chore-push-126
+- chore-push-127
+- chore-push-128
+- chore-push-129
+- chore-push-130
+- chore-push-131
+- chore-push-132
+- chore-push-133
+- chore-push-135
+- chore-push-141
+- chore-push-142
+- chore-push-144
+- chore-push-147
+- chore-push-148
+- chore-push-149
+- chore-push-151
+- chore-push-152
+- chore-push-153
+- chore-push-154
+- chore-push-155
+- chore-push-156
+- chore-push-157
+- chore-push-158
+- chore-push-45
+- chore-push-46
+- chore-push-47
+- chore-push-48
+- chore-push-49
+- chore-push-50
+- chore-push-51
+- chore-push-52
+- chore-push-53
+- chore-push-54
+- chore-push-55
+- chore-push-56
+- chore-push-57
+- chore-push-58
+- chore-push-59
+- chore-push-60
+- chore-push-61
+- chore-push-62
+- chore-push-63
+- chore-push-64
+- chore-push-65
+- chore-push-66
+- chore-push-73
+- chore-push-74
+- chore-push-75
+- chore-push-76
+- chore-push-77
+- chore-push-78
+- chore-push-79
+- chore-push-80
+- chore-push-81
+- chore-push-82
+- chore-push-83
+- chore-push-84
+- chore-push-85
+- chore-push-86
+- chore-push-87
+- chore-push-88
+- chore-push-89
+- chore-push-91
+- chore-push-92
+- chore-push-93
+- chore-push-94
+- chore-push-95
+- chore-push-96
+- chore-push-98
+- chore-push-99
+- chore_test
+- cidrblock-patch-1
+- cidrblock-patch-2
+- cidrblock-patch-3
+- cidrblock-patch-4
+- checkout-4.1.7
+- release-drafter-6
+- main
+- pre-commit-ci-update-config
+changed: true
+failed: false
+msg: 'Successfully retrieved repository: https://github.com/ansible-collections/ansible.scm.git'
+name: ansible.scm
+output:
+-   command: 'git -C /tmp/tmpj0ju5a4i -c ''http.extraheader=AUTHORIZATION: basic <TOKEN>''
+        clone --depth=1 --progress --no-single-branch https://github.com/ansible-collections/ansible.scm.git'
+    env: ''
+    return_code: 0
+    stderr_lines:
+    - Cloning into 'ansible.scm'...
+    - 'remote: Enumerating objects: 993, done.        '
+    - 'remote: Counting objects:   0% (1/993)        '
+    - 'remote: Counting objects:   1% (10/993)        '
+    - 'remote: Counting objects:   2% (20/993)        '
+    - 'remote: Counting objects:   3% (30/993)        '
+    - 'remote: Counting objects:   4% (40/993)        '
+    - 'remote: Counting objects:   5% (50/993)        '
+    - 'remote: Counting objects:   6% (60/993)        '
+    - 'remote: Counting objects:   7% (70/993)        '
+    - 'remote: Counting objects:   8% (80/993)        '
+    - 'remote: Counting objects:   9% (90/993)        '
+    - 'remote: Counting objects:  10% (100/993)        '
+    - 'remote: Counting objects:  11% (110/993)        '
+    - 'remote: Counting objects:  12% (120/993)        '
+    - 'remote: Counting objects:  13% (130/993)        '
+    - 'remote: Counting objects:  14% (140/993)        '
+    - 'remote: Counting objects:  15% (149/993)        '
+    - 'remote: Counting objects:  16% (159/993)        '
+    - 'remote: Counting objects:  17% (169/993)        '
+    - 'remote: Counting objects:  18% (179/993)        '
+    - 'remote: Counting objects:  19% (189/993)        '
+    - 'remote: Counting objects:  20% (199/993)        '
+    - 'remote: Counting objects:  21% (209/993)        '
+    - 'remote: Counting objects:  22% (219/993)        '
+    - 'remote: Counting objects:  23% (229/993)        '
+    - 'remote: Counting objects:  24% (239/993)        '
+    - 'remote: Counting objects:  25% (249/993)        '
+    - 'remote: Counting objects:  26% (259/993)        '
+    - 'remote: Counting objects:  27% (269/993)        '
+    - 'remote: Counting objects:  28% (279/993)        '
+    - 'remote: Counting objects:  29% (288/993)        '
+    - 'remote: Counting objects:  30% (298/993)        '
+    - 'remote: Counting objects:  31% (308/993)        '
+    - 'remote: Counting objects:  32% (318/993)        '
+    - 'remote: Counting objects:  33% (328/993)        '
+    - 'remote: Counting objects:  34% (338/993)        '
+    - 'remote: Counting objects:  35% (348/993)        '
+    - 'remote: Counting objects:  36% (358/993)        '
+    - 'remote: Counting objects:  37% (368/993)        '
+    - 'remote: Counting objects:  38% (378/993)        '
+    - 'remote: Counting objects:  39% (388/993)        '
+    - 'remote: Counting objects:  40% (398/993)        '
+    - 'remote: Counting objects:  41% (408/993)        '
+    - 'remote: Counting objects:  42% (418/993)        '
+    - 'remote: Counting objects:  43% (427/993)        '
+    - 'remote: Counting objects:  44% (437/993)        '
+    - 'remote: Counting objects:  45% (447/993)        '
+    - 'remote: Counting objects:  46% (457/993)        '
+    - 'remote: Counting objects:  47% (467/993)        '
+    - 'remote: Counting objects:  48% (477/993)        '
+    - 'remote: Counting objects:  49% (487/993)        '
+    - 'remote: Counting objects:  50% (497/993)        '
+    - 'remote: Counting objects:  51% (507/993)        '
+    - 'remote: Counting objects:  52% (517/993)        '
+    - 'remote: Counting objects:  53% (527/993)        '
+    - 'remote: Counting objects:  54% (537/993)        '
+    - 'remote: Counting objects:  55% (547/993)        '
+    - 'remote: Counting objects:  56% (557/993)        '
+    - 'remote: Counting objects:  57% (567/993)        '
+    - 'remote: Counting objects:  58% (576/993)        '
+    - 'remote: Counting objects:  59% (586/993)        '
+    - 'remote: Counting objects:  60% (596/993)        '
+    - 'remote: Counting objects:  61% (606/993)        '
+    - 'remote: Counting objects:  62% (616/993)        '
+    - 'remote: Counting objects:  63% (626/993)        '
+    - 'remote: Counting objects:  64% (636/993)        '
+    - 'remote: Counting objects:  65% (646/993)        '
+    - 'remote: Counting objects:  66% (656/993)        '
+    - 'remote: Counting objects:  67% (666/993)        '
+    - 'remote: Counting objects:  68% (676/993)        '
+    - 'remote: Counting objects:  69% (686/993)        '
+    - 'remote: Counting objects:  70% (696/993)        '
+    - 'remote: Counting objects:  71% (706/993)        '
+    - 'remote: Counting objects:  72% (715/993)        '
+    - 'remote: Counting objects:  73% (725/993)        '
+    - 'remote: Counting objects:  74% (735/993)        '
+    - 'remote: Counting objects:  75% (745/993)        '
+    - 'remote: Counting objects:  76% (755/993)        '
+    - 'remote: Counting objects:  77% (765/993)        '
+    - 'remote: Counting objects:  78% (775/993)        '
+    - 'remote: Counting objects:  79% (785/993)        '
+    - 'remote: Counting objects:  80% (795/993)        '
+    - 'remote: Counting objects:  81% (805/993)        '
+    - 'remote: Counting objects:  82% (815/993)        '
+    - 'remote: Counting objects:  83% (825/993)        '
+    - 'remote: Counting objects:  84% (835/993)        '
+    - 'remote: Counting objects:  85% (845/993)        '
+    - 'remote: Counting objects:  86% (854/993)        '
+    - 'remote: Counting objects:  87% (864/993)        '
+    - 'remote: Counting objects:  88% (874/993)        '
+    - 'remote: Counting objects:  89% (884/993)        '
+    - 'remote: Counting objects:  90% (894/993)        '
+    - 'remote: Counting objects:  91% (904/993)        '
+    - 'remote: Counting objects:  92% (914/993)        '
+    - 'remote: Counting objects:  93% (924/993)        '
+    - 'remote: Counting objects:  94% (934/993)        '
+    - 'remote: Counting objects:  95% (944/993)        '
+    - 'remote: Counting objects:  96% (954/993)        '
+    - 'remote: Counting objects:  97% (964/993)        '
+    - 'remote: Counting objects:  98% (974/993)        '
+    - 'remote: Counting objects:  99% (984/993)        '
+    - 'remote: Counting objects: 100% (993/993)        '
+    - 'remote: Counting objects: 100% (993/993), done.        '
+    - 'remote: Compressing objects:   0% (1/526)        '
+    - 'remote: Compressing objects:   1% (6/526)        '
+    - 'remote: Compressing objects:   2% (11/526)        '
+    - 'remote: Compressing objects:   3% (16/526)        '
+    - 'remote: Compressing objects:   4% (22/526)        '
+    - 'remote: Compressing objects:   5% (27/526)        '
+    - 'remote: Compressing objects:   6% (32/526)        '
+    - 'remote: Compressing objects:   7% (37/526)        '
+    - 'remote: Compressing objects:   8% (43/526)        '
+    - 'remote: Compressing objects:   9% (48/526)        '
+    - 'remote: Compressing objects:  10% (53/526)        '
+    - 'remote: Compressing objects:  11% (58/526)        '
+    - 'remote: Compressing objects:  12% (64/526)        '
+    - 'remote: Compressing objects:  13% (69/526)        '
+    - 'remote: Compressing objects:  14% (74/526)        '
+    - 'remote: Compressing objects:  15% (79/526)        '
+    - 'remote: Compressing objects:  16% (85/526)        '
+    - 'remote: Compressing objects:  17% (90/526)        '
+    - 'remote: Compressing objects:  18% (95/526)        '
+    - 'remote: Compressing objects:  19% (100/526)        '
+    - 'remote: Compressing objects:  20% (106/526)        '
+    - 'remote: Compressing objects:  21% (111/526)        '
+    - 'remote: Compressing objects:  22% (116/526)        '
+    - 'remote: Compressing objects:  23% (121/526)        '
+    - 'remote: Compressing objects:  24% (127/526)        '
+    - 'remote: Compressing objects:  25% (132/526)        '
+    - 'remote: Compressing objects:  26% (137/526)        '
+    - 'remote: Compressing objects:  27% (143/526)        '
+    - 'remote: Compressing objects:  28% (148/526)        '
+    - 'remote: Compressing objects:  29% (153/526)        '
+    - 'remote: Compressing objects:  30% (158/526)        '
+    - 'remote: Compressing objects:  31% (164/526)        '
+    - 'remote: Compressing objects:  32% (169/526)        '
+    - 'remote: Compressing objects:  33% (174/526)        '
+    - 'remote: Compressing objects:  34% (179/526)        '
+    - 'remote: Compressing objects:  35% (185/526)        '
+    - 'remote: Compressing objects:  36% (190/526)        '
+    - 'remote: Compressing objects:  37% (195/526)        '
+    - 'remote: Compressing objects:  38% (200/526)        '
+    - 'remote: Compressing objects:  39% (206/526)        '
+    - 'remote: Compressing objects:  40% (211/526)        '
+    - 'remote: Compressing objects:  41% (216/526)        '
+    - 'remote: Compressing objects:  42% (221/526)        '
+    - 'remote: Compressing objects:  43% (227/526)        '
+    - 'remote: Compressing objects:  44% (232/526)        '
+    - 'remote: Compressing objects:  45% (237/526)        '
+    - 'remote: Compressing objects:  46% (242/526)        '
+    - 'remote: Compressing objects:  47% (248/526)        '
+    - 'remote: Compressing objects:  48% (253/526)        '
+    - 'remote: Compressing objects:  49% (258/526)        '
+    - 'remote: Compressing objects:  50% (263/526)        '
+    - 'remote: Compressing objects:  51% (269/526)        '
+    - 'remote: Compressing objects:  52% (274/526)        '
+    - 'remote: Compressing objects:  53% (279/526)        '
+    - 'remote: Compressing objects:  54% (285/526)        '
+    - 'remote: Compressing objects:  55% (290/526)        '
+    - 'remote: Compressing objects:  56% (295/526)        '
+    - 'remote: Compressing objects:  57% (300/526)        '
+    - 'remote: Compressing objects:  58% (306/526)        '
+    - 'remote: Compressing objects:  59% (311/526)        '
+    - 'remote: Compressing objects:  60% (316/526)        '
+    - 'remote: Compressing objects:  61% (321/526)        '
+    - 'remote: Compressing objects:  62% (327/526)        '
+    - 'remote: Compressing objects:  63% (332/526)        '
+    - 'remote: Compressing objects:  64% (337/526)        '
+    - 'remote: Compressing objects:  65% (342/526)        '
+    - 'remote: Compressing objects:  66% (348/526)        '
+    - 'remote: Compressing objects:  67% (353/526)        '
+    - 'remote: Compressing objects:  68% (358/526)        '
+    - 'remote: Compressing objects:  69% (363/526)        '
+    - 'remote: Compressing objects:  70% (369/526)        '
+    - 'remote: Compressing objects:  71% (374/526)        '
+    - 'remote: Compressing objects:  72% (379/526)        '
+    - 'remote: Compressing objects:  73% (384/526)        '
+    - 'remote: Compressing objects:  74% (390/526)        '
+    - 'remote: Compressing objects:  75% (395/526)        '
+    - 'remote: Compressing objects:  76% (400/526)        '
+    - 'remote: Compressing objects:  77% (406/526)        '
+    - 'remote: Compressing objects:  78% (411/526)        '
+    - 'remote: Compressing objects:  79% (416/526)        '
+    - 'remote: Compressing objects:  80% (421/526)        '
+    - 'remote: Compressing objects:  81% (427/526)        '
+    - 'remote: Compressing objects:  82% (432/526)        '
+    - 'remote: Compressing objects:  83% (437/526)        '
+    - 'remote: Compressing objects:  84% (442/526)        '
+    - 'remote: Compressing objects:  85% (448/526)        '
+    - 'remote: Compressing objects:  86% (453/526)        '
+    - 'remote: Compressing objects:  87% (458/526)        '
+    - 'remote: Compressing objects:  88% (463/526)        '
+    - 'remote: Compressing objects:  89% (469/526)        '
+    - 'remote: Compressing objects:  90% (474/526)        '
+    - 'remote: Compressing objects:  91% (479/526)        '
+    - 'remote: Compressing objects:  92% (484/526)        '
+    - 'remote: Compressing objects:  93% (490/526)        '
+    - 'remote: Compressing objects:  94% (495/526)        '
+    - 'remote: Compressing objects:  95% (500/526)        '
+    - 'remote: Compressing objects:  96% (505/526)        '
+    - 'remote: Compressing objects:  97% (511/526)        '
+    - 'remote: Compressing objects:  98% (516/526)        '
+    - 'remote: Compressing objects:  99% (521/526)        '
+    - 'remote: Compressing objects: 100% (526/526)        '
+    - 'remote: Compressing objects: 100% (526/526), done.        '
+    - 'Receiving objects:   0% (1/993)'
+    - 'Receiving objects:   1% (10/993)'
+    - 'Receiving objects:   2% (20/993)'
+    - 'Receiving objects:   3% (30/993)'
+    - 'Receiving objects:   4% (40/993)'
+    - 'Receiving objects:   5% (50/993)'
+    - 'Receiving objects:   6% (60/993)'
+    - 'Receiving objects:   7% (70/993)'
+    - 'Receiving objects:   8% (80/993)'
+    - 'Receiving objects:   9% (90/993)'
+    - 'Receiving objects:  10% (100/993)'
+    - 'Receiving objects:  11% (110/993)'
+    - 'Receiving objects:  12% (120/993)'
+    - 'Receiving objects:  13% (130/993)'
+    - 'Receiving objects:  14% (140/993)'
+    - 'Receiving objects:  15% (149/993)'
+    - 'Receiving objects:  16% (159/993)'
+    - 'Receiving objects:  17% (169/993)'
+    - 'Receiving objects:  18% (179/993)'
+    - 'Receiving objects:  19% (189/993)'
+    - 'Receiving objects:  20% (199/993)'
+    - 'Receiving objects:  21% (209/993)'
+    - 'Receiving objects:  22% (219/993)'
+    - 'Receiving objects:  23% (229/993)'
+    - 'Receiving objects:  24% (239/993)'
+    - 'Receiving objects:  25% (249/993)'
+    - 'Receiving objects:  26% (259/993)'
+    - 'Receiving objects:  27% (269/993)'
+    - 'Receiving objects:  28% (279/993)'
+    - 'Receiving objects:  29% (288/993)'
+    - 'Receiving objects:  30% (298/993)'
+    - 'Receiving objects:  31% (308/993)'
+    - 'Receiving objects:  32% (318/993)'
+    - 'Receiving objects:  33% (328/993)'
+    - 'Receiving objects:  34% (338/993)'
+    - 'Receiving objects:  35% (348/993)'
+    - 'Receiving objects:  36% (358/993)'
+    - 'Receiving objects:  37% (368/993)'
+    - 'Receiving objects:  38% (378/993)'
+    - 'Receiving objects:  39% (388/993)'
+    - 'Receiving objects:  40% (398/993)'
+    - 'Receiving objects:  41% (408/993)'
+    - 'Receiving objects:  42% (418/993)'
+    - 'Receiving objects:  43% (427/993)'
+    - 'Receiving objects:  44% (437/993)'
+    - 'Receiving objects:  45% (447/993)'
+    - 'Receiving objects:  46% (457/993)'
+    - 'Receiving objects:  47% (467/993)'
+    - 'Receiving objects:  48% (477/993)'
+    - 'Receiving objects:  49% (487/993)'
+    - 'Receiving objects:  50% (497/993)'
+    - 'Receiving objects:  51% (507/993)'
+    - 'Receiving objects:  52% (517/993)'
+    - 'Receiving objects:  53% (527/993)'
+    - 'Receiving objects:  54% (537/993)'
+    - 'Receiving objects:  55% (547/993)'
+    - 'Receiving objects:  56% (557/993)'
+    - 'Receiving objects:  57% (567/993)'
+    - 'Receiving objects:  58% (576/993)'
+    - 'Receiving objects:  59% (586/993)'
+    - 'Receiving objects:  60% (596/993)'
+    - 'Receiving objects:  61% (606/993)'
+    - 'Receiving objects:  62% (616/993)'
+    - 'Receiving objects:  63% (626/993)'
+    - 'Receiving objects:  64% (636/993)'
+    - 'Receiving objects:  65% (646/993)'
+    - 'Receiving objects:  66% (656/993)'
+    - 'Receiving objects:  67% (666/993)'
+    - 'Receiving objects:  68% (676/993)'
+    - 'Receiving objects:  69% (686/993)'
+    - 'Receiving objects:  70% (696/993)'
+    - 'Receiving objects:  71% (706/993)'
+    - 'Receiving objects:  72% (715/993)'
+    - 'Receiving objects:  73% (725/993)'
+    - 'Receiving objects:  74% (735/993)'
+    - 'Receiving objects:  75% (745/993)'
+    - 'Receiving objects:  76% (755/993)'
+    - 'Receiving objects:  77% (765/993)'
+    - 'Receiving objects:  78% (775/993)'
+    - 'Receiving objects:  79% (785/993)'
+    - 'Receiving objects:  80% (795/993)'
+    - 'Receiving objects:  81% (805/993)'
+    - 'Receiving objects:  82% (815/993)'
+    - 'Receiving objects:  83% (825/993)'
+    - 'Receiving objects:  84% (835/993)'
+    - 'Receiving objects:  85% (845/993)'
+    - 'Receiving objects:  86% (854/993)'
+    - 'Receiving objects:  87% (864/993)'
+    - 'Receiving objects:  88% (874/993)'
+    - 'Receiving objects:  89% (884/993)'
+    - 'Receiving objects:  90% (894/993)'
+    - 'Receiving objects:  91% (904/993)'
+    - 'Receiving objects:  92% (914/993)'
+    - 'Receiving objects:  93% (924/993)'
+    - 'Receiving objects:  94% (934/993)'
+    - 'Receiving objects:  95% (944/993)'
+    - 'Receiving objects:  96% (954/993)'
+    - 'Receiving objects:  97% (964/993)'
+    - 'remote: Total 993 (delta 600), reused 733 (delta 406), pack-reused 0 (from
+        0)        '
+    - 'Receiving objects:  98% (974/993)'
+    - 'Receiving objects:  99% (984/993)'
+    - 'Receiving objects: 100% (993/993)'
+    - 'Receiving objects: 100% (993/993), 182.55 KiB | 4.15 MiB/s, done.'
+    - 'Resolving deltas:   0% (0/600)'
+    - 'Resolving deltas:   1% (6/600)'
+    - 'Resolving deltas:   2% (12/600)'
+    - 'Resolving deltas:   3% (18/600)'
+    - 'Resolving deltas:   4% (24/600)'
+    - 'Resolving deltas:   5% (30/600)'
+    - 'Resolving deltas:   6% (36/600)'
+    - 'Resolving deltas:   7% (42/600)'
+    - 'Resolving deltas:   8% (48/600)'
+    - 'Resolving deltas:   9% (54/600)'
+    - 'Resolving deltas:  10% (60/600)'
+    - 'Resolving deltas:  11% (66/600)'
+    - 'Resolving deltas:  12% (72/600)'
+    - 'Resolving deltas:  13% (78/600)'
+    - 'Resolving deltas:  14% (84/600)'
+    - 'Resolving deltas:  15% (90/600)'
+    - 'Resolving deltas:  16% (96/600)'
+    - 'Resolving deltas:  17% (102/600)'
+    - 'Resolving deltas:  18% (110/600)'
+    - 'Resolving deltas:  19% (114/600)'
+    - 'Resolving deltas:  20% (120/600)'
+    - 'Resolving deltas:  21% (126/600)'
+    - 'Resolving deltas:  22% (132/600)'
+    - 'Resolving deltas:  23% (138/600)'
+    - 'Resolving deltas:  24% (144/600)'
+    - 'Resolving deltas:  25% (150/600)'
+    - 'Resolving deltas:  26% (156/600)'
+    - 'Resolving deltas:  27% (162/600)'
+    - 'Resolving deltas:  28% (169/600)'
+    - 'Resolving deltas:  29% (174/600)'
+    - 'Resolving deltas:  30% (180/600)'
+    - 'Resolving deltas:  31% (186/600)'
+    - 'Resolving deltas:  32% (192/600)'
+    - 'Resolving deltas:  33% (198/600)'
+    - 'Resolving deltas:  34% (204/600)'
+    - 'Resolving deltas:  35% (210/600)'
+    - 'Resolving deltas:  36% (217/600)'
+    - 'Resolving deltas:  37% (222/600)'
+    - 'Resolving deltas:  38% (228/600)'
+    - 'Resolving deltas:  39% (235/600)'
+    - 'Resolving deltas:  40% (240/600)'
+    - 'Resolving deltas:  41% (246/600)'
+    - 'Resolving deltas:  42% (252/600)'
+    - 'Resolving deltas:  43% (258/600)'
+    - 'Resolving deltas:  44% (264/600)'
+    - 'Resolving deltas:  45% (270/600)'
+    - 'Resolving deltas:  46% (276/600)'
+    - 'Resolving deltas:  47% (282/600)'
+    - 'Resolving deltas:  48% (288/600)'
+    - 'Resolving deltas:  49% (294/600)'
+    - 'Resolving deltas:  50% (300/600)'
+    - 'Resolving deltas:  51% (306/600)'
+    - 'Resolving deltas:  52% (312/600)'
+    - 'Resolving deltas:  53% (318/600)'
+    - 'Resolving deltas:  54% (324/600)'
+    - 'Resolving deltas:  55% (330/600)'
+    - 'Resolving deltas:  56% (336/600)'
+    - 'Resolving deltas:  57% (342/600)'
+    - 'Resolving deltas:  58% (348/600)'
+    - 'Resolving deltas:  59% (354/600)'
+    - 'Resolving deltas:  60% (360/600)'
+    - 'Resolving deltas:  61% (366/600)'
+    - 'Resolving deltas:  62% (372/600)'
+    - 'Resolving deltas:  63% (378/600)'
+    - 'Resolving deltas:  64% (384/600)'
+    - 'Resolving deltas:  65% (390/600)'
+    - 'Resolving deltas:  66% (396/600)'
+    - 'Resolving deltas:  67% (402/600)'
+    - 'Resolving deltas:  68% (408/600)'
+    - 'Resolving deltas:  69% (414/600)'
+    - 'Resolving deltas:  70% (420/600)'
+    - 'Resolving deltas:  71% (426/600)'
+    - 'Resolving deltas:  72% (432/600)'
+    - 'Resolving deltas:  73% (438/600)'
+    - 'Resolving deltas:  74% (444/600)'
+    - 'Resolving deltas:  75% (450/600)'
+    - 'Resolving deltas:  76% (456/600)'
+    - 'Resolving deltas:  77% (462/600)'
+    - 'Resolving deltas:  78% (468/600)'
+    - 'Resolving deltas:  79% (474/600)'
+    - 'Resolving deltas:  80% (480/600)'
+    - 'Resolving deltas:  81% (486/600)'
+    - 'Resolving deltas:  82% (492/600)'
+    - 'Resolving deltas:  83% (498/600)'
+    - 'Resolving deltas:  84% (504/600)'
+    - 'Resolving deltas:  85% (510/600)'
+    - 'Resolving deltas:  86% (516/600)'
+    - 'Resolving deltas:  87% (522/600)'
+    - 'Resolving deltas:  88% (529/600)'
+    - 'Resolving deltas:  89% (534/600)'
+    - 'Resolving deltas:  90% (540/600)'
+    - 'Resolving deltas:  91% (547/600)'
+    - 'Resolving deltas:  92% (552/600)'
+    - 'Resolving deltas:  93% (559/600)'
+    - 'Resolving deltas:  94% (564/600)'
+    - 'Resolving deltas:  95% (570/600)'
+    - 'Resolving deltas:  96% (576/600)'
+    - 'Resolving deltas:  97% (582/600)'
+    - 'Resolving deltas:  98% (588/600)'
+    - 'Resolving deltas:  99% (594/600)'
+    - 'Resolving deltas: 100% (600/600)'
+    - 'Resolving deltas: 100% (600/600), done.'
+    stdout_lines: []
+-   command: git -C /tmp/tmpj0ju5a4i/ansible.scm branch -a
+    env: ''
+    return_code: 0
+    stderr_lines: []
+    stdout_lines:
+    - '* main'
+    - '  remotes/origin/HEAD -> origin/main'
+    - '  remotes/origin/ansible-localhost-2023-04-05T184924.899217+0000'
+    - '  remotes/origin/ansible-localhost-2023-04-18T214712.887998+0000'
+    - '  remotes/origin/ansible-localhost-2023-04-19T191835.440095+0000'
+    - '  remotes/origin/ansible-localhost-2023-08-01T133401.184058+0000'
+    - '  remotes/origin/chore-push-100'
+    - '  remotes/origin/chore-push-101'
+    - '  remotes/origin/chore-push-102'
+    - '  remotes/origin/chore-push-103'
+    - '  remotes/origin/chore-push-104'
+    - '  remotes/origin/chore-push-105'
+    - '  remotes/origin/chore-push-106'
+    - '  remotes/origin/chore-push-107'
+    - '  remotes/origin/chore-push-108'
+    - '  remotes/origin/chore-push-109'
+    - '  remotes/origin/chore-push-110'
+    - '  remotes/origin/chore-push-111'
+    - '  remotes/origin/chore-push-112'
+    - '  remotes/origin/chore-push-113'
+    - '  remotes/origin/chore-push-114'
+    - '  remotes/origin/chore-push-115'
+    - '  remotes/origin/chore-push-116'
+    - '  remotes/origin/chore-push-117'
+    - '  remotes/origin/chore-push-118'
+    - '  remotes/origin/chore-push-119'
+    - '  remotes/origin/chore-push-120'
+    - '  remotes/origin/chore-push-121'
+    - '  remotes/origin/chore-push-122'
+    - '  remotes/origin/chore-push-123'
+    - '  remotes/origin/chore-push-124'
+    - '  remotes/origin/chore-push-125'
+    - '  remotes/origin/chore-push-126'
+    - '  remotes/origin/chore-push-127'
+    - '  remotes/origin/chore-push-128'
+    - '  remotes/origin/chore-push-129'
+    - '  remotes/origin/chore-push-130'
+    - '  remotes/origin/chore-push-131'
+    - '  remotes/origin/chore-push-132'
+    - '  remotes/origin/chore-push-133'
+    - '  remotes/origin/chore-push-135'
+    - '  remotes/origin/chore-push-141'
+    - '  remotes/origin/chore-push-142'
+    - '  remotes/origin/chore-push-144'
+    - '  remotes/origin/chore-push-147'
+    - '  remotes/origin/chore-push-148'
+    - '  remotes/origin/chore-push-149'
+    - '  remotes/origin/chore-push-151'
+    - '  remotes/origin/chore-push-152'
+    - '  remotes/origin/chore-push-153'
+    - '  remotes/origin/chore-push-154'
+    - '  remotes/origin/chore-push-155'
+    - '  remotes/origin/chore-push-156'
+    - '  remotes/origin/chore-push-157'
+    - '  remotes/origin/chore-push-158'
+    - '  remotes/origin/chore-push-45'
+    - '  remotes/origin/chore-push-46'
+    - '  remotes/origin/chore-push-47'
+    - '  remotes/origin/chore-push-48'
+    - '  remotes/origin/chore-push-49'
+    - '  remotes/origin/chore-push-50'
+    - '  remotes/origin/chore-push-51'
+    - '  remotes/origin/chore-push-52'
+    - '  remotes/origin/chore-push-53'
+    - '  remotes/origin/chore-push-54'
+    - '  remotes/origin/chore-push-55'
+    - '  remotes/origin/chore-push-56'
+    - '  remotes/origin/chore-push-57'
+    - '  remotes/origin/chore-push-58'
+    - '  remotes/origin/chore-push-59'
+    - '  remotes/origin/chore-push-60'
+    - '  remotes/origin/chore-push-61'
+    - '  remotes/origin/chore-push-62'
+    - '  remotes/origin/chore-push-63'
+    - '  remotes/origin/chore-push-64'
+    - '  remotes/origin/chore-push-65'
+    - '  remotes/origin/chore-push-66'
+    - '  remotes/origin/chore-push-73'
+    - '  remotes/origin/chore-push-74'
+    - '  remotes/origin/chore-push-75'
+    - '  remotes/origin/chore-push-76'
+    - '  remotes/origin/chore-push-77'
+    - '  remotes/origin/chore-push-78'
+    - '  remotes/origin/chore-push-79'
+    - '  remotes/origin/chore-push-80'
+    - '  remotes/origin/chore-push-81'
+    - '  remotes/origin/chore-push-82'
+    - '  remotes/origin/chore-push-83'
+    - '  remotes/origin/chore-push-84'
+    - '  remotes/origin/chore-push-85'
+    - '  remotes/origin/chore-push-86'
+    - '  remotes/origin/chore-push-87'
+    - '  remotes/origin/chore-push-88'
+    - '  remotes/origin/chore-push-89'
+    - '  remotes/origin/chore-push-91'
+    - '  remotes/origin/chore-push-92'
+    - '  remotes/origin/chore-push-93'
+    - '  remotes/origin/chore-push-94'
+    - '  remotes/origin/chore-push-95'
+    - '  remotes/origin/chore-push-96'
+    - '  remotes/origin/chore-push-98'
+    - '  remotes/origin/chore-push-99'
+    - '  remotes/origin/chore_test'
+    - '  remotes/origin/cidrblock-patch-1'
+    - '  remotes/origin/cidrblock-patch-2'
+    - '  remotes/origin/cidrblock-patch-3'
+    - '  remotes/origin/cidrblock-patch-4'
+    - '  remotes/origin/dependabot/github_actions/actions/checkout-4.1.7'
+    - '  remotes/origin/dependabot/github_actions/release-drafter/release-drafter-6'
+    - '  remotes/origin/main'
+    - '  remotes/origin/pre-commit-ci-update-config'
+-   command: git -C /tmp/tmpj0ju5a4i/ansible.scm checkout -t -b ansible-shared_integration_test_runner-2024-08-20T092124.332587+0000
+    env: ''
+    return_code: 0
+    stderr_lines:
+    - Switched to a new branch 'ansible-shared_integration_test_runner-2024-08-20T092124.332587+0000'
+    stdout_lines:
+    - branch 'ansible-shared_integration_test_runner-2024-08-20T092124.332587+0000'
+        set up to track 'main'.
+path: /tmp/tmpj0ju5a4i/ansible.scm
