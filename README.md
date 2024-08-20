@@ -62,7 +62,7 @@ As a Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/sea
 
 If a support case cannot be opened with Red Hat and the collection has been obtained either from [Galaxy](https://galaxy.ansible.com/ui/) or [GitHub](https://github.com/ansible-collections/ansible.scm), there is community support available at no charge.
 
-You can join us on [#network:ansible.com](https://matrix.to/#/#network:ansible.com) channel or the [Ansible Forum Network Working Group](https://forum.ansible.com/g/network-wg).
+You can join us on [#network:ansible.com](https://matrix.to/#/#network:ansible.com) room or the [Ansible Forum Network Working Group](https://forum.ansible.com/g/network-wg).
 
 ## Licensing
 
