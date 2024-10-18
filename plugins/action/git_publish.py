@@ -169,7 +169,7 @@ class ActionModule(GitBase):
         """Perform a commit for the pending push."""
         command_parts = list(self._base_command)
         message = self._task.args["commit"]["message"].format(play_name=self._play_name)
-        message = message.replace("'", '"')       
+        message = message.replace("'", '"')
         command_parts.extend(["commit", "-m", message])
         if self._task.args["allow_empty"]:
             command_parts.extend(["--allow-empty"])
@@ -179,7 +179,9 @@ class ActionModule(GitBase):
             fail_msg=f"Failed to perform the commit: {message}",
         )
 
-        self._run_command(command=command, **( {} if self._task.args["allow_empty"] else {"ignore_errors":True} ) )
+        self._run_command(
+            command=command, **({} if self._task.args["allow_empty"] else {"ignore_errors": True}),
+        )
 
     def _tag(self: T) -> None:
         """Create a tag object."""
@@ -294,12 +296,12 @@ class ActionModule(GitBase):
             webbrowser.open(self._result.pr_url, new=2)
 
         for cmd_output in self._result.output:
-            if "nothing to commit, working tree clean" in cmd_output['stdout_lines']:
+            if "nothing to commit, working tree clean" in cmd_output["stdout_lines"]:
                 self._result.changed = False
 
         if self._result.changed:
             self._result.msg = f"Successfully published local changes from: {self._path_to_repo}"
         else:
-            self._result.msg = f"nothing to commit, working tree clean"
+            self._result.msg = "nothing to commit, working tree clean"
 
         return asdict(self._result)

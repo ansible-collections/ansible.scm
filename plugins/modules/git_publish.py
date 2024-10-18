@@ -35,7 +35,7 @@ options:
     elements: str
     type: list
   allow_empty:
-    description: 
+    description:
       - Allow an empty commit even if no changes have been made.
     default: true
     type: bool
