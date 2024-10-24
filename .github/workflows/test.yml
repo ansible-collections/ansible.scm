@@ -24,7 +24,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tox-ansible:
-    uses: tox-dev/tox-ansible/.github/workflows/run.yml@main
+    uses: ansible/tox-ansible/.github/workflows/run.yml@main
     needs:
       - safe-to-test
 
