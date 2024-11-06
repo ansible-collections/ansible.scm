@@ -228,7 +228,7 @@ class ActionModule(GitBase):
             if line.startswith("*"):
                 self._branches.append(line.split()[1])
             else:
-                self._branches.append(line.split("/")[-1])
+                self._branches.append(line.split("origin/")[-1])
         self._result.branches = self._branches
 
         timestamp = (
