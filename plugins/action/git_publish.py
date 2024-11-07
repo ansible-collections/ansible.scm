@@ -180,7 +180,8 @@ class ActionModule(GitBase):
         )
 
         self._run_command(
-            command=command, **({} if self._task.args["allow_empty"] else {"ignore_errors": True}),
+            command=command,
+            **({} if self._task.args["allow_empty"] else {"ignore_errors": True}),
         )
 
     def _tag(self: T) -> None:
