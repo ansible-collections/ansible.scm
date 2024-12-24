@@ -34,6 +34,11 @@ options:
     default: ['--all']
     elements: str
     type: list
+  allow_empty:
+    description:
+      - Allow an empty commit even if no changes have been made.
+    default: true
+    type: bool
   open_browser:
     description:
       - Open the default browser to the pull-request page
