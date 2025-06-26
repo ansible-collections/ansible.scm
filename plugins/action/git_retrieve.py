@@ -185,7 +185,7 @@ class ActionModule(GitBase):
         )
         if tag:
             command_parts.extend(
-                ["--branch", tag],
+                ["--branch", tag, origin],
             )
         else:
             command_parts.extend(
