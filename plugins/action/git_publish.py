@@ -112,7 +112,9 @@ class ActionModule(GitBase):
             err = "Token can not be an empty string"
             raise AnsibleActionFail(err)
         if self._task.args.get("ssh_key_file") and self._task.args.get("ssh_key_content"):
-            raise AnsibleActionFail("Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive.")
+            raise AnsibleActionFail(
+                "Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive.",
+            )
 
     def _prepare_ssh_environment(self: T) -> None:
         """Prepares the environment for SSH key authentication."""
@@ -306,7 +308,7 @@ class ActionModule(GitBase):
             self._check_argspec()
             if self._result.failed:
                 return asdict(self._result)
-            
+
             self._prepare_ssh_environment()
 
             self._path_to_repo = self._task.args["path"]

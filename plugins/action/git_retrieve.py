@@ -122,7 +122,9 @@ class ActionModule(GitBase):
             raise AnsibleActionFail(err)
         origin_args = self._task.args.get("origin", {})
         if origin_args.get("ssh_key_file") and origin_args.get("ssh_key_content"):
-            raise AnsibleActionFail("Parameters `origin.ssh_key_file` and `origin.ssh_key_content` are mutually exclusive.")
+            raise AnsibleActionFail(
+                "Parameters `origin.ssh_key_file` and `origin.ssh_key_content` are mutually exclusive.",
+            )
 
     def _prepare_ssh_environment(self: T) -> None:
         """Prepares the environment for SSH key authentication."""
