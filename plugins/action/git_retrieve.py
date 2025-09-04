@@ -184,14 +184,9 @@ class ActionModule(GitBase):
         self._run_command(command=command)
 
     def _clone(self: T) -> None:
-        """Clone the repository.
-
-        Additionally set the base command to the repository path.
-        """
+        """Clone the repository, creating a new subdirectory."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
-
-        # Since the repo isn't cloned yet, set the host key checking value with an variable
         has_ssh_url = origin.startswith("git") or upstream.startswith("git")
         host_key_checking = self._task.args["host_key_checking"]
 
@@ -219,7 +214,8 @@ class ActionModule(GitBase):
                 ["--branch", tag],
             )
 
-        command_parts.extend([origin, "."])
+        # Clone WITHOUT specifying a destination, which creates a new subdirectory.
+        command_parts.extend([origin])
 
         command = Command(
             command_parts=command_parts,
@@ -232,9 +228,16 @@ class ActionModule(GitBase):
         if self._result.failed:
             return
 
-        repo_name = os.path.basename(origin).replace(".git", "")
+        # Added logic to parse the new directory name from git's stderr output
+        try:
+            repo_name = command.stderr.splitlines()[0].split("'")[1]
+        except (IndexError, AttributeError):
+            self._result.failed = True
+            self._result.msg = "Could not determine repository name from clone output."
+            return
+
         self._result.name = repo_name
-        self._repo_path = self._parent_directory
+        self._repo_path = self._parent_directory + "/" + repo_name # Reconstruct the full path
         self._result.path = self._repo_path
         self._base_command = ("git", "-C", self._repo_path)
         return
