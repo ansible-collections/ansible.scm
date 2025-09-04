@@ -237,7 +237,7 @@ class ActionModule(GitBase):
             return
 
         self._result.name = repo_name
-        self._repo_path = self._parent_directory + "/" + repo_name # Reconstruct the full path
+        self._repo_path = self._parent_directory + "/" + repo_name  # Reconstruct the full path
         self._result.path = self._repo_path
         self._base_command = ("git", "-C", self._repo_path)
         return
