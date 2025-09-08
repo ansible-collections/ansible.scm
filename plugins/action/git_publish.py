@@ -53,13 +53,13 @@ class Result(ResultBase):
 T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
 
 
+# pylint: disable=too-many-instance-attributes
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
     _requires_connection = False
 
     # pylint: disable=too-many-arguments
-    # pylint: disable=too-many-instance-attributes
     def __init__(  # noqa: PLR0913
         self: T,
         connection: Connection,
