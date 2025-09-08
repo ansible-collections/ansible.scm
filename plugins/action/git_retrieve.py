@@ -9,9 +9,9 @@ import datetime
 import os
 import re
 import tempfile
-from pathlib import Path
 
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
@@ -125,7 +125,6 @@ class ActionModule(GitBase):
         if origin_args.get("ssh_key_file") and origin_args.get("ssh_key_content"):
             msg = "Parameters `origin.ssh_key_file` and `origin.ssh_key_content` are mutually exclusive."
             raise AnsibleActionFail(msg)
-
 
     def _prepare_ssh_environment(self: T) -> None:
         """Prepare the environment for SSH key authentication."""

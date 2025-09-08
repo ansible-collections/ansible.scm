@@ -9,10 +9,10 @@ import os
 import shutil
 import tempfile
 import webbrowser
-from pathlib import Path
 
 from contextlib import suppress
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Dict, List, Optional, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
