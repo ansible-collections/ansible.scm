@@ -9,6 +9,7 @@ import datetime
 import os
 import re
 import tempfile
+from pathlib import Path
 
 from dataclasses import asdict, dataclass, field
 from typing import Dict, List, Optional, Tuple, TypeVar, Union
@@ -122,12 +123,12 @@ class ActionModule(GitBase):
             raise AnsibleActionFail(err)
         origin_args = self._task.args.get("origin", {})
         if origin_args.get("ssh_key_file") and origin_args.get("ssh_key_content"):
-            raise AnsibleActionFail(
-                "Parameters `origin.ssh_key_file` and `origin.ssh_key_content` are mutually exclusive.",
-            )
+            msg = "Parameters `origin.ssh_key_file` and `origin.ssh_key_content` are mutually exclusive."
+            raise AnsibleActionFail(msg)
+
 
     def _prepare_ssh_environment(self: T) -> None:
-        """Prepares the environment for SSH key authentication."""
+        """Prepare the environment for SSH key authentication."""
         origin_args = self._task.args.get("origin", {})
         key_content = origin_args.get("ssh_key_content")
         key_file = origin_args.get("ssh_key_file")
@@ -139,7 +140,7 @@ class ActionModule(GitBase):
             fd, self._temp_ssh_key_path = tempfile.mkstemp(prefix="ansible-git-key-")
             os.write(fd, key_content.encode("utf-8"))
             os.close(fd)
-            os.chmod(self._temp_ssh_key_path, 0o600)
+            Path(self._temp_ssh_key_path).chmod(0o600)  # use pathlib
             key_path = self._temp_ssh_key_path
         else:
             key_path = key_file
@@ -147,9 +148,9 @@ class ActionModule(GitBase):
         self._ssh_command_str = f"ssh -i {key_path} -o IdentitiesOnly=yes"
 
     def _cleanup_ssh_key(self: T) -> None:
-        """Removes the temporary SSH key file if it was created."""
+        """Remove the temporary SSH key file if it was created."""
         if self._temp_ssh_key_path:
-            os.remove(self._temp_ssh_key_path)
+            Path(self._temp_ssh_key_path).unlink()
 
     @property
     def _branch_exists(self: T) -> bool:

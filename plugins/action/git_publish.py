@@ -9,6 +9,7 @@ import os
 import shutil
 import tempfile
 import webbrowser
+from pathlib import Path
 
 from contextlib import suppress
 from dataclasses import asdict, dataclass
@@ -112,12 +113,11 @@ class ActionModule(GitBase):
             err = "Token can not be an empty string"
             raise AnsibleActionFail(err)
         if self._task.args.get("ssh_key_file") and self._task.args.get("ssh_key_content"):
-            raise AnsibleActionFail(
-                "Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive.",
-            )
+            msg = "Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive."
+            raise AnsibleActionFail(msg)
 
     def _prepare_ssh_environment(self: T) -> None:
-        """Prepares the environment for SSH key authentication."""
+        """Prepare the environment for SSH key authentication."""
         key_content = self._task.args.get("ssh_key_content")
         key_file = self._task.args.get("ssh_key_file")
 
@@ -128,7 +128,7 @@ class ActionModule(GitBase):
             fd, self._temp_ssh_key_path = tempfile.mkstemp(prefix="ansible-git-key-")
             os.write(fd, key_content.encode("utf-8"))
             os.close(fd)
-            os.chmod(self._temp_ssh_key_path, 0o600)
+            Path(self._temp_ssh_key_path).chmod(0o600)
             key_path = self._temp_ssh_key_path
         else:
             key_path = key_file
@@ -137,9 +137,9 @@ class ActionModule(GitBase):
         self._env = {"GIT_SSH_COMMAND": ssh_command}
 
     def _cleanup_ssh_key(self: T) -> None:
-        """Removes the temporary SSH key file if it was created."""
+        """Remove the temporary SSH key file if it was created."""
         if self._temp_ssh_key_path:
-            os.remove(self._temp_ssh_key_path)
+            Path(self._temp_ssh_key_path).unlink()
 
     def _configure_git_user_name(self: T) -> None:
         """Configure the git user name."""
