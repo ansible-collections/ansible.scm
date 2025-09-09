@@ -45,7 +45,7 @@
   ansible.builtin.copy:
     content: "{{ lookup('env', 'SSH_PRIVATE_KEY') }}"
     dest: "{{ ssh_key_temp_file.path }}"
-    mode: '0600'
+    mode: "0600"
 
 - name: Retrieve a repository via SSH
   ansible.scm.git_retrieve:
@@ -58,7 +58,7 @@
   ansible.builtin.copy:
     content: "{{ repository | to_nice_yaml }}"
     dest: "{{ repository.path }}/details_ssh.yaml"
-    mode: '0664'
+    mode: "0664"
 
 - name: Publish the changes via SSH
   ansible.scm.git_publish:
