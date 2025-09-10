@@ -19,7 +19,7 @@
         "description": "Run backup playbook",
         "inventory": "Default",
         "project": "Backup Project",
-        "playbook": "backup.yml",
+        "playbook": "backup.yaml",
         "job_type": "run",
         "verbosity": 1
       }
