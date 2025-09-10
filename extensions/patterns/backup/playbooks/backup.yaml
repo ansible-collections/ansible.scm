@@ -3,7 +3,6 @@
   hosts: all
   gather_facts: false
   tasks:
-
     - name: Create timestamp if branch_name is not provided
       ansible.builtin.set_fact:
         datetime: "{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M') }}"
