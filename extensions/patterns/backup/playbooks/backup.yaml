@@ -1,8 +1,47 @@
 ---
-- name: Backup pattern playbook
-  hosts: localhost
+- name: Retrieve and Update Repository Play
+  hosts: all
   gather_facts: false
   tasks:
-    - name: Confirm backup pattern works
-      ansible.builtin.debug:
-        msg: "Backup pattern playbook executed"
+
+    - name: Create timestamp if branch_name is not provided
+      ansible.builtin.set_fact:
+        datetime: "{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M') }}"
+      when: branch_name is not defined
+
+    - name: Set branch name
+      ansible.builtin.set_fact:
+        branch_name_final: "{{ branch_name | default(datetime) }}"
+
+    - name: Retrieve repository and make it available locally
+      ansible.builtin.include_role:
+        name: ansible.scm.git_retrieve
+      vars:
+        origin:
+          url: "https://github.com/ansible-collections/ansible.scm.git"
+          token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+      register: repository
+
+    - name: Add details to the repository
+      ansible.builtin.copy:
+        content: "{{ repository | to_nice_yaml }}"
+        dest: "{{ repository['path'] }}/details.yaml"
+        mode: "0664"
+
+    - name: Publish changes to SCM
+      ansible.builtin.include_role:
+        name: ansible.scm.git_publish
+      vars:
+        path: "{{ repository['path'] }}"
+        remove: false
+        token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+    - name: Delete the created branch declaratively
+      ansible.builtin.include_role:
+        name: ansible.scm.git_branch
+      vars:
+        path: "{{ repository['path'] }}"
+        branch: "{{ branch_name_final }}"
+        remote: origin
+        state: absent
+        token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
