@@ -1,0 +1,7 @@
+{
+  "name": "backup",
+  "version": "1.0.0",
+  "description": "Backup pattern for my collection",
+  "authors": ["Your Name <you@example.com>"],
+  "license": "MIT"
+}
