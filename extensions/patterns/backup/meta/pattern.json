@@ -5,5 +5,6 @@
   "description": "Backup pattern for my collection",
   "short_description": "Backup pattern for the ansible.scm collection",
   "authors": ["Nikhil Bhasin <nikhilbhasin7@gmail.com>"],
-  "license": "MIT"
+  "license": "MIT",
+  "aap_resources": []
 }

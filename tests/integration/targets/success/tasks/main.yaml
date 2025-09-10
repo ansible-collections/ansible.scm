@@ -9,7 +9,7 @@
   ansible.builtin.copy:
     content: "{{ repository | to_nice_yaml }}"
     dest: "{{ repository['path'] }}/details.yaml"
-    mode: 0664
+    mode: "0664"
 
 - name: Publish the changes
   ansible.scm.git_publish:
