@@ -8,11 +8,21 @@
   "license": "MIT",
   "aap_resources": {
     "controller_project": {
-      "name": "Backup Pattern Project",
-      "description": "AAP Controller project for the Backup pattern",
+      "name": "Backup Project",
+      "description": "Project for backup operations",
       "scm_type": "git",
-      "scm_url": "https://github.com/ansible-collections/ansible.scm.git",
-      "scm_branch": "main"
-    }
+      "scm_url": "https://github.com/ansible-collections/ansible.scm.git"
+    },
+    "controller_job_templates": [
+      {
+        "name": "Backup Job",
+        "description": "Run backup playbook",
+        "inventory": "Default",
+        "project": "Backup Project",
+        "playbook": "backup.yml",
+        "job_type": "run",
+        "verbosity": 1
+      }
+    ]
   }
 }
