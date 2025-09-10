@@ -4,7 +4,15 @@
   "schema_version": "1.0.0",
   "description": "Backup pattern for my collection",
   "short_description": "Backup pattern for the ansible.scm collection",
-  "authors": ["Nikhil Bhasin <nikhilbhasin7@gmail.com>"],
+  "authors": ["nikhilbhasin7@gmail.com"],
   "license": "MIT",
-  "aap_resources": {}
+  "aap_resources": {
+    "controller_project": {
+      "name": "Backup Pattern Project",
+      "description": "AAP Controller project for the Backup pattern",
+      "scm_type": "git",
+      "scm_url": "https://github.com/ansible-collections/ansible.scm.git",
+      "scm_branch": "main"
+    }
+  }
 }
