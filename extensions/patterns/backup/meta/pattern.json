@@ -1,6 +1,6 @@
 {
   "name": "backup",
-  "version": "1.0.0",
+  "schema_version": "1.0.0",
   "description": "Backup pattern for my collection",
   "authors": ["Nikhil Bhasin <nikhilbhasin7@gmail.com>"],
   "license": "MIT"
