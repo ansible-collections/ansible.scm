@@ -419,6 +419,31 @@ Examples
     #     "path": "/tmp/tmpvtm6_ejo/scm_testing"
     # }
 
+    - name: Retrieve Github Repo via SSH
+      hosts: localhost
+      gather_facts: true
+      vars:
+        git_ssh_private_key: |
+          -----BEGIN OPENSSH PRIVATE KEY-----
+          <enter your key>
+          -----END OPENSSH PRIVATE KEY-----
+      tasks:
+        - name: 0. Explicitly gather facts for localhost
+          ansible.builtin.setup:
+
+        - name: "1. Retrieve the repository"
+          ansible.scm.git_retrieve:
+            origin:
+              url: "git@github.com:ansible/ansible_ssh.git"
+              ssh_key_content: "{{ git_ssh_private_key }}"
+          register: ssh_repo_info
+
+        - name: "2. Create a new file in the local repository"
+          ansible.builtin.copy:
+            content: "This file was published via SSH at {{ ansible_date_time.iso8601 }}."
+            dest: "{{ ssh_repo_info.path }}/ssh_update_{{ ansible_date_time.epoch }}.txt"
+    
+    # ssh output
 
 
 

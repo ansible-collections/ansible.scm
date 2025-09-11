@@ -382,8 +382,40 @@ Examples
     #     ]
     # }
 
+    - name: Perform Retrieve Operation via SSH
+        hosts: localhost
+        gather_facts: true
+        vars:
+            git_ssh_private_key: |
+                -----BEGIN OPENSSH PRIVATE KEY-----
+                <enter your key>
+                -----END OPENSSH PRIVATE KEY-----
+        tasks:
+            - name: 0. Explicitly gather facts for localhost
+              ansible.builtin.setup:    
+            - name: "1. Retrieve the repository"
+              ansible.scm.git_retrieve:
+                origin:
+                  url: "git@github.com:nickbhasin/backup_ssh.git"
+                  ssh_key_content: "{{ git_ssh_private_key }}"
+              register: ssh_repo_info   
+            - name: "2. Create a new file in the local repository"
+              ansible.builtin.copy:
+                content: "This file was published via SSH at {{ ansible_date_time.iso8601 }}."
+                dest: "{{ ssh_repo_info.path }}/ssh_update_{{ ansible_date_time.epoch }}.txt"   
+            - name: "3. Publish the changes using an SSH key"
+              ansible.scm.git_publish:
+                path: "{{ ssh_repo_info.path }}"
+                ssh_key_content: "{{ git_ssh_private_key }}"
+                commit:
+                  message: "Automated update via Ansible (SSH)"
+              register: ssh_publish_result  
+            - name: "4. Display the Pull Request URL"
+              ansible.builtin.debug:
+                msg: "SSH push complete. Create a Pull Request here - {{ ssh_publish_result.pr_url }}"
+              when: ssh_publish_result.pr_url
 
-
+    # ssh output
 
 Status
 ------
