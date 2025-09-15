@@ -39,7 +39,7 @@ class Command:
     stderr_lines: List[str] = field(default_factory=list)
 
     @property
-    def command(self: T) -> str:
+    def command(self) -> str:
         """Return the command as a string.
 
         :return: The command as a string.
@@ -47,7 +47,7 @@ class Command:
         return shlex.join(self.command_parts)
 
     @property
-    def cleaned(self: T) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
+    def cleaned(self) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
         """Return the sanitized details of the command for the log.
 
         :return: The sanitized details of the command for the log.
