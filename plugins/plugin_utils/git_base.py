@@ -44,7 +44,7 @@ class ActionInit:
 
     @property
     def asdict(
-        self: T,
+        self,
     ) -> Dict[str, Union[Connection, DataLoader, PlayContext, ModuleType, Task, Templar]]:
         """Create a dictionary, avoiding the deepcopy with dataclass.asdict.
 
@@ -71,7 +71,7 @@ U = TypeVar("U", bound="GitBase")  # pylint: disable=invalid-name, useless-suppr
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
     """Base class for the git paction plugins."""
 
-    def __init__(self: U, action_init: ActionInit) -> None:
+    def __init__(self, action_init: ActionInit) -> None:
         """Initialize the action plugin.
 
         :param action_init: The keyword arguments for action base
@@ -97,7 +97,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         ]
         return basic_encoded, cli_parameters
 
-    def _run_command(self: U, command: Command, ignore_errors: bool = False) -> None:
+    def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
 
         :param command: The command to run

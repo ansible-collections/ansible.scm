@@ -61,7 +61,7 @@ class ActionModule(GitBase):
     _requires_connection = False
 
     def __init__(  # noqa: PLR0913
-        self: T,
+        self,
         connection: Connection,
         loader: DataLoader,
         play_context: PlayContext,
@@ -98,7 +98,7 @@ class ActionModule(GitBase):
         self._supports_async = True
         self._result: Result = Result()
 
-    def _check_argspec(self: T) -> None:
+    def _check_argspec(self) -> None:
         """Check the argspec for the action plugin.
 
         :raises AnsibleActionFail: If the argspec is invalid
@@ -120,14 +120,14 @@ class ActionModule(GitBase):
             raise AnsibleActionFail(err)
 
     @property
-    def _branch_exists(self: T) -> bool:
+    def _branch_exists(self) -> bool:
         """Return True if the branch exists.
 
         :returns: True if the branch exists
         """
         return self._branch_name in self._branches
 
-    def _host_key_checking(self: T) -> None:
+    def _host_key_checking(self) -> None:
         """Configure host key checking."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
@@ -151,7 +151,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _clone(self: T) -> None:
+    def _clone(self) -> None:
         """Clone the repository.
 
         Additionally set the base command to the repository path.
@@ -209,7 +209,7 @@ class ActionModule(GitBase):
         self._base_command = ("git", "-C", self._repo_path)
         return
 
-    def _get_branches(self: T) -> None:
+    def _get_branches(self) -> None:
         """Get the branches."""
         command_parts = list(self._base_command)
         command_parts.extend(["branch", "-a"])
@@ -256,14 +256,14 @@ class ActionModule(GitBase):
         self._result.branch_name = self._branch_name
         return
 
-    def _detect_duplicate_branch(self: T) -> None:
+    def _detect_duplicate_branch(self) -> None:
         """Detect duplicate branch."""
         duplicate_detection = self._task.args["branch"]["duplicate_detection"]
         if duplicate_detection and self._branch_exists:
             self._result.failed = True
             self._result.msg = f"Branch '{self._branch_name}' already exists"
 
-    def _switch_checkout(self: T) -> None:
+    def _switch_checkout(self) -> None:
         """Switch to or checkout the branch."""
         command_parts = list(self._base_command)
         branch = self._branch_name
@@ -283,7 +283,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _add_upstream_remote(self: T) -> None:
+    def _add_upstream_remote(self) -> None:
         """Add the upstream remote."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -298,7 +298,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         return
 
-    def _pull_upstream(self: T) -> None:
+    def _pull_upstream(self) -> None:
         """Pull from upstream."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -325,7 +325,7 @@ class ActionModule(GitBase):
         return
 
     def run(
-        self: T,
+        self,
         tmp: None = None,
         task_vars: Optional[Dict[str, JSONTypes]] = None,
     ) -> Dict[str, JSONTypes]:
