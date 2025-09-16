@@ -147,7 +147,9 @@ class ActionModule(GitBase):
         else:
             key_path = key_file
 
-        self._ssh_command_str = f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+        self._ssh_command_str = (
+            f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+        )
 
     def _cleanup_ssh_key(self: T) -> None:
         """Remove the temporary SSH key file if it was created."""
