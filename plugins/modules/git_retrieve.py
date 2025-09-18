@@ -71,6 +71,18 @@ options:
       tag:
         description: Specify the tag
         type: str
+      ssh_key_file:
+        description:
+          - Path to the SSH private key file to use for authentication with the origin repository.
+          - Used only for SSH-based repository URLs (e.g., git@github.com:...).
+        type: str
+      ssh_key_content:
+        description:
+          - The content of the SSH private key for authentication with the origin repository.
+          - Ideal for use with Ansible Vault or other secret management systems.
+          - Used only for SSH-based repository URLs.
+        type: str
+        no_log: true
   parent_directory:
     description:
       - The local directory where the repository will be placed

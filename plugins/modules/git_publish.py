@@ -87,6 +87,18 @@ options:
         description: The email of the user
         default: 'ansible@localhost'
         type: str
+  ssh_key_file:
+    description:
+      - Path to the SSH private key file to use for authentication with git.
+      - Used only for SSH-based repository URLs (e.g., git@github.com:...).
+    type: str
+  ssh_key_content:
+    description:
+      - The content of the SSH private key for authentication with git.
+      - Ideal for use with Ansible Vault or other secret management systems.
+      - Used only for SSH-based repository URLs.
+    type: str
+    no_log: true
 
 
 

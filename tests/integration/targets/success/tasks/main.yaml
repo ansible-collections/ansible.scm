@@ -9,7 +9,7 @@
   ansible.builtin.copy:
     content: "{{ repository | to_nice_yaml }}"
     dest: "{{ repository['path'] }}/details.yaml"
-    mode: 0664
+    mode: "0664"
 
 - name: Publish the changes
   ansible.scm.git_publish:
@@ -35,3 +35,53 @@
   vars:
     auth: "{{ un64 | b64encode }}"
     un64: "x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+- name: Setup a temporary file for the SSH key
+  ansible.builtin.tempfile:
+    prefix: "ansible-test-key-"
+  register: ssh_key_temp_file
+
+- name: Write the SSH key from the environment to the temporary file
+  ansible.builtin.copy:
+    content: "{{ lookup('env', 'SSH_PRIVATE_KEY') }}"
+    dest: "{{ ssh_key_temp_file.path }}"
+    mode: "0600"
+
+- name: Retrieve a repository via SSH
+  ansible.scm.git_retrieve:
+    origin:
+      url: "git@github.com:ansible-collections/ansible.scm.git"
+      ssh_key_content: "{{ lookup('env', 'SSH_PRIVATE_KEY') }}"
+  register: repository
+
+- name: Add to the repository
+  ansible.builtin.copy:
+    content: "{{ repository | to_nice_yaml }}"
+    dest: "{{ repository.path }}/details_ssh.yaml"
+    mode: "0664"
+
+- name: Publish the changes via SSH
+  ansible.scm.git_publish:
+    path: "{{ repository.path }}"
+    remove: false
+    ssh_key_content: "{{ lookup('env', 'SSH_PRIVATE_KEY') }}"
+
+- name: Remove the created branch via SSH
+  ansible.builtin.command:
+    argv:
+      - git
+      - push
+      - origin
+      - --delete
+      - "{{ repository.branch_name }}"
+  args:
+    chdir: "{{ repository.path }}"
+  environment:
+    GIT_SSH_COMMAND: "ssh -i {{ ssh_key_temp_file.path }}"
+  changed_when: deleted.rc == 0
+  register: deleted
+
+- name: Clean up the temporary SSH key file
+  ansible.builtin.file:
+    path: "{{ ssh_key_temp_file.path }}"
+    state: absent
