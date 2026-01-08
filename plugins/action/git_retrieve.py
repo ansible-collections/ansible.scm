@@ -11,6 +11,7 @@ import re
 import tempfile
 
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
@@ -97,6 +98,8 @@ class ActionModule(GitBase):
         self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
+        self._temp_ssh_key_path: Optional[str] = None
+        self._ssh_command_str: str = "ssh"
 
     def _check_argspec(self: T) -> None:
         """Check the argspec for the action plugin.
@@ -118,6 +121,40 @@ class ActionModule(GitBase):
         if self._task.args["upstream"].get("token") == "":
             err = "Upstream token can not be an empty string"
             raise AnsibleActionFail(err)
+        origin_args = self._task.args.get("origin", {})
+        if origin_args.get("ssh_key_file") and origin_args.get("ssh_key_content"):
+            msg = (
+                "Parameters `origin.ssh_key_file` and `origin.ssh_key_content`"
+                " are mutually exclusive."
+            )
+            raise AnsibleActionFail(msg)
+
+    def _prepare_ssh_environment(self: T) -> None:
+        """Prepare the environment for SSH key authentication."""
+        origin_args = self._task.args.get("origin", {})
+        key_content = origin_args.get("ssh_key_content")
+        key_file = origin_args.get("ssh_key_file")
+
+        if not key_content and not key_file:
+            return
+
+        if key_content:
+            fd, self._temp_ssh_key_path = tempfile.mkstemp(prefix="ansible-git-key-")
+            os.write(fd, key_content.encode("utf-8"))
+            os.close(fd)
+            Path(self._temp_ssh_key_path).chmod(0o600)  # use pathlib
+            key_path = self._temp_ssh_key_path
+        else:
+            key_path = key_file
+
+        self._ssh_command_str = (
+            f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+        )
+
+    def _cleanup_ssh_key(self: T) -> None:
+        """Remove the temporary SSH key file if it was created."""
+        if self._temp_ssh_key_path:
+            Path(self._temp_ssh_key_path).unlink()
 
     @property
     def _branch_exists(self: T) -> bool:
@@ -152,23 +189,17 @@ class ActionModule(GitBase):
         self._run_command(command=command)
 
     def _clone(self: T) -> None:
-        """Clone the repository.
-
-        Additionally set the base command to the repository path.
-        """
+        """Clone the repository, creating a new subdirectory."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
-
-        # Since the repo isn't cloned yet, set the host key checking value with an variable
         has_ssh_url = origin.startswith("git") or upstream.startswith("git")
         host_key_checking = self._task.args["host_key_checking"]
 
+        final_ssh_command = self._ssh_command_str
         if host_key_checking != "system" and has_ssh_url:
-            env = {
-                "GIT_SSH_COMMAND": f"ssh -o StrictHostKeyChecking={host_key_checking}",
-            }
-        else:
-            env = None
+            final_ssh_command += f" -o StrictHostKeyChecking={host_key_checking}"
+
+        env = {"GIT_SSH_COMMAND": final_ssh_command} if final_ssh_command != "ssh" else None
 
         command_parts = list(self._base_command)
 
@@ -187,10 +218,10 @@ class ActionModule(GitBase):
             command_parts.extend(
                 ["--branch", tag, origin],
             )
-        else:
-            command_parts.extend(
-                ["--no-single-branch", origin],
-            )
+
+        # Clone WITHOUT specifying a destination, which creates a new subdirectory.
+        command_parts.extend([origin])
+
         command = Command(
             command_parts=command_parts,
             env=env,
@@ -202,9 +233,16 @@ class ActionModule(GitBase):
         if self._result.failed:
             return
 
-        repo_name = command.stderr.splitlines()[0].split("'")[1]
+        # Added logic to parse the new directory name from git's stderr output
+        try:
+            repo_name = command.stderr.splitlines()[0].split("'")[1]
+        except (IndexError, AttributeError):
+            self._result.failed = True
+            self._result.msg = "Could not determine repository name from clone output."
+            return
+
         self._result.name = repo_name
-        self._repo_path = self._parent_directory + "/" + repo_name
+        self._repo_path = self._parent_directory + "/" + repo_name  # Reconstruct the full path
         self._result.path = self._repo_path
         self._base_command = ("git", "-C", self._repo_path)
         return
@@ -275,7 +313,7 @@ class ActionModule(GitBase):
             if tag:
                 command_parts.extend(["checkout", "-b", tag])
             else:
-                command_parts.extend(["checkout", "-t", "-b", branch])
+                command_parts.extend(["checkout", "-b", branch, "origin/HEAD"])
 
         command = Command(
             command_parts=command_parts,
@@ -340,36 +378,38 @@ class ActionModule(GitBase):
         self._task.diff = False
         super().run(task_vars=task_vars)
 
-        self._check_argspec()
-        if self._result.failed:
-            return asdict(self._result)
-
-        self._parent_directory = self._task.args["parent_directory"].format(
-            temporary_directory=tempfile.mkdtemp(),
-        )
-        if not os.path.exists(self._parent_directory):
-            # If not, create it
-            os.makedirs(self._parent_directory)
-
-        os.makedirs(os.path.dirname(self._parent_directory), exist_ok=True)
-
-        self._base_command = ("git", "-C", self._parent_directory)
-        self._timeout = self._task.args["timeout"]
-
-        steps = (
-            self._clone,
-            self._host_key_checking,
-            self._get_branches,
-            self._detect_duplicate_branch,
-            self._switch_checkout,
-            self._add_upstream_remote,
-            self._pull_upstream,
-        )
-
-        for step in steps:
-            step()
+        try:
+            self._check_argspec()
             if self._result.failed:
                 return asdict(self._result)
+
+            self._prepare_ssh_environment()
+
+            self._parent_directory = self._task.args["parent_directory"].format(
+                temporary_directory=tempfile.mkdtemp(),
+            )
+            if not os.path.exists(self._parent_directory):
+                os.makedirs(self._parent_directory)
+
+            self._base_command = ("git", "-C", self._parent_directory)
+            self._timeout = self._task.args["timeout"]
+
+            steps = (
+                self._clone,
+                self._host_key_checking,
+                self._get_branches,
+                self._detect_duplicate_branch,
+                self._switch_checkout,
+                self._add_upstream_remote,
+                self._pull_upstream,
+            )
+
+            for step in steps:
+                step()
+                if self._result.failed:
+                    return asdict(self._result)
+        finally:
+            self._cleanup_ssh_key()
 
         self._result.msg = f"Successfully retrieved repository: {self._task.args['origin']['url']}"
         return asdict(self._result)

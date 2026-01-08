@@ -5,11 +5,14 @@
 
 from __future__ import absolute_import, division, print_function
 
+import os
 import shutil
+import tempfile
 import webbrowser
 
 from contextlib import suppress
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Dict, List, Optional, TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
@@ -50,6 +53,7 @@ class Result(ResultBase):
 T = TypeVar("T", bound="ActionModule")  # pylint: disable=invalid-name, useless-suppression
 
 
+# pylint: disable=too-many-instance-attributes
 class ActionModule(GitBase):
     """The retrieve action plugin."""
 
@@ -90,6 +94,8 @@ class ActionModule(GitBase):
         self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
+        self._env: Optional[Dict[str, str]] = None
+        self._temp_ssh_key_path: Optional[str] = None
 
     def _check_argspec(self: T) -> None:
         """Check the argspec for the action plugin.
@@ -107,6 +113,34 @@ class ActionModule(GitBase):
         if self._task.args.get("token") == "":
             err = "Token can not be an empty string"
             raise AnsibleActionFail(err)
+        if self._task.args.get("ssh_key_file") and self._task.args.get("ssh_key_content"):
+            msg = "Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive."
+            raise AnsibleActionFail(msg)
+
+    def _prepare_ssh_environment(self: T) -> None:
+        """Prepare the environment for SSH key authentication."""
+        key_content = self._task.args.get("ssh_key_content")
+        key_file = self._task.args.get("ssh_key_file")
+
+        if not key_content and not key_file:
+            return
+
+        if key_content:
+            fd, self._temp_ssh_key_path = tempfile.mkstemp(prefix="ansible-git-key-")
+            os.write(fd, key_content.encode("utf-8"))
+            os.close(fd)
+            Path(self._temp_ssh_key_path).chmod(0o600)
+            key_path = self._temp_ssh_key_path
+        else:
+            key_path = key_file
+
+        ssh_command = f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
+        self._env = {"GIT_SSH_COMMAND": ssh_command}
+
+    def _cleanup_ssh_key(self: T) -> None:
+        """Remove the temporary SSH key file if it was created."""
+        if self._temp_ssh_key_path:
+            Path(self._temp_ssh_key_path).unlink()
 
     def _configure_git_user_name(self: T) -> None:
         """Configure the git user name."""
@@ -115,6 +149,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to get current user name for git.",
+            env=self._env,
         )
         self._run_command(command=command, ignore_errors=True)
         if command.stdout:
@@ -127,6 +162,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to configure git user name",
+            env=self._env,
         )
         self._run_command(command=command)
         self._result.user_name = name
@@ -138,6 +174,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to get current user email for git.",
+            env=self._env,
         )
         self._run_command(command=command, ignore_errors=True)
         if command.stdout:
@@ -150,6 +187,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to configure git user email",
+            env=self._env,
         )
         self._run_command(command=command)
         self._result.user_email = email
@@ -162,6 +200,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg=f"Failed to add the file to the pending commit: {files}",
+            env=self._env,
         )
         self._run_command(command=command)
 
@@ -174,6 +213,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg=f"Failed to perform the commit: {message}",
+            env=self._env,
         )
         self._run_command(command=command)
 
@@ -189,6 +229,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg=f"Failed to perform tagging: {message}",
+            env=self._env,
         )
         self._run_command(command=command)
 
@@ -199,6 +240,7 @@ class ActionModule(GitBase):
         command = Command(
             command_parts=command_parts,
             fail_msg="Failed to get remote",
+            env=self._env,
         )
 
         self._run_command(command=command)
@@ -228,6 +270,7 @@ class ActionModule(GitBase):
             command_parts=command_parts,
             fail_msg="Failed to perform the push",
             no_log=no_log,
+            env=self._env,
         )
         self._run_command(command=command)
         with suppress(StopIteration):
@@ -262,32 +305,38 @@ class ActionModule(GitBase):
         self._task.diff = False
         super().run(task_vars=task_vars)
 
-        self._check_argspec()
-        if self._result.failed:
-            return asdict(self._result)
-
-        self._path_to_repo = self._task.args["path"]
-        self._base_command = ("git", "-C", self._path_to_repo)
-        self._timeout = self._task.args["timeout"]
-
-        steps = [
-            self._configure_git_user_name,
-            self._configure_git_user_email,
-            self._add,
-            self._commit,
-        ]
-        if self._task.args.get("tag"):
-            steps.append(self._tag)
-
-        steps.extend([self._push, self._remove_repo])
-
-        for step in steps:
-            step()
+        try:
+            self._check_argspec()
             if self._result.failed:
                 return asdict(self._result)
 
-        if self._result.pr_url and self._task.args["open_browser"]:
-            webbrowser.open(self._result.pr_url, new=2)
+            self._prepare_ssh_environment()
+
+            self._path_to_repo = self._task.args["path"]
+            self._base_command = ("git", "-C", self._path_to_repo)
+            self._timeout = self._task.args["timeout"]
+
+            steps = [
+                self._configure_git_user_name,
+                self._configure_git_user_email,
+                self._add,
+                self._commit,
+            ]
+            if self._task.args.get("tag"):
+                steps.append(self._tag)
+
+            steps.extend([self._push, self._remove_repo])
+
+            for step in steps:
+                step()
+                if self._result.failed:
+                    return asdict(self._result)
+
+            if self._result.pr_url and self._task.args["open_browser"]:
+                webbrowser.open(self._result.pr_url, new=2)
+
+        finally:
+            self._cleanup_ssh_key()
 
         self._result.msg = f"Successfully published local changes from: {self._path_to_repo}"
         return asdict(self._result)

@@ -19,3 +19,7 @@ rules:
   line-length: disable
   truthy:
     check-keys: false
+
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true

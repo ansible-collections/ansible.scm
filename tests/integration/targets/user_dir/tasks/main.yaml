@@ -1,23 +1,52 @@
-- name: Set a fact for the user specified directory
-  ansible.builtin.set_fact:
-    parent_directory: /tmp/{{ random_name }}
-  vars:
-    random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
+- name: Test HTTPS Token Authentication
+  block:
+    - name: Set a fact for the user specified directory
+      ansible.builtin.set_fact:
+        parent_directory: /tmp/{{ random_name }}
+      vars:
+        random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
 
-- name: Test with a user specific directory
-  ansible.scm.git_retrieve:
-    origin:
-      url: https://github.com/ansible-collections/ansible.scm.git
-      token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
-    parent_directory: "{{ parent_directory }}"
-  register: repository
+    - name: Test with a user specific directory
+      ansible.scm.git_retrieve:
+        origin:
+          url: https://github.com/ansible-collections/ansible.scm.git
+          token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+        parent_directory: "{{ parent_directory }}"
+      register: repository
 
-- name: Verify the repository was created in the directory
-  ansible.builtin.assert:
-    that:
-      - repository.path.startswith(parent_directory)
+    - name: Verify the repository was created in the directory
+      ansible.builtin.assert:
+        that:
+          - repository.path.startswith(parent_directory)
 
-- name: Remove the repository
-  ansible.builtin.file:
-    path: "{{ parent_directory }}"
-    state: absent
+    - name: Remove the repository
+      ansible.builtin.file:
+        path: "{{ parent_directory }}"
+        state: absent
+
+- name: Test SSH Key Authentication
+  block:
+    - name: Set a fact for the SSH test directory
+      ansible.builtin.set_fact:
+        ssh_parent_directory: "/tmp/ssh_{{ random_name }}"
+      vars:
+        random_name: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}"
+
+    - name: Test retrieve with a user specific directory via SSH
+      ansible.scm.git_retrieve:
+        origin:
+          url: "git@github.com:ansible-collections/ansible.scm.git"
+          ssh_key_content: "{{ lookup('env', 'SSH_PRIVATE_KEY') }}"
+        parent_directory: "{{ ssh_parent_directory }}"
+      register: ssh_repository
+
+    - name: Verify the SSH repository was created in the correct directory
+      ansible.builtin.assert:
+        that:
+          - ssh_repository.path.startswith(ssh_parent_directory)
+          - not ssh_repository.failed
+
+    - name: Remove the SSH repository
+      ansible.builtin.file:
+        path: "{{ ssh_parent_directory }}"
+        state: absent
