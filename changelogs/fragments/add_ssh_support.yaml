@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Add ssh support for git_publish/git_retrieve and fix CI.

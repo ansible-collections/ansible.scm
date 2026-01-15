@@ -222,3 +222,13 @@ releases:
     fragments:
       - release_300.yaml
     release_date: "2024-08-20"
+  3.1.0:
+    changes:
+      doc_changes:
+        - Includes a new support related section in the README.
+      minor_changes:
+        - Add ssh support for git_publish/git_retrieve and fix CI.
+    fragments:
+      - add_ssh_support.yaml
+      - readme.yaml
+    release_date: '2026-01-15'

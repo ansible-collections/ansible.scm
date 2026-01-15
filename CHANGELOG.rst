@@ -4,6 +4,19 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 
 .. contents:: Topics
 
+v3.1.0
+======
+
+Minor Changes
+-------------
+
+- Add ssh support for git_publish/git_retrieve and fix CI.
+
+Documentation Changes
+---------------------
+
+- Includes a new support related section in the README.
+
 v3.0.0
 ======
 
@@ -112,7 +125,6 @@ Bugfixes
 New Modules
 -----------
 
-- git_here - Retrieve a repository from a distant location and make it available on the execution node
 - git_publish - Publish changes from a repository available on the execution node to a distant location
 
 v0.1.0

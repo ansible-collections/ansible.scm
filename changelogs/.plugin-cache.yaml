@@ -1,0 +1,31 @@
+objects:
+  role: {}
+plugins:
+  become: {}
+  cache: {}
+  callback: {}
+  cliconf: {}
+  connection: {}
+  filter: {}
+  httpapi: {}
+  inventory: {}
+  lookup: {}
+  module:
+    git_publish:
+      description: Publish changes from a repository available on the execution node
+        to a distant location
+      name: git_publish
+      namespace: ''
+      version_added: 1.0.0
+    git_retrieve:
+      description: Retrieve a repository from a distant location and make it available
+        on the execution node
+      name: git_retrieve
+      namespace: ''
+      version_added: 1.0.0
+  netconf: {}
+  shell: {}
+  strategy: {}
+  test: {}
+  vars: {}
+version: 3.1.0
