@@ -231,4 +231,4 @@ releases:
     fragments:
       - add_ssh_support.yaml
       - readme.yaml
-    release_date: '2026-01-15'
+    release_date: "2026-01-15"
