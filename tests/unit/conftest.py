@@ -20,7 +20,7 @@ from ansible.template import Templar
 from .definitions import ActionModuleInit
 
 
-@pytest.fixture()
+@pytest.fixture
 def action_init() -> ActionModuleInit:
     """Provide a fixture for action initialization.
 

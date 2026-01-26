@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/ansible-network/collection_prep
-    rev: da78082ea59b03ad16cd7dbee267f53e8ff50bb5
+    rev: 1.1.2
     hooks:
       - id: update-docs
 
@@ -17,14 +17,14 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/asottile/add-trailing-comma.git
-    rev: v3.1.0
+    rev: v4.0.0
     hooks:
       - id: add-trailing-comma
         args:
           - --py36-plus
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks.git
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: remove-tabs
 
@@ -53,20 +53,20 @@ repos:
           - prettier
           - prettier-plugin-toml
 
-  - repo: https://github.com/psf/black
-    rev: 24.8.0
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.1.0
     hooks:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.6.1"
+    rev: "v0.14.14"
     hooks:
       - id: ruff
         args:
           - "--exit-non-zero-on-fix"
 
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v8.13.3
+    rev: v9.6.0
     hooks:
       - id: cspell
         name: Spell check with cspell
@@ -77,7 +77,7 @@ repos:
       - id: darglint
 
   - repo: https://github.com/pycqa/pylint.git
-    rev: v3.2.6
+    rev: v4.0.4
     hooks:
       - id: pylint
         args:
@@ -88,7 +88,7 @@ repos:
           - pytest-ansible
 
   - repo: https://github.com/pre-commit/mirrors-mypy.git
-    rev: v1.11.1
+    rev: v1.19.1
     hooks:
       - id: mypy
         additional_dependencies:

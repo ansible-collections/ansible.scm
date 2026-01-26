@@ -12,7 +12,7 @@ import tempfile
 
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, TypeVar, Union
+from typing import TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -37,7 +37,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 # mypy disallow you from omitting parameters in generic types
-JSONTypes = Union[bool, int, str, Dict, List]  # type:ignore
+JSONTypes = Union[bool, int, str, dict, list]  # type: ignore
 
 
 @dataclass(frozen=False)
@@ -45,7 +45,7 @@ class Result(ResultBase):
     """Data structure for the task result."""
 
     branch_name: str = ""
-    branches: List[str] = field(default_factory=list)
+    branches: list[str] = field(default_factory=list)
     name: str = ""
     path: str = ""
 
@@ -62,7 +62,7 @@ class ActionModule(GitBase):
     _requires_connection = False
 
     def __init__(  # noqa: PLR0913
-        self: T,
+        self,
         connection: Connection,
         loader: DataLoader,
         play_context: PlayContext,
@@ -90,18 +90,18 @@ class ActionModule(GitBase):
             ),
         )
 
-        self._base_command: Tuple[str, ...]
-        self._branches: List[str]
+        self._base_command: tuple[str, ...]
+        self._branches: list[str]
         self._branch_name: str
         self._parent_directory: str
         self._repo_path: str
         self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
-        self._temp_ssh_key_path: Optional[str] = None
+        self._temp_ssh_key_path: str | None = None
         self._ssh_command_str: str = "ssh"
 
-    def _check_argspec(self: T) -> None:
+    def _check_argspec(self) -> None:
         """Check the argspec for the action plugin.
 
         :raises AnsibleActionFail: If the argspec is invalid
@@ -129,7 +129,7 @@ class ActionModule(GitBase):
             )
             raise AnsibleActionFail(msg)
 
-    def _prepare_ssh_environment(self: T) -> None:
+    def _prepare_ssh_environment(self) -> None:
         """Prepare the environment for SSH key authentication."""
         origin_args = self._task.args.get("origin", {})
         key_content = origin_args.get("ssh_key_content")
@@ -151,20 +151,20 @@ class ActionModule(GitBase):
             f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
         )
 
-    def _cleanup_ssh_key(self: T) -> None:
+    def _cleanup_ssh_key(self) -> None:
         """Remove the temporary SSH key file if it was created."""
         if self._temp_ssh_key_path:
             Path(self._temp_ssh_key_path).unlink()
 
     @property
-    def _branch_exists(self: T) -> bool:
+    def _branch_exists(self) -> bool:
         """Return True if the branch exists.
 
         :returns: True if the branch exists
         """
         return self._branch_name in self._branches
 
-    def _host_key_checking(self: T) -> None:
+    def _host_key_checking(self) -> None:
         """Configure host key checking."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
@@ -188,7 +188,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _clone(self: T) -> None:
+    def _clone(self) -> None:
         """Clone the repository, creating a new subdirectory."""
         origin = self._task.args["origin"]["url"]
         upstream = self._task.args["upstream"].get("url") or ""
@@ -247,7 +247,7 @@ class ActionModule(GitBase):
         self._base_command = ("git", "-C", self._repo_path)
         return
 
-    def _get_branches(self: T) -> None:
+    def _get_branches(self) -> None:
         """Get the branches."""
         command_parts = list(self._base_command)
         command_parts.extend(["branch", "-a"])
@@ -294,14 +294,14 @@ class ActionModule(GitBase):
         self._result.branch_name = self._branch_name
         return
 
-    def _detect_duplicate_branch(self: T) -> None:
+    def _detect_duplicate_branch(self) -> None:
         """Detect duplicate branch."""
         duplicate_detection = self._task.args["branch"]["duplicate_detection"]
         if duplicate_detection and self._branch_exists:
             self._result.failed = True
             self._result.msg = f"Branch '{self._branch_name}' already exists"
 
-    def _switch_checkout(self: T) -> None:
+    def _switch_checkout(self) -> None:
         """Switch to or checkout the branch."""
         command_parts = list(self._base_command)
         branch = self._branch_name
@@ -321,7 +321,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _add_upstream_remote(self: T) -> None:
+    def _add_upstream_remote(self) -> None:
         """Add the upstream remote."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -336,7 +336,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         return
 
-    def _pull_upstream(self: T) -> None:
+    def _pull_upstream(self) -> None:
         """Pull from upstream."""
         if not self._task.args["upstream"].get("url"):
             return
@@ -363,10 +363,10 @@ class ActionModule(GitBase):
         return
 
     def run(
-        self: T,
+        self,
         tmp: None = None,
-        task_vars: Optional[Dict[str, JSONTypes]] = None,
-    ) -> Dict[str, JSONTypes]:
+        task_vars: dict[str, JSONTypes] | None = None,
+    ) -> dict[str, JSONTypes]:
         """Run the action plugin.
 
         :param tmp: The temporary directory
