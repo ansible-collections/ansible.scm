@@ -218,6 +218,10 @@ class ActionModule(GitBase):
             command_parts.extend(
                 ["--branch", tag],
             )
+        else:
+            command_parts.extend(
+                ["--no-single-branch"],
+            )
 
         # Clone WITHOUT specifying a destination, which creates a new subdirectory.
         command_parts.extend([origin])
