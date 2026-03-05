@@ -1,3 +1,0 @@
----
-bug_fix:
-  - Fix git_retrieve when no tag is provided.
