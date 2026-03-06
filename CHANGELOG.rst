@@ -4,6 +4,14 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 
 .. contents:: Topics
 
+v3.1.1
+======
+
+Bugfixes
+--------
+
+- Fix git_retrieve when no tag is provided.
+
 v3.1.0
 ======
 
