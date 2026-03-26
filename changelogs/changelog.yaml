@@ -243,9 +243,10 @@ releases:
     changes:
       minor_changes:
         - Update minimum required ansible-core version to 2.16
-      release_summary: 'With this release, the minimum required version of `ansible-core`
+      release_summary:
+        "With this release, the minimum required version of `ansible-core`
         for this collection is `2.16.0`. The last version known to be compatible with
-        `ansible-core` versions below `2.16` is v3.1.1.'
+        `ansible-core` versions below `2.16` is v3.1.1."
     fragments:
       - bump_2.16.yaml
-    release_date: '2026-03-26'
+    release_date: "2026-03-26"
