@@ -51,6 +51,7 @@ Major Changes
 
 - Bumping `requires_ansible` to `>=2.15.0`, since previous ansible-core versions are EoL now.
 
+
 v2.0.0
 ======
 
@@ -145,6 +146,7 @@ Bugfixes
 New Modules
 -----------
 
+- git_here - Retrieve a repository from a distant location and make it available on the execution node
 - git_publish - Publish changes from a repository available on the execution node to a distant location
 
 v0.1.0
