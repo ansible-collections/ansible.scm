@@ -4,6 +4,19 @@ The Ansible SCM (ansible.scm) Collection Release Notes
 
 .. contents:: Topics
 
+v3.2.1
+======
+
+Release Summary
+---------------
+
+With this release, the minimum required version of `ansible-core` for this collection is `2.16.0`. The last version known to be compatible with `ansible-core` versions below `2.16` is v3.1.1.
+
+Minor Changes
+-------------
+
+- Update minimum required ansible-core version to 2.16
+
 v3.1.1
 ======
 
@@ -37,7 +50,6 @@ Major Changes
 -------------
 
 - Bumping `requires_ansible` to `>=2.15.0`, since previous ansible-core versions are EoL now.
-
 
 v2.0.0
 ======
@@ -133,7 +145,6 @@ Bugfixes
 New Modules
 -----------
 
-- git_here - Retrieve a repository from a distant location and make it available on the execution node
 - git_publish - Publish changes from a repository available on the execution node to a distant location
 
 v0.1.0
