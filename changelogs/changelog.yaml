@@ -239,3 +239,14 @@ releases:
     fragments:
       - fix_retrieve.yaml
     release_date: "2026-03-06"
+  3.2.1:
+    changes:
+      minor_changes:
+        - Update minimum required ansible-core version to 2.16
+      release_summary:
+        "With this release, the minimum required version of `ansible-core`
+        for this collection is `2.16.0`. The last version known to be compatible with
+        `ansible-core` versions below `2.16` is v3.1.1."
+    fragments:
+      - bump_2.16.yaml
+    release_date: "2026-03-26"
