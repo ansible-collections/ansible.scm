@@ -14,6 +14,12 @@ import pytest
 from ansible.errors import AnsibleActionFail
 
 # pylint: disable=import-error
+from ansible_collections.ansible.scm.plugins.action.gist_publish import (
+    ActionModule as GistPublishActionModule,
+)
+from ansible_collections.ansible.scm.plugins.action.gist_retrieve import (
+    ActionModule as GistRetrieveActionModule,
+)
 from ansible_collections.ansible.scm.plugins.action.git_publish import (
     ActionModule as GitPublishActionModule,
 )
@@ -26,12 +32,22 @@ from .definitions import ActionModuleInit
 
 @pytest.mark.parametrize(
     "module",
-    (GitRetrieveActionModule, GitPublishActionModule),
-    ids=("git_retrieve", "git_publish"),
+    (
+        GitRetrieveActionModule,
+        GitPublishActionModule,
+        GistRetrieveActionModule,
+        GistPublishActionModule,
+    ),
+    ids=("git_retrieve", "git_publish", "gist_retrieve", "gist_publish"),
 )
 def test_fail_argspec(
     action_init: ActionModuleInit,
-    module: Union[GitPublishActionModule, GitRetrieveActionModule],
+    module: Union[
+        GitPublishActionModule,
+        GitRetrieveActionModule,
+        GistPublishActionModule,
+        GistRetrieveActionModule,
+    ],
 ) -> None:
     """Test an argspec failure.
 

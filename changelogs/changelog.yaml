@@ -250,3 +250,9 @@ releases:
     fragments:
       - bump_2.16.yaml
     release_date: "2026-03-26"
+  3.3.0:
+    changes:
+      minor_changes:
+        - Add ansible.scm.gist_publish module and action plugin for GitHub gists and GitLab snippets
+        - Add ansible.scm.gist_retrieve module and action plugin for GitHub gists and GitLab snippets
+    release_date: "2026-05-15"
