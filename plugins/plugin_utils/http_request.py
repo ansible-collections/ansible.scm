@@ -98,13 +98,16 @@ def http_request_safe(
     """
     del validate_certs  # urllib uses system trust store; reserved for future use
     try:
-        return http_request(
-            method=method,
-            url=url,
-            headers=headers,
-            body=body,
-            timeout=timeout,
-        ), ""
+        return (
+            http_request(
+                method=method,
+                url=url,
+                headers=headers,
+                body=body,
+                timeout=timeout,
+            ),
+            "",
+        )
     except HTTPError as exc:
         error_body = exc.read().decode("utf-8") if exc.fp else ""
         return HttpResponse(status=exc.code, body=error_body), error_body or str(exc)

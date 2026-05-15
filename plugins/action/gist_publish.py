@@ -198,7 +198,9 @@ class ActionModule(GistBase):
             if state == "absent":
                 self._delete()
             elif not self._task.args.get("files"):
-                raise AnsibleActionFail("files must contain at least one file when state is present")
+                raise AnsibleActionFail(
+                    "files must contain at least one file when state is present",
+                )
             else:
                 provider = self._task.args.get("provider", "github")
                 if provider == "github":

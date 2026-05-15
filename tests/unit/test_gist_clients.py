@@ -51,7 +51,6 @@ def test_github_create_gist() -> None:
 
 def test_github_update_is_idempotent() -> None:
     """Test gist file comparison for idempotency."""
-
     existing = {"files": {"report.txt": {"content": "same"}}}
     assert GitHubGist.files_match(
         GitHubGist.extract_files(existing),

@@ -99,7 +99,9 @@ class GistBase(ActionBase):  # type: ignore[misc]
             validate_certs=self._task.args.get("validate_certs", True),
         )
 
-    def _normalize_files(self: T, files: Dict[str, JSONTypes], required: bool = True) -> Dict[str, str]:
+    def _normalize_files(
+        self: T, files: Dict[str, JSONTypes], required: bool = True,
+    ) -> Dict[str, str]:
         """Normalize the files dictionary to string contents."""
         normalized: Dict[str, str] = {}
         for name, details in files.items():

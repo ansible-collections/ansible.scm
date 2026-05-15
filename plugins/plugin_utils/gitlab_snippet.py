@@ -117,9 +117,7 @@ class GitLabSnippet:
     ) -> Tuple[Optional[Dict[str, JSONTypes]], str]:
         """Update an existing snippet."""
         payload: Dict[str, JSONTypes] = {
-            "files": [
-                {"file_path": name, "content": content} for name, content in files.items()
-            ],
+            "files": [{"file_path": name, "content": content} for name, content in files.items()],
         }
         if title is not None:
             payload["title"] = title
