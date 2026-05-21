@@ -233,6 +233,105 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
+    def _reconcile_remote(self: T) -> None:
+        """Reconcile local branch with the remote before pushing.
+
+        Honors the ``update_strategy`` option:
+        - ``fail`` (default): no-op, preserves prior behavior.
+        - ``rebase``: fetch origin and rebase local commit on top.
+        - ``merge``: fetch origin and merge origin into local branch.
+
+        On a real conflict during rebase/merge the in-progress operation is
+        aborted so the working tree is left clean and the task fails with the
+        original git error preserved in the result output. The token auth
+        header is only applied for https remotes, mirroring ``_push``.
+        """
+        strategy = self._task.args.get("update_strategy", "fail")
+        if strategy == "fail":
+            return
+
+        command_parts = list(self._base_command)
+        command_parts.extend(["rev-parse", "--abbrev-ref", "HEAD"])
+        command = Command(
+            command_parts=command_parts,
+            fail_msg="Failed to determine the current branch for reconciliation.",
+            env=self._env,
+        )
+        self._run_command(command=command)
+        if self._result.failed:
+            return
+        branch = command.stdout.strip()
+
+        command_parts = list(self._base_command)
+        command_parts.extend(["remote", "-v"])
+        command = Command(
+            command_parts=command_parts,
+            fail_msg="Failed to get remote for reconciliation.",
+            env=self._env,
+        )
+        self._run_command(command=command)
+        if self._result.failed:
+            return
+        try:
+            push_line = next(
+                line for line in command.stdout_lines if "push" in line and "origin" in line
+            )
+        except StopIteration:
+            self._result.failed = True
+            self._result.msg = "Failed to find the origin remote"
+            return
+
+        token = self._task.args.get("token")
+        no_log = {}
+        command_parts = list(self._base_command)
+        if token is not None and "https" in push_line:
+            token_base64, command_parameters = self._git_auth_header(token)
+            command_parts.extend(command_parameters)
+            no_log[token_base64] = "<TOKEN>"
+        command_parts.extend(["fetch", "origin", branch])
+        command = Command(
+            command_parts=command_parts,
+            fail_msg=f"Failed to fetch origin/{branch} for reconciliation.",
+            no_log=no_log,
+            env=self._env,
+        )
+        self._run_command(command=command)
+        if self._result.failed:
+            return
+
+        self._apply_update_strategy(strategy=strategy, branch=branch)
+
+    def _apply_update_strategy(self: T, strategy: str, branch: str) -> None:
+        """Run the chosen rebase or merge step, aborting cleanly on conflict.
+
+        :param strategy: ``rebase`` or ``merge``.
+        :param branch: The local branch name; the remote ref is ``origin/<branch>``.
+        """
+        verb_args = {
+            "rebase": ["rebase", f"origin/{branch}"],
+            "merge": ["merge", "--no-edit", f"origin/{branch}"],
+        }[strategy]
+        command_parts = list(self._base_command)
+        command_parts.extend(verb_args)
+        command = Command(
+            command_parts=command_parts,
+            fail_msg=f"Failed to {strategy} onto origin/{branch}.",
+            env=self._env,
+        )
+        self._run_command(command=command)
+        if not self._result.failed:
+            return
+
+        # Preserve the original failure message; only run abort for cleanup.
+        abort_parts = list(self._base_command)
+        abort_parts.extend([strategy, "--abort"])
+        abort = Command(
+            command_parts=abort_parts,
+            fail_msg=f"Failed to abort the in-progress {strategy}.",
+            env=self._env,
+        )
+        self._run_command(command=abort, ignore_errors=True)
+
     def _push(self: T) -> None:
         """Push the commit to the origin."""
         command_parts = list(self._base_command)
@@ -325,7 +424,7 @@ class ActionModule(GitBase):
             if self._task.args.get("tag"):
                 steps.append(self._tag)
 
-            steps.extend([self._push, self._remove_repo])
+            steps.extend([self._reconcile_remote, self._push, self._remove_repo])
 
             for step in steps:
                 step()

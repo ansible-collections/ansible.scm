@@ -255,6 +255,31 @@ Parameters
             <tr>
                 <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-"></div>
+                    <b>update_strategy</b>
+                    <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                    </div>
+                    <div style="font-style: italic; font-size: small; color: darkgreen">added in 3.3.0</div>
+                </td>
+                <td>
+                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                    <li><div style="color: blue"><b>fail</b>&nbsp;&larr;</div></li>
+                                    <li>rebase</li>
+                                    <li>merge</li>
+                        </ul>
+                </td>
+                <td>
+                        <div>Strategy to use when the remote branch has advanced since clone.</div>
+                        <div><code>fail</code> preserves the current behavior; the push fails on non-fast-forward.</div>
+                        <div><code>rebase</code> fetches the remote branch and rebases the local commit on top before pushing.</div>
+                        <div><code>merge</code> fetches the remote branch and merges it into the local branch before pushing.</div>
+                        <div>When <code>rebase</code> or <code>merge</code> hits a real conflict, the in-progress operation is aborted and the task fails so the working tree is left clean.</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-"></div>
                     <b>user</b>
                     <a class="ansibleOptionLink" href="#parameter-" title="Permalink to this option"></a>
                     <div style="font-size: small">

@@ -1,0 +1,6 @@
+---
+minor_changes:
+  - git_publish - add ``update_strategy`` option to optionally rebase or merge with
+    the remote branch before pushing, so a remote that advances between clone and
+    publish no longer forces a hard failure
+    (https://github.com/ansible-collections/ansible.scm/issues/285).

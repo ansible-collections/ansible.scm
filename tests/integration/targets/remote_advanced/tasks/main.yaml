@@ -1,0 +1,235 @@
+- name: Create a working directory for the bare-remote scenarios
+  ansible.builtin.tempfile:
+    state: directory
+    prefix: ansible-scm-remote-advanced-
+  register: workdir
+
+# region rebase: remote advances, local rebases on top, push succeeds
+
+- name: Initialize a bare repository to act as the rebase remote
+  ansible.builtin.command: # noqa: command-instead-of-module
+    cmd: git init --bare {{ workdir.path }}/rebase.git
+  changed_when: true
+
+- name: Seed the rebase remote with an initial commit on main
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone rebase.git seed
+    cd seed
+    git -c user.email=seed@example.com -c user.name=seed commit \
+      --allow-empty -m "initial"
+    git branch -M main
+    git push origin main
+  changed_when: true
+
+- name: Clone the rebase remote into the local working copy
+  ansible.builtin.git:
+    repo: "{{ workdir.path }}/rebase.git"
+    dest: "{{ workdir.path }}/rebase_local"
+    version: main
+
+- name: Advance the rebase remote from a separate clone
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone rebase.git rebase_other
+    cd rebase_other
+    git config user.email other@example.com
+    git config user.name other
+    echo "remote update" > remote-only.txt
+    git add remote-only.txt
+    git commit -m "advance remote"
+    git push origin main
+  changed_when: true
+
+- name: Add a local change to publish
+  ansible.builtin.copy:
+    content: "local change"
+    dest: "{{ workdir.path }}/rebase_local/local-change.txt"
+    mode: "0644"
+
+- name: Publish with update_strategy=rebase
+  ansible.scm.git_publish:
+    path: "{{ workdir.path }}/rebase_local"
+    update_strategy: rebase
+    user:
+      name: publisher
+      email: publisher@example.com
+    remove: false
+  register: rebase_result
+
+- name: Confirm the rebase publish succeeded
+  ansible.builtin.assert:
+    that:
+      - not rebase_result.failed
+      - "'Successfully published' in rebase_result.msg"
+
+- name: Inspect the rebase remote log
+  ansible.builtin.command: # noqa: command-instead-of-module
+    cmd: git -C {{ workdir.path }}/rebase.git log --pretty=%s main
+  register: rebase_log
+  changed_when: false
+
+- name: Assert the rebase remote contains both the divergent and the published commits
+  ansible.builtin.assert:
+    that:
+      - "'advance remote' in rebase_log.stdout"
+      - "'Updates made by ansible' in rebase_log.stdout"
+
+# endregion
+
+# region merge: remote advances, local merges, push succeeds
+
+- name: Initialize a bare repository to act as the merge remote
+  ansible.builtin.command: # noqa: command-instead-of-module
+    cmd: git init --bare {{ workdir.path }}/merge.git
+  changed_when: true
+
+- name: Seed the merge remote with an initial commit on main
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone merge.git merge_seed
+    cd merge_seed
+    git -c user.email=seed@example.com -c user.name=seed commit \
+      --allow-empty -m "initial"
+    git branch -M main
+    git push origin main
+  changed_when: true
+
+- name: Clone the merge remote into the local working copy
+  ansible.builtin.git:
+    repo: "{{ workdir.path }}/merge.git"
+    dest: "{{ workdir.path }}/merge_local"
+    version: main
+
+- name: Advance the merge remote from a separate clone
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone merge.git merge_other
+    cd merge_other
+    git config user.email other@example.com
+    git config user.name other
+    echo "remote update" > remote-only.txt
+    git add remote-only.txt
+    git commit -m "advance remote"
+    git push origin main
+  changed_when: true
+
+- name: Add a local change to publish
+  ansible.builtin.copy:
+    content: "local change"
+    dest: "{{ workdir.path }}/merge_local/local-change.txt"
+    mode: "0644"
+
+- name: Publish with update_strategy=merge
+  ansible.scm.git_publish:
+    path: "{{ workdir.path }}/merge_local"
+    update_strategy: merge
+    user:
+      name: publisher
+      email: publisher@example.com
+    remove: false
+  register: merge_result
+
+- name: Confirm the merge publish succeeded
+  ansible.builtin.assert:
+    that:
+      - not merge_result.failed
+      - "'Successfully published' in merge_result.msg"
+
+- name: Inspect the merge remote log
+  ansible.builtin.command: # noqa: command-instead-of-module
+    cmd: git -C {{ workdir.path }}/merge.git log --pretty=%s main
+  register: merge_log
+  changed_when: false
+
+- name: Assert the merge remote contains the divergent commit and a merge commit
+  ansible.builtin.assert:
+    that:
+      - "'advance remote' in merge_log.stdout"
+      - "'Updates made by ansible' in merge_log.stdout"
+      - "'Merge remote-tracking branch' in merge_log.stdout"
+
+# endregion
+
+# region conflict: both sides edit the same file; rebase must abort and fail
+
+- name: Initialize a bare repository to act as the conflict remote
+  ansible.builtin.command: # noqa: command-instead-of-module
+    cmd: git init --bare {{ workdir.path }}/conflict.git
+  changed_when: true
+
+- name: Seed the conflict remote with a shared file on main
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone conflict.git conflict_seed
+    cd conflict_seed
+    echo "line one" > shared.txt
+    git add shared.txt
+    git -c user.email=seed@example.com -c user.name=seed commit -m "initial"
+    git branch -M main
+    git push origin main
+  changed_when: true
+
+- name: Clone the conflict remote into the local working copy
+  ansible.builtin.git:
+    repo: "{{ workdir.path }}/conflict.git"
+    dest: "{{ workdir.path }}/conflict_local"
+    version: main
+
+- name: Advance the conflict remote with an edit to shared.txt
+  ansible.builtin.shell: |
+    set -eu
+    cd "{{ workdir.path }}"
+    git clone conflict.git conflict_other
+    cd conflict_other
+    git config user.email other@example.com
+    git config user.name other
+    echo "remote version" > shared.txt
+    git commit -am "remote edit"
+    git push origin main
+  changed_when: true
+
+- name: Stage a conflicting local edit to shared.txt
+  ansible.builtin.copy:
+    content: "local version"
+    dest: "{{ workdir.path }}/conflict_local/shared.txt"
+    mode: "0644"
+
+- name: Publish with update_strategy=rebase (should fail on conflict)
+  ansible.scm.git_publish:
+    path: "{{ workdir.path }}/conflict_local"
+    update_strategy: rebase
+    user:
+      name: publisher
+      email: publisher@example.com
+    remove: false
+  register: conflict_result
+  ignore_errors: true
+
+- name: Confirm the conflict publish failed
+  ansible.builtin.assert:
+    that:
+      - conflict_result.failed
+      - "'rebase' in conflict_result.msg"
+
+- name: Check that the working tree has no in-progress rebase state
+  ansible.builtin.stat:
+    path: "{{ workdir.path }}/conflict_local/.git/rebase-merge"
+  register: rebase_state
+
+- name: Assert the rebase was aborted cleanly
+  ansible.builtin.assert:
+    that:
+      - not rebase_state.stat.exists
+
+# endregion
+
+- name: Clean up the working directory
+  ansible.builtin.file:
+    path: "{{ workdir.path }}"
+    state: absent
