@@ -72,6 +72,21 @@ options:
       message:
         description: Specify tag message
         type: str
+  update_strategy:
+    description:
+      - Strategy to use when the remote branch has advanced since clone.
+      - C(fail) preserves the current behavior; the push fails on non-fast-forward.
+      - C(rebase) fetches the remote branch and rebases the local commit on top before pushing.
+      - C(merge) fetches the remote branch and merges it into the local branch before pushing.
+      - When C(rebase) or C(merge) hits a real conflict, the in-progress operation is
+        aborted and the task fails so the working tree is left clean.
+    type: str
+    choices:
+      - fail
+      - rebase
+      - merge
+    default: fail
+    version_added: "3.3.0"
   user:
     description:
       - Details for the user to be used for the commit
