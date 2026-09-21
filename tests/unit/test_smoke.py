@@ -7,7 +7,6 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 # pylint: enable=invalid-name
 
-from typing import Union
 
 import pytest
 
@@ -31,7 +30,7 @@ from .definitions import ActionModuleInit
 )
 def test_fail_argspec(
     action_init: ActionModuleInit,
-    module: Union[GitPublishActionModule, GitRetrieveActionModule],
+    module: GitPublishActionModule | GitRetrieveActionModule,
 ) -> None:
     """Test an argspec failure.
 
