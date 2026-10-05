@@ -11,7 +11,7 @@ __metaclass__ = type
 
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, TypeVar, Union
+from typing import TypeVar
 
 
 T = TypeVar("T", bound="Command")  # pylint: disable=invalid-name, useless-suppression
@@ -27,19 +27,19 @@ class Command:
 
     # pylint: disable=too-many-instance-attributes
 
-    command_parts: List[str]
+    command_parts: list[str]
     fail_msg: str
 
-    env: Optional[Dict[str, str]] = None
-    no_log: Dict[str, str] = field(default_factory=dict)
+    env: dict[str, str] | None = None
+    no_log: dict[str, str] = field(default_factory=dict)
     return_code: int = -1
     stdout: str = ""
     stderr: str = ""
-    stdout_lines: List[str] = field(default_factory=list)
-    stderr_lines: List[str] = field(default_factory=list)
+    stdout_lines: list[str] = field(default_factory=list)
+    stderr_lines: list[str] = field(default_factory=list)
 
     @property
-    def command(self: T) -> str:
+    def command(self) -> str:
         """Return the command as a string.
 
         :return: The command as a string.
@@ -47,7 +47,7 @@ class Command:
         return shlex.join(self.command_parts)
 
     @property
-    def cleaned(self: T) -> Dict[str, Union[int, Dict[str, str], List[str], str]]:
+    def cleaned(self) -> dict[str, int | dict[str, str] | list[str] | str]:
         """Return the sanitized details of the command for the log.
 
         :return: The sanitized details of the command for the log.
