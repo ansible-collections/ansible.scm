@@ -13,7 +13,7 @@ import webbrowser
 from contextlib import suppress
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, TypeVar, Union
+from typing import TypeVar, Union
 
 from ansible.errors import AnsibleActionFail
 from ansible.parsing.dataloader import DataLoader
@@ -38,7 +38,7 @@ __metaclass__ = type
 # pylint: enable=invalid-name
 
 # mypy disallow you from omitting parameters in generic types
-JSONTypes = Union[bool, int, str, Dict, List]  # type:ignore
+JSONTypes = Union[bool, int, str, dict, list]  # type: ignore
 
 
 @dataclass(frozen=False)
@@ -61,7 +61,7 @@ class ActionModule(GitBase):
 
     # pylint: disable=too-many-arguments
     def __init__(  # noqa: PLR0913
-        self: T,
+        self,
         connection: Connection,
         loader: DataLoader,
         play_context: PlayContext,
@@ -94,10 +94,10 @@ class ActionModule(GitBase):
         self._play_name: str = ""
         self._supports_async = True
         self._result: Result = Result()
-        self._env: Optional[Dict[str, str]] = None
-        self._temp_ssh_key_path: Optional[str] = None
+        self._env: dict[str, str] | None = None
+        self._temp_ssh_key_path: str | None = None
 
-    def _check_argspec(self: T) -> None:
+    def _check_argspec(self) -> None:
         """Check the argspec for the action plugin.
 
         :raises AnsibleActionFail: If the argspec is invalid
@@ -117,7 +117,7 @@ class ActionModule(GitBase):
             msg = "Parameters `ssh_key_file` and `ssh_key_content` are mutually exclusive."
             raise AnsibleActionFail(msg)
 
-    def _prepare_ssh_environment(self: T) -> None:
+    def _prepare_ssh_environment(self) -> None:
         """Prepare the environment for SSH key authentication."""
         key_content = self._task.args.get("ssh_key_content")
         key_file = self._task.args.get("ssh_key_file")
@@ -137,12 +137,12 @@ class ActionModule(GitBase):
         ssh_command = f"ssh -i {key_path} -o IdentitiesOnly=yes -o StrictHostKeyChecking=no"
         self._env = {"GIT_SSH_COMMAND": ssh_command}
 
-    def _cleanup_ssh_key(self: T) -> None:
+    def _cleanup_ssh_key(self) -> None:
         """Remove the temporary SSH key file if it was created."""
         if self._temp_ssh_key_path:
             Path(self._temp_ssh_key_path).unlink()
 
-    def _configure_git_user_name(self: T) -> None:
+    def _configure_git_user_name(self) -> None:
         """Configure the git user name."""
         command_parts = list(self._base_command)
         command_parts.extend(["config", "--get", "user.name"])
@@ -167,7 +167,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         self._result.user_name = name
 
-    def _configure_git_user_email(self: T) -> None:
+    def _configure_git_user_email(self) -> None:
         """Configure the git user email."""
         command_parts = list(self._base_command)
         command_parts.extend(["config", "--get", "user.email"])
@@ -192,7 +192,7 @@ class ActionModule(GitBase):
         self._run_command(command=command)
         self._result.user_email = email
 
-    def _add(self: T) -> None:
+    def _add(self) -> None:
         """Add files for the pending commit."""
         command_parts = list(self._base_command)
         files = " ".join(self._task.args["include"])
@@ -204,7 +204,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _commit(self: T) -> None:
+    def _commit(self) -> None:
         """Perform a commit for the pending push."""
         command_parts = list(self._base_command)
         message = self._task.args["commit"]["message"].format(play_name=self._play_name)
@@ -217,7 +217,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _tag(self: T) -> None:
+    def _tag(self) -> None:
         """Create a tag object."""
         command_parts = list(self._base_command)
         message = self._task.args["tag"].get("message")
@@ -233,7 +233,7 @@ class ActionModule(GitBase):
         )
         self._run_command(command=command)
 
-    def _push(self: T) -> None:
+    def _push(self) -> None:
         """Push the commit to the origin."""
         command_parts = list(self._base_command)
         command_parts.extend(["remote", "-v"])
@@ -278,7 +278,7 @@ class ActionModule(GitBase):
                 line for line in command.stderr.split("remote:") if "https" in line
             ).strip()
 
-    def _remove_repo(self: T) -> None:
+    def _remove_repo(self) -> None:
         """Remove the temporary directory."""
         if not self._task.args["remove"]:
             return
@@ -290,10 +290,10 @@ class ActionModule(GitBase):
             self._result.msg = "Failed to remove repository"
 
     def run(
-        self: T,
+        self,
         tmp: None = None,
-        task_vars: Optional[Dict[str, JSONTypes]] = None,
-    ) -> Dict[str, JSONTypes]:
+        task_vars: dict[str, JSONTypes] | None = None,
+    ) -> dict[str, JSONTypes]:
         """Run the action plugin.
 
         :param tmp: The temporary directory
