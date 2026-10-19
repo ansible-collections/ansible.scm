@@ -12,7 +12,7 @@ import subprocess
 
 from dataclasses import dataclass, field, fields
 from types import ModuleType
-from typing import Dict, List, Tuple, TypeVar, Union
+from typing import TypeVar, Union
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play_context import PlayContext
@@ -26,7 +26,7 @@ from .command import Command
 
 
 # mypy disallow you from omitting parameters in generic types
-JSONTypes = Union[bool, int, str, Dict, List]  # type: ignore
+JSONTypes = Union[bool, int, str, dict, list]  # type: ignore
 
 T = TypeVar("T", bound="ActionInit")  # pylint: disable=invalid-name, useless-suppression
 
@@ -44,8 +44,8 @@ class ActionInit:
 
     @property
     def asdict(
-        self: T,
-    ) -> Dict[str, Union[Connection, DataLoader, PlayContext, ModuleType, Task, Templar]]:
+        self,
+    ) -> dict[str, Connection | DataLoader | PlayContext | ModuleType | Task | Templar]:
         """Create a dictionary, avoiding the deepcopy with dataclass.asdict.
 
         :return: A dictionary of the keyword arguments.
@@ -60,7 +60,7 @@ class ResultBase:
     changed: bool = True
     failed: bool = False
     msg: str = ""
-    output: List[Dict[str, Union[int, Dict[str, str], List[str], str]]] = field(
+    output: list[dict[str, int | dict[str, str] | list[str] | str]] = field(
         default_factory=list,
     )
 
@@ -71,7 +71,7 @@ U = TypeVar("U", bound="GitBase")  # pylint: disable=invalid-name, useless-suppr
 class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
     """Base class for the git paction plugins."""
 
-    def __init__(self: U, action_init: ActionInit) -> None:
+    def __init__(self, action_init: ActionInit) -> None:
         """Initialize the action plugin.
 
         :param action_init: The keyword arguments for action base
@@ -81,7 +81,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         self._timeout: int
 
     @staticmethod
-    def _git_auth_header(token: str) -> Tuple[str, List[str]]:
+    def _git_auth_header(token: str) -> tuple[str, list[str]]:
         """Create the authorization header.
 
         helpful: https://github.com/actions/checkout/blob/main/src/git-auth-helper.ts#L56
@@ -97,7 +97,7 @@ class GitBase(ActionBase):  # type: ignore[misc] # parent has type Any
         ]
         return basic_encoded, cli_parameters
 
-    def _run_command(self: U, command: Command, ignore_errors: bool = False) -> None:
+    def _run_command(self, command: Command, ignore_errors: bool = False) -> None:
         """Run a command and append the command result to the results.
 
         :param command: The command to run
